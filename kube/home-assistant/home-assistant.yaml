@@ -5,11 +5,10 @@ metadata:
   name: home-assistant
   namespace: home-assistant
 spec:
-  releaseName: home-assistant
-  rollback:
-    enable: true
+  interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: home-assistant
       version: 5.1.0
       sourceRef:
