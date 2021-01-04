@@ -16,7 +16,6 @@ spec:
         namespace: flux-system
       interval: 1m
   valuesFrom:
-    - secretKeyRef:
-        name: soju-cfg
-        namespace: soju
-        key: cert-values
+    - kind: Secret
+      name: soju-cfg
+      valuesKey: cert-values
