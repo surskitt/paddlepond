@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hass-backup
+  namespace: home-assistant
+data:
+  hass-backup.sh: |
+    #!/usr/bin/env bash
+
+    backup_fn="/backups/hass_backup_$(date +%Y%m%d_%H%M).tar.gz"
+
+    tar -cvzf "${backup_fn}" -C /config \
+      .cloud \
+      .storage \
+      custom_components \
+      govee_learning.yaml \
+      known_devices.yaml \
+      themes \
+      webostv.conf \
+      www \
+      zigbee.db
+
+    echo "hass config backed up to ${backup_fn}"
+
+    backups=(backups/*)
+    if [[ "${#backups[@]}" -eq 12 ]]; then
+        echo "deleting oldest backup: ${backups[0]}"
+        rm "${backups[0]}"
+    fi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-hass-backup-pv
+  namespace: home-assistant
+spec:
+  storageClassName: hass-backups
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    # FIX: connect to nfs server internally
+    # server: nfs-server
+    server: rouen.lan
+    path: /srv/nfs/backups/hass
+  mountOptions:
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - rsize=32768
+    - wsize=32768
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-hass-backup-pvc
+  namespace: home-assistant
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: hass-backups
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hass-backup
+  namespace: home-assistant
+spec:
+  schedule: "0 0,6,12,18 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: rm-link
+              image: ubuntu:21.04
+              command: ["/opt/script/hass-backup.sh"]
+              volumeMounts:
+                - name: hass-backup
+                  mountPath: /opt/script
+                - name: backups
+                  mountPath: /backups
+                - name: config
+                  mountPath: /config
+          restartPolicy: OnFailure
+          volumes:
+            - name: hass-backup
+              configMap:
+                name: hass-backup
+                defaultMode: 0755
+            - name: backups
+              persistentVolumeClaim:
+                claimName: nfs-hass-backup-pvc
+            - name: config
+              persistentVolumeClaim:
+                claimName: home-assistant-config

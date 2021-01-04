@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: git-init
+  namespace: home-assistant
+data:
+  git-init.sh: |
+    #!/usr/bin/env bash
+
+    if [ -d /git/.git ]; then
+        echo "repo already checked out"
+        exit
+    fi
+
+    git clone --no-checkout -b master https://github.com/shanedabes/hass-config /git
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hass-restore
+  namespace: home-assistant
+data:
+  hass-restore.sh: |
+    #!/usr/bin/env bash
+
+    if ! [ "$(ls -A /backups/)" ]; then
+        echo "No backups to restore"
+        exit
+    fi
+
+    backups=(/backups/*)
+    tar -xvzf "${backups[-1]}" -C /config
