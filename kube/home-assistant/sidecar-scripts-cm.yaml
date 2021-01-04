@@ -30,4 +30,4 @@ data:
     fi
 
     backups=(/backups/*)
-    tar -xvzf "${backups[-1]}" -C /config
+    tar -xvzf "${backups[-1]}" --no-same-owner -C /config
