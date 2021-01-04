@@ -68,8 +68,8 @@ if [ -p /dev/stdin ]; then
     source /dev/stdin
 fi
 
-# recursively save all *_secret.yml.tmpl files to an array
-readarray -d '' secretfiles < <(find "${SECRET_FILE_SEARCH}" -name '*secrets.yml.tmpl' -print0)
+# recursively save all *_secret.yaml.tmpl files to an array
+readarray -d '' secretfiles < <(find "${SECRET_FILE_SEARCH}" -name '*secrets.yaml.tmpl' -print0)
 
 if [[ "${#secretfiles[@]}" -eq 0 ]]; then
     echo "No secret files found" >&2
