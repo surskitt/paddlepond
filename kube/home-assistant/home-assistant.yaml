@@ -1,0 +1,108 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+spec:
+  releaseName: home-assistant
+  rollback:
+    enable: true
+  chart:
+    spec:
+      chart: home-assistant
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      tag: 0.118.5
+    env:
+      TZ: "Europe/London"
+      PUID: "1000"
+      PGID: "1000"
+    hostNetwork: true
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     storageClass: nfs-client
+    additionalVolumes:
+      - name: secrets
+        secret:
+          secretName: secrets
+      - name: git-init
+        configMap:
+          name: git-init
+          defaultMode: 0777
+      - name: hass-restore
+        configMap:
+          name: hass-restore
+          defaultMode: 0777
+      - name: backups
+        persistentVolumeClaim:
+          claimName: nfs-hass-backup-pvc
+    additionalVolumeMounts:
+      - name: secrets
+        mountPath: /config/secrets.yaml
+        subPath: secrets.yaml
+    additionalContainers:
+      - name: git-sync
+        image: openweb/git-sync
+        volumeMounts:
+          - name: config
+            mountPath: /git
+        env:
+          - name: GIT_SYNC_REPO
+            value: https://github.com/shanedabes/hass-config
+          - name: GIT_SYNC_DEST
+            value: /git
+          - name: GIT_SYNC_BRANCH
+            value: master
+          - name: GIT_SYNC_WAIT
+            value: "3600"
+    initContainers:
+      - name: git-sync-init
+        image: openweb/git-sync
+        command: ["/git-init.sh"]
+        volumeMounts:
+          - name: config
+            mountPath: /git
+          - name: git-init
+            mountPath: /git-init.sh
+            subPath: git-init.sh
+      - name: hass-restore
+        image: ubuntu:21.04
+        command: ["/hass-restore.sh"]
+        volumeMounts:
+          - name: config
+            mountPath: /config
+          - name: backups
+            mountPath: /backups
+          - name: hass-restore
+            mountPath: /hass-restore.sh
+            subPath: hass-restore.sh
+    # prometheus:
+    #   serviceMonitor:
+    #     enabled: true
+    #     interval: 5m
+    # git:
+    #   enabled: true
+    #   repo: https://github.com/shanedabes/hass-config.git
+    #   secret: github-creds
+    nodeSelector:
+      kubernetes.io/hostname: "rouen"
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+  valuesFrom:
+    - kind: Secret
+      name: hass-values
+      valuesKey: values
