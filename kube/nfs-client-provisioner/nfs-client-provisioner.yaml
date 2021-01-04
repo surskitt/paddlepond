@@ -18,7 +18,8 @@ spec:
       interval: 5m
   values:
     image:
-      tag: v3.1.0-k8s1.11
+      repository: groundhog2k/nfs-subdir-external-provisioner
+      tag: v3.2.0
     nfs:
       server: "rouen.lan"
       path: "/srv/nfs/ssd"
