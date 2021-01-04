@@ -52,7 +52,7 @@ spec:
             - name: GODEBUG
               value: x509ignoreCN=0
           volumeMounts:
-            - name: soju-tls
+            - name: soju-cert-tls
               mountPath: /config/tls
               readOnly: true
             - name: config
@@ -74,9 +74,9 @@ spec:
           configMap:
             name: sojuctl-init-sh
             defaultMode: 0777
-        - name: soju-tls
+        - name: soju-cert-tls
           secret:
-            secretName: soju-tls
+            secretName: soju-cert-tls
         - name: cert-init
           configMap:
             name: cert-init
