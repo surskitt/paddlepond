@@ -1,0 +1,106 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gowon
+  namespace: gowon
+  annotations:
+    fluxcd.io/locked_user: shanedabes <shane@donohoe.cc>
+    fluxcd.io/locked: 'true'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gowon
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gowon
+    spec:
+      containers:
+      - image: shanedabes/ircbot:1.7.0
+        name: gowon
+        env:
+        - name: DEBUG
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: DEBUG
+        - name: IRC_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_SERVER
+        - name: IRC_CHANNELS
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_CHANNELS
+        - name: IRC_USER
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_USER
+        - name: IRC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_PASSWORD
+        - name: IRC_NICK
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_NICK
+        - name: IRC_LASTFM_API
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_LASTFM_API
+        - name: IRC_REPLIES
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_REPLIES
+        - name: IRC_TENOR_API
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TENOR_API
+        - name: IRC_TLS_SERVER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TLS_SERVER_NAME
+        - name: IRC_TRAKT_API
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TRAKT_API
+        - name: IRC_TWITTER_ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TWITTER_ACCESS_SECRET
+        - name: IRC_TWITTER_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TWITTER_ACCESS_TOKEN
+        - name: IRC_TWITTER_CONSUMER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TWITTER_CONSUMER_KEY
+        - name: IRC_TWITTER_CONSUMER_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_TWITTER_CONSUMER_SECRET
+        - name: IRC_WORDNIK_API
+          valueFrom:
+            secretKeyRef:
+              name: gowon-env
+              key: IRC_WORDNIK_API
+      restartPolicy: Always
