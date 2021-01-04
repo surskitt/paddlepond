@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sojuctl-init-sh
+  namespace: soju
+data:
+  sojuctl-init.sh: |
+    #!/usr/bin/env sh
+    
+    echo ${SOJU_IRC_PASSWORD} | /app/sojuctl -config /config/soju.cfg create-user shane -admin
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cert-init
+  namespace: soju
+data:
+  cert-init.sh: |
+    #!/usr/bin/env sh
+
+    openssl s_client -connect "delta.uk.eu.synirc.net:6697" 2>/dev/null </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > "/usr/local/share/ca-certificates/delta.uk.eu.synirc.net.pem"
+    update-ca-certificates
+
+    cp /etc/ssl/certs/* /etc/ssl/certs-new
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: irc-init
+  namespace: soju
+data:
+  irc-init.sh: |
+    #!/usr/bin/env sh
+    
+    while ! nc -z soju 6697; do
+      echo "waiting for irc port to open"
+      sleep 1
+    done
+
+    ( 
+      echo "PASS ${SOJU_IRC_PASSWORD}"
+      echo 'NICK shane'
+      echo 'USER shane 8 * :shane'
+
+      echo 'PRIVMSG BouncerServ : network create -addr ircs://delta.uk.eu.synirc.net:6697 -name synirc -nick shane'
+      echo 'PRIVMSG BouncerServ : network create -addr ircs://irc.freenode.net:6697 -name freenode -nick sharktamer'
+
+      sleep 3
+
+      echo "PRIVMSG NickServ/synirc : identify ${SOJU_IRC_SYNIRC_NICKSERV}"
+      echo "PRIVMSG NickServ/freenode : identify ${SOJU_IRC_FREENODE_NICKSERV}"
+
+      sleep 3
+
+      echo 'JOIN #owls/synirc'
+
+      echo 'JOIN #ansible/freenode'
+      echo 'JOIN #archlinux/freenode'
+      echo 'JOIN #go-nuts/freenode'
+      echo 'JOIN #jenkins/freenode'
+      echo 'JOIN #kubernetes/freenode'
+      echo 'JOIN #pass/freenode'
+      echo 'JOIN #prometheus/freenode'
+      echo 'JOIN #python/freenode'
+      echo 'JOIN #qutebrowser/freenode'
+      echo 'JOIN #soju/freenode'
+      echo 'JOIN #ubuntu/freenode'
+      echo 'JOIN #weechat/freenode'
+      echo 'JOIN #wireguard/freenode'
+
+      sleep 10
+
+    ) | openssl s_client soju:6697
