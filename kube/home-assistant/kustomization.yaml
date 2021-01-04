@@ -8,4 +8,5 @@ resources:
   - hass-values-secrets.yaml
   - sidecar-scripts-cm.yaml
   - backup-cronjob.yaml 
+  - mosquitto.yml
   - home-assistant.yaml 
