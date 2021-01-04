@@ -1,0 +1,37 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  releaseName: traefik
+  chart:
+    spec:
+      chart: traefik
+      version: 9.1.0
+      sourceRef: 
+        kind: HelmRepository
+        name: traefik-charts
+        namespace: flux-system
+  values:
+    image:
+      name: traefik
+      tag: 2.2.0
+    additionalArguments:
+      - "--providers.kubernetesingress"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entryPoint=metrics"
+      - "--metrics.prometheus.addEntryPointsLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
+      - "--entryPoints.metrics.address=:8082"
+      - "--metrics.prometheus.entryPoint=metrics"
+    deployment:
+      enabled: true
+    ports:
+      web:
+        redirectTo: websecure
+      metrics:
+        port: 8082
+        exposedPort: 8082
+        expose: true
