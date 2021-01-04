@@ -30,10 +30,10 @@ spec:
         kubernetes.io/ingress.class: traefik
         traefik.ingress.kubernetes.io/router.tls: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     storageClass: nfs-client
+    persistence:
+      config:
+        enabled: true
+        storageClass: nfs-client
     additionalVolumes:
       - name: secrets
         secret:
