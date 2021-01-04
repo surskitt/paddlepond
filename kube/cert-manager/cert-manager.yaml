@@ -20,16 +20,16 @@ spec:
     # installCRDs: true
     webhook:
       enabled: true
-    extraArgs:
-      - --dns01-recursive-nameservers=1.1.1.1:53
-      - --dns01-recursive-nameservers-only
+    # extraArgs:
+    #   - --dns01-recursive-nameservers=1.1.1.1:53
+    #   - --dns01-recursive-nameservers-only
     caInjector:
       replicaCount: 1
-    podDnsPolicy: "None"
-    podDnsConfig:
-      nameservers:
-        - "1.1.1.1"
-        - "8.8.8.8"
+    # podDnsPolicy: "None"
+    # podDnsConfig:
+    #   nameservers:
+    #     - "1.1.1.1"
+    #     - "8.8.8.8"
     # prometheus:
     #   enabled: true
     #   servicemonitor:
