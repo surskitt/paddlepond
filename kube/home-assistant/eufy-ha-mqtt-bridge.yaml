@@ -6,9 +6,15 @@ metadata:
   namespace: home-assistant
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: eufy-ha-mqtt-bridge
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        app: eufy-ha-mqtt-bridge
     spec:
       containers:
         - name: eufy-ha-mqtt-bridge
@@ -21,3 +27,4 @@ spec:
         - name: config
           secret:
             secretName: eufy-ha-mqtt-bridge-config
+      restartPolicy: Always
