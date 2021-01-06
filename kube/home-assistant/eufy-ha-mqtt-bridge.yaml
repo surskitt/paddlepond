@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eufy-ha-mqtt-bridge
+  namespace: home-assistant
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - name: eufy-ha-mqtt-bridge
+          image: matijse/eufy-ha-mqtt-bridge
+          volumeMounts:
+            - name: config
+              mountPath: /app/data/config.yml
+              subPath: config.yml
+      volumes:
+        - name: config
+          secret:
+            secretName: eufy-ha-mqtt-bridge-config
