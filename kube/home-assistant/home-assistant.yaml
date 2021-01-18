@@ -49,10 +49,17 @@ spec:
       - name: backups
         persistentVolumeClaim:
           claimName: nfs-hass-backup-pvc
+      - name: ha-key
+        secret:
+          secretName: ha-key
+          defaultMode: 0700
     additionalVolumeMounts:
       - name: secrets
         mountPath: /config/secrets.yaml
         subPath: secrets.yaml
+      - name: ha-key
+        mountPath: /root/.ssh/id_rsa
+        subPath: id_rsa
     additionalContainers:
       - name: git-sync
         image: openweb/git-sync

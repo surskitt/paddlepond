@@ -8,6 +8,7 @@ resources:
   - hass-values-secrets.yaml
   - sidecar-scripts-cm.yaml
   - backup-cronjob.yaml
+  - ssh-key-secrets.yaml
   - mosquitto.yml
   - home-assistant.yaml
   - eufy-ha-mqtt-bridge-secrets.yaml
