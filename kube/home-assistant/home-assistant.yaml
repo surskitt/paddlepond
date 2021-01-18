@@ -18,7 +18,7 @@ spec:
       interval: 5m
   values:
     image:
-      tag: 0.118.5
+      tag: 2021.1.4
     env:
       TZ: "Europe/London"
       PUID: "1000"
