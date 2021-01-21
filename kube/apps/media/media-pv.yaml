@@ -14,8 +14,8 @@ spec:
   nfs:
     # FIX: connect to nfs server internally
     # server: nfs-server
-    server: mallard.lan
-    path: /media
+    server: rouen.lan
+    path: /srv/nfs/media
   mountOptions:
     - tcp
     - intr
