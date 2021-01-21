@@ -24,7 +24,7 @@ spec:
       # tag: v21.0-ls61
     timezone: "Europe/London"
     puid: 1000
-    pgid: 1000
+    pgid: 1001
     ingress:
       enabled: true
       annotations:
