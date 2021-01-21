@@ -1,0 +1,55 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: transmission
+  namespace: media
+  annotations:
+    fluxcd.io/ignore: "false"
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: transmission
+  rollback:
+    enable: true
+  chart:
+    repository: https://bananaspliff.github.io/geek-charts
+    name: transmission-openvpn
+    version: 0.1.0
+  values:
+    image:
+      repository: linuxserver/transmission
+      tag: 2.94-r2-ls44
+    service:
+      type: ClusterIP
+      port: 9091
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      path: /
+    volumes:
+      - name: "downloads"
+        persistentVolumeClaim:
+          claimName: nfs-media-pvc
+      - name: "config"
+        persistentVolumeClaim:
+          claimName: transmission-config
+    volumeMounts:
+      - name: "downloads"
+        mountPath: "/downloads"
+        subPath: "downloads/torrents"
+      - name: "config"
+        mountPath: "/config"
+    # resources:
+    #   requests:
+    #     memory: 350Mi
+    #     cpu: 25m
+    #   limits:
+    #     memory: 1000Mi
+  valuesFrom:
+    - secretKeyRef:
+        name: transmission-secrets
+        namespace: media
+        key: values.yml

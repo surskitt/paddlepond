@@ -1,0 +1,65 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: radarr
+  namespace: media
+  annotations:
+    fluxcd.io/ignore: "false"
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: radarr
+  rollback:
+    enable: true
+  chart:
+    repository: https://billimek.com/billimek-charts/
+    name: radarr
+    version: 4.1.1
+  values:
+    image:
+      repository: linuxserver/radarr
+      tag: 3.0.0.3465-ls20
+    timezone: "Europe/London"
+    puid: 1000
+    pgid: 1000
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+    persistence:
+      #
+      # config needs to be local-path, see https://github.com/Sonarr/Sonarr/issues/1886
+      #
+      config:
+        enabled: true
+        storageClass: "local-path"
+      downloads:
+        enabled: false
+      movies:
+        enabled: false
+      media:
+        enabled: true
+        existingClaim: nfs-media-pvc
+    resources:
+      requests:
+        memory: 350Mi
+        cpu: 25m
+      limits:
+        memory: 1000Mi
+    exportarr:
+      enabled: true
+      image:
+        repository: onedr0p/exportarr
+        tag: v0.3.3
+        pullPolicy: IfNotPresent
+      port: 9708
+      url: "http://localhost:7878"
+      serviceMonitor:
+        enabled: true
+  valuesFrom:
+    - secretKeyRef:
+        name: radarr-secrets
+        namespace: media
+        key: values.yml

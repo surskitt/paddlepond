@@ -1,0 +1,2 @@
+plex needs a new claim generated and used in secrets
+need to add host:80 to custom server access urls in netork settings of server

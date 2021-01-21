@@ -1,0 +1,58 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: media
+  annotations:
+    fluxcd.io/ignore: "false"
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.chart-image: 'regexp:^(1\.[0-9]+\.[0-9]+\.[0-9]+-.*)$'
+spec:
+  releaseName: plex
+  rollback:
+    enable: false
+  chart:
+    git: https://github.com/munnerz/kube-plex.git
+    ref: master
+    path: charts/kube-plex
+  values:
+    image:
+      repository: plexinc/pms-docker
+      tag: 1.21.0.3711-b509cc236
+    kubePlex:
+      enabled: false
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+    timezone: "Europe/London"
+    service:
+      type: ClusterIP
+      # port: 32400
+    persistence:
+      transcode:
+        enabled: true
+        storageClass: "local-path"
+      data:
+        # enabled: true
+        claimName: nfs-media-pvc
+      config:
+        storageClass: "local-path"
+        size: 300Gi
+        accessMode: "ReadWriteOnce"
+    resources:
+      limits:
+        memory: 4900Mi
+      requests:
+        cpu: 35m
+        memory: 1500Mi
+    nodeSelector:
+      kubernetes.io/arch: "amd64"
+  valuesFrom:
+  - secretKeyRef:
+      name: plex-secrets
+      namespace: media
+      key: values.yml

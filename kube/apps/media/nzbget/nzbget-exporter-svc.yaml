@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nzbget-exporter
+  namespace: media
+  labels:
+    app.kubernetes.io/name: nzbget-exporter
+    app.kubernetes.io/instance: nzbget-exporter
+spec:
+  ports:
+    - name: monitoring
+      port: 9452
+      protocol: TCP
+      targetPort: 9452
+  selector:
+    app.kubernetes.io/name: nzbget-exporter
+    app.kubernetes.io/instance: nzbget-exporter
+  type: ClusterIP
