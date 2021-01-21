@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nzbget-exporter
+  namespace: media
+  labels:
+    app.kubernetes.io/name: nzbget-exporter
+    app.kubernetes.io/instance: nzbget-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nzbget-exporter
+  template:
+    metadata:
+      labels:
+        name: nzbget-exporter
+        app.kubernetes.io/name: nzbget-exporter
+        app.kubernetes.io/instance: nzbget-exporter
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9452'
+    spec:
+      containers:
+        - image: frebib/nzbget-exporter:0.1.0
+          name: nzbget-exporter
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          ports:
+            - name: monitoring
+              containerPort: 9452
+          env:
+            - name: NZBGET_HOST
+              value: http://nzbget:6789
+            - name: NZBGET_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: nzbget-secrets
+                  key: NZBGET_USERNAME
+            - name: NZBGET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nzbget-secrets
+                  key: NZBGET_PASSWORD
+      nodeSelector:
+        kubernetes.io/arch: "amd64"

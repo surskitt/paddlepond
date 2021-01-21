@@ -36,7 +36,7 @@ check_dep grep
 
 D="$(dirname "${0}")"
 
-PUB_KEY_FN="${D}/sealed-secrets/cert.pem"
+PUB_KEY_FN="${D}/infra/sealed-secrets/cert.pem"
 SECRET_FILE_SEARCH="${D}"
 INTERACTIVE=false
 

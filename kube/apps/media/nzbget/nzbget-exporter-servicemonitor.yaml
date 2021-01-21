@@ -1,0 +1,19 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/instance: nzbget-exporter
+    app.kubernetes.io/name: nzbget-exporter
+  name: nzbget-exporter
+  namespace: media
+spec:
+  endpoints:
+  - interval: 4m
+    path: /metrics
+    port: monitoring
+    scrapeTimeout: 90s
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: nzbget-exporter
+      app.kubernetes.io/name: nzbget-exporter

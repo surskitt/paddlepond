@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission-exporter
+  namespace: media
+  labels:
+    app.kubernetes.io/name: transmission-exporter
+    app.kubernetes.io/instance: transmission-exporter
+spec:
+  ports:
+    - name: monitoring
+      port: 9190
+      protocol: TCP
+      targetPort: 9190
+  selector:
+    app.kubernetes.io/name: transmission-exporter
+    app.kubernetes.io/instance: transmission-exporter
+  type: ClusterIP
