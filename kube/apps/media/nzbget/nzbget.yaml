@@ -1,20 +1,21 @@
 ---
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: nzbget
   namespace: media
-  annotations:
-    fluxcd.io/ignore: "false"
-    fluxcd.io/automated: "false"
 spec:
-  releaseName: nzbget
-  rollback:
-    enable: true
+  interval: 5m
   chart:
-    repository: https://k8s-at-home.com/charts/
-    name: nzbget
-    version: 3.1.2
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: nzbget
+      version: 3.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
   values:
     image:
       repository: shanedabes/nzbget
@@ -33,8 +34,8 @@ spec:
     persistence:
       config:
         enabled: true
-        # storageClass: "nfs-client"
-        storageClass: local-path
+        storageClass: "nfs-client"
+        # storageClass: local-path
       downloads:
         enabled: false
       extraMounts:
@@ -47,7 +48,6 @@ spec:
       limits:
         memory: 1000Mi
   valuesFrom:
-    - secretKeyRef:
-        name: nzbget-secrets
-        namespace: media
-        key: values.yml
+    - kind: Secret
+      name: nzbget-secrets
+      valuesKey: values.yml

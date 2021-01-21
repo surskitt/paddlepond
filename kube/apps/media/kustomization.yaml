@@ -5,10 +5,10 @@ namespace: media
 resources:
   - namespace.yaml
   - media-pv.yaml
-  - plex
-  - transmission
+  # - plex
+  # - transmission
   - nzbget
-  - jackett
-  - sonarr
-  - radarr
-  - rm
+  # - jackett
+  # - sonarr
+  # - radarr
+  # - rm
