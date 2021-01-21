@@ -5,6 +5,6 @@ namespace: media
 resources:
   - nzbget-secrets.yaml
   - nzbget.yaml
-  - nzbget-exporter-deploy.yaml
-  - nzbget-exporter-servicemonitor.yaml
-  - nzbget-exporter-svc.yaml
+  # - nzbget-exporter-deploy.yaml
+  # - nzbget-exporter-servicemonitor.yaml
+  # - nzbget-exporter-svc.yaml
