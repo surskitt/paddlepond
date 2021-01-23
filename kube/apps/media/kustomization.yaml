@@ -11,4 +11,4 @@ resources:
   # - jackett
   - sonarr
   # - radarr
-  # - rm
+  - rm
