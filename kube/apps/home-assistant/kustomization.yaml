@@ -13,3 +13,4 @@ resources:
   - home-assistant.yaml
   - eufy-ha-mqtt-bridge-secrets.yaml
   - eufy-ha-mqtt-bridge.yaml
+  - zigbee2mqtt
