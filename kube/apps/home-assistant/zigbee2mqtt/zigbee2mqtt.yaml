@@ -39,10 +39,10 @@ spec:
     additionalVolumes:
       - name: usb
         hostPath:
-          path: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+          path: /dev/ttyUSB0
     additionalVolumeMounts:
       - name: usb
-        mountPath: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+        mountPath: /dev/ttyUSB0
     config:
       homeassistant: true
       device_options:
@@ -51,7 +51,7 @@ spec:
       mqtt:
         server: mqtt://mosquitto.home-assistant.svc.cluster.local:1883
       serial:
-        port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+        port: /dev/ttyUSB0
       advanced:
         default: 24
         channel: 24
