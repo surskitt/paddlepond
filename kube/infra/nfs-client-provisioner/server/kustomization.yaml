@@ -3,6 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: nfs-client-provisioner
 resources:
-  - namespace.yaml
-  - server
-  - nfs-client-provisioner.yaml
+  - pv.yml
+  - deploy.yml
+  - svc.yml
