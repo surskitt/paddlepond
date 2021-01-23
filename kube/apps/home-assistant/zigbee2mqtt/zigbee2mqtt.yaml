@@ -34,6 +34,7 @@ spec:
       data:
         enabled: true
         storageClass: nfs-client
+        accessMode: ReadWriteOnce
     additionalVolumes:
       - name: usb
         hostPath:
