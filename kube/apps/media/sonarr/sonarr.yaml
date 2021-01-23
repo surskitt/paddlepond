@@ -4,9 +4,6 @@ kind: HelmRelease
 metadata:
   name: sonarr
   namespace: media
-  annotations:
-    fluxcd.io/ignore: "false"
-    fluxcd.io/automated: "false"
 spec:
   interval: 5m
   chart:
