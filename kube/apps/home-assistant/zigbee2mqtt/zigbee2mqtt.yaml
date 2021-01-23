@@ -35,6 +35,7 @@ spec:
         enabled: true
         storageClass: nfs-client
         accessMode: ReadWriteOnce
+        size: "1Gi"
     additionalVolumes:
       - name: usb
         hostPath:
