@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-server
+  namespace: nfs-client-provisioner
+spec:
+  ports:
+    - name: nfs
+      port: 32049
+      targetPort: 2049
+  selector:
+    role: nfs-server
+  type: LoadBalancer

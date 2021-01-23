@@ -21,8 +21,8 @@ spec:
       repository: groundhog2k/nfs-subdir-external-provisioner
       tag: v3.2.0
     nfs:
-      server: "rouen.lan"
-      path: "/srv/nfs/ssd"
+      server: rouen.lan
+      path: "/"
       mountOptions:
         - tcp
         - intr
@@ -31,3 +31,4 @@ spec:
         - nodiratime
         - rsize=32768
         - wsize=32768
+        - port=32049

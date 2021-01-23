@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: nfs-client-provisioner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: nfs-server
+  template:
+    metadata:
+      labels:
+        role: nfs-server
+    spec:
+      volumes:
+        - name: nfs-vol
+          persistentVolumeClaim:
+            claimName: data-nfs-server-pvc
+      restartPolicy: Always
+      containers:
+        - name: nfs-server
+          image: itsthenetwork/nfs-server-alpine:12
+          env:
+            - name: SHARED_DIRECTORY
+              value: /srv
+          ports:
+            - name: nfs
+              containerPort: 2049
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /srv
+              name: nfs-vol
+      nodeSelector:
+        kubernetes.io/hostname: "rouen"
