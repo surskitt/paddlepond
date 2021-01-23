@@ -8,13 +8,17 @@ metadata:
     fluxcd.io/ignore: "false"
     fluxcd.io/automated: "false"
 spec:
-  releaseName: sonarr
-  rollback:
-    enable: true
+  interval: 5m
   chart:
-    repository: https://billimek.com/billimek-charts/
-    name: sonarr
-    version: 4.1.1
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: sonarr
+      version: 4.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
   values:
     image:
       repository: linuxserver/sonarr
@@ -60,7 +64,6 @@ spec:
       serviceMonitor:
         enabled: true
   valuesFrom:
-    - secretKeyRef:
-        name: sonarr-secrets
-        namespace: media
-        key: values.yml
+    - kind: Secret
+      name: sonarr-secrets
+      valuesKey: values.yml

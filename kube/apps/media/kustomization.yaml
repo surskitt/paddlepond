@@ -9,6 +9,6 @@ resources:
   - transmission
   - nzbget
   # - jackett
-  # - sonarr
+  - sonarr
   # - radarr
   # - rm
