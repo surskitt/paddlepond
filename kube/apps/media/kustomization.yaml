@@ -8,7 +8,7 @@ resources:
   # - plex
   - transmission
   - nzbget
-  # - jackett
+  - jackett
   - sonarr
   - radarr
   - rm
