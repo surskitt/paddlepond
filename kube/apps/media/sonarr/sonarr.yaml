@@ -61,8 +61,8 @@ spec:
       port: 9707
       url: "http://localhost:8989"
       enableEpisodeQualityMetrics: true
-      serviceMonitor:
-        enabled: true
+      # serviceMonitor:
+      #   enabled: true
   valuesFrom:
     - kind: Secret
       name: sonarr-secrets
