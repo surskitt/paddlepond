@@ -59,3 +59,9 @@ spec:
           port: 8080
         experimental:
           new_api: true
+    nodeSelector:
+      kubernetes.io/hostname: "rouen"
+  valuesFrom:
+    - kind: Secret
+      name: zigbee2mqtt-values
+      valuesKey: values
