@@ -8,4 +8,4 @@ resources:
   - transmission.yaml
   - transmission-exporter-deploy.yaml
   - transmission-exporter-svc.yaml
-  - transmission-exporter-servicemonitor.yaml
+  # - transmission-exporter-servicemonitor.yaml

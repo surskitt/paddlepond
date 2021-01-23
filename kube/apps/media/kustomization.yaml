@@ -6,7 +6,7 @@ resources:
   - namespace.yaml
   - media-pv.yaml
   # - plex
-  # - transmission
+  - transmission
   - nzbget
   # - jackett
   # - sonarr
