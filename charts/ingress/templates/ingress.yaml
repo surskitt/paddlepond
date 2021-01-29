@@ -1,0 +1,35 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    {{- with .Values.ingress.forceSSLRedirect }}
+    ingress.kubernetes.io/force-ssl-redirect: "{{ . }}"
+    {{- end }}
+    {{- with .Values.ingress.ingressClass }}
+    kubernetes.io/ingress.class: {{ . }}
+    {{- end }}
+    {{- with .Values.ingress.annotations }}
+    {{- range $key, $val := . }}
+    {{ $key }}: {{ $val | quote }}
+    {{- end }}
+    {{- end }}
+  name: {{ .Release.Name }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    {{- with .Values.ingress.service }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .name }}
+          servicePort: {{ .port }}
+    {{- end }}
+  {{- with .Values.ingress.tlsHosts }}
+  tls:
+  - hosts:
+    {{- range . }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+    secretName: {{ .Values.ingress.tlsSecretName }}
