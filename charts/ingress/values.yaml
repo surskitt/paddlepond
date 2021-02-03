@@ -1,0 +1,14 @@
+---
+ingress:
+  host: ui.paddlepond.com
+  # service:
+  #   name: ui
+  #   port: 80
+  ingressClass: traefik
+  # annotations:
+  #   - key: testAnnotation
+  #     value: testValue
+  #   - key: testAnnotation
+  #     value: testValue
+  # tlsHosts:
+  #   - ui.paddlepond.com
