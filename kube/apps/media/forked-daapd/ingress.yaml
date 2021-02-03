@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: forked-daapd-ingress
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./charts/ingress
+      version: 0.0.1
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 1m
+  values:
+    ingress:
+      namespace: media
+      service:
+        name: forked-daapd
+        port: 3689
+      ingressClass: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      tlsSecretName: forked-daapd-tls
+  valuesFrom:
+    - kind: Secret
+      name: forked-daapd-cfg
+      valuesKey: ingress-values
