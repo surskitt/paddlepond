@@ -18,8 +18,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: shanedabes/nzbget
-      tag: 414ffcb-4
+      repository: linuxserver/nzbget
+      tag: v21.0-ls69
       # repository: linuxserver/nzbget
       # tag: v21.0-ls61
     timezone: "Europe/London"
