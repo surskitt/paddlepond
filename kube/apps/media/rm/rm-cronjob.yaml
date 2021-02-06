@@ -39,7 +39,7 @@ data:
   script.sh: |
     cd /media/downloads/torrents/complete/
     for i in MyRunningMan.com*; do
-      ln "${i}" "/media/tv/Running man/${i/MyRunningMan.com /Running Man.2020x}"
+      ln "${i}" "/media/tv/Running man/${i/MyRunningMan.com /Running Man.2021x}"
     done
 ---
 apiVersion: batch/v1beta1
