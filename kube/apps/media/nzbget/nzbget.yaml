@@ -43,8 +43,8 @@ spec:
           claimName: nfs-media-pvc
     resources:
       requests:
+        cpu: 100m
         memory: 300Mi
-        cpu: 25m
       limits:
         memory: 1000Mi
   valuesFrom:
