@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: linuxserver/nzbget
-      tag: v21.0-ls69
+      tag: v21.0-ls72
       # repository: linuxserver/nzbget
       # tag: v21.0-ls61
     timezone: "Europe/London"
