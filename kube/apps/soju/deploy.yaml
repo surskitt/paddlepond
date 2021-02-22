@@ -18,7 +18,7 @@ spec:
     spec:
       initContainers:
         - name: sojuctl-init
-          image: shanedabes/sojuctl:0ddc0de7e55070bcdf9c29fb88330dbe1444f776
+          image: shanedabes/sojuctl:6a1a05b1d4931e65fc724f1ad8e453eefb449e26
           command: ["/app/sojuctl-init.sh"]
           env:
             - name: SOJU_IRC_PASSWORD
@@ -36,7 +36,7 @@ spec:
               mountPath: /config/soju.cfg
               subPath: soju.cfg
         - name: cert-init
-          image: shanedabes/soju:0ddc0de7e55070bcdf9c29fb88330dbe1444f776
+          image: shanedabes/soju:6a1a05b1d4931e65fc724f1ad8e453eefb449e26
           command: ["/app/cert-init.sh"]
           volumeMounts:
             - name: certificates
@@ -46,7 +46,7 @@ spec:
               subPath: cert-init.sh
       containers:
         - name: soju
-          image: shanedabes/soju:0ddc0de7e55070bcdf9c29fb88330dbe1444f776
+          image: shanedabes/soju:6a1a05b1d4931e65fc724f1ad8e453eefb449e26
           command: ["/app/soju", "-config", "/config/soju.cfg"]
           env:
             - name: GODEBUG
@@ -93,7 +93,7 @@ spec:
     spec:
       containers:
         - name: irc-init
-          image: shanedabes/soju:0ddc0de7e55070bcdf9c29fb88330dbe1444f776
+          image: shanedabes/soju:6a1a05b1d4931e65fc724f1ad8e453eefb449e26
           command: ["/app/irc-init.sh"]
           env:
             - name: SOJU_IRC_PASSWORD
