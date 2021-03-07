@@ -41,6 +41,8 @@ spec:
         storageClass: "local-path"
         size: 20Gi
         accessMode: "ReadWriteOnce"
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     resources:
       limits:
         memory: 4900Mi
