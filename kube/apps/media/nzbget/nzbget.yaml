@@ -41,12 +41,12 @@ spec:
       extraMounts:
         - name: media
           claimName: nfs-media-pvc
-    resources:
-      requests:
-        cpu: 100m
-        memory: 300Mi
-      limits:
-        memory: 1000Mi
+    # resources:
+    #   requests:
+    #     cpu: 500m
+    #     memory: 800Mi
+    #   limits:
+    #     memory: 1000Mi
   valuesFrom:
     - kind: Secret
       name: nzbget-secrets
