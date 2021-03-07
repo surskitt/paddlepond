@@ -108,6 +108,7 @@ spec:
       kubernetes.io/hostname: "rouen"
     podAnnotations:
       reloader.stakater.com/auto: "true"
+      backup.velero.io/backup-volumes: config
   valuesFrom:
     - kind: Secret
       name: hass-values
