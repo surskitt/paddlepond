@@ -8,3 +8,4 @@ resources:
   - sealed-secrets-helm-repository.yaml
   - traefik-helm-repository.yaml
   - bananaspliff-helm-repository.yaml
+  - vmware-tanzu-helm-repository.yaml
