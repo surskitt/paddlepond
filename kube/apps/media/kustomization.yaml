@@ -11,4 +11,6 @@ resources:
   - jackett
   - sonarr
   - radarr
-  - rm
+  - bazarr
+# - rm
+  - forked-daapd

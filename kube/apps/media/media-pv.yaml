@@ -12,10 +12,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    # FIX: connect to nfs server internally
-    # server: nfs-server
-    server: rouen.lan
-    path: /srv/nfs/media
+    server: serpentine.lan
+    path: /mnt/md1/media
   mountOptions:
     - tcp
     - intr

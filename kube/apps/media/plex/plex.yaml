@@ -33,16 +33,14 @@ spec:
     persistence:
       transcode:
         enabled: true
-        storageClass: "local-path"
+        storageClass: longhorn
       data:
         # enabled: true
         claimName: nfs-media-pvc
       config:
-        storageClass: "local-path"
+        storageClass: longhorn
         size: 20Gi
         accessMode: "ReadWriteOnce"
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
     resources:
       limits:
         memory: 4900Mi
