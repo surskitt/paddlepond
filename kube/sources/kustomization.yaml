@@ -5,6 +5,7 @@ resources:
   - jetstack-helm-repository.yaml
   - k8s-at-home-helm-repository.yaml
   - kubernetes-stable-helm-repository.yaml
+  - longhorn-helm-repository.yaml
   - sealed-secrets-helm-repository.yaml
   - traefik-helm-repository.yaml
   - bananaspliff-helm-repository.yaml

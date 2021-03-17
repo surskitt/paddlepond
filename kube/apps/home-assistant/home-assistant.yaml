@@ -33,7 +33,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: nfs-client
+        storageClass: longhorn
     additionalVolumes:
       - name: secrets
         secret:
@@ -42,49 +42,49 @@ spec:
         configMap:
           name: git-init
           defaultMode: 0777
-      - name: hass-restore
-        configMap:
-          name: hass-restore
-          defaultMode: 0777
+      # - name: hass-restore
+      #   configMap:
+      #     name: hass-restore
+      #     defaultMode: 0777
       # - name: backups
       #   persistentVolumeClaim:
       #     claimName: nfs-hass-backup-pvc
-      - name: ha-key
-        secret:
-          secretName: ha-key
-          defaultMode: 0700
+      # - name: ha-key
+      #   secret:
+      #     secretName: ha-key
+      #     defaultMode: 0700
     additionalVolumeMounts:
       - name: secrets
         mountPath: /config/secrets.yaml
         subPath: secrets.yaml
-      - name: ha-key
-        mountPath: /root/.ssh/id_rsa
-        subPath: id_rsa
-    additionalContainers:
-      - name: git-sync
-        image: openweb/git-sync
-        volumeMounts:
-          - name: config
-            mountPath: /git
-        env:
-          - name: GIT_SYNC_REPO
-            value: https://github.com/shanedabes/hass-config
-          - name: GIT_SYNC_DEST
-            value: /git
-          - name: GIT_SYNC_BRANCH
-            value: master
-          - name: GIT_SYNC_WAIT
-            value: "3600"
-    initContainers:
-      - name: git-sync-init
-        image: openweb/git-sync
-        command: ["/git-init.sh"]
-        volumeMounts:
-          - name: config
-            mountPath: /git
-          - name: git-init
-            mountPath: /git-init.sh
-            subPath: git-init.sh
+      # - name: ha-key
+      #   mountPath: /root/.ssh/id_rsa
+      #   subPath: id_rsa
+    # additionalContainers:
+      # - name: git-sync
+      #   image: openweb/git-sync
+      #   volumeMounts:
+      #     - name: config
+      #       mountPath: /git
+      #   env:
+      #     - name: GIT_SYNC_REPO
+      #       value: https://github.com/shanedabes/hass-config
+      #     - name: GIT_SYNC_DEST
+      #       value: /git
+      #     - name: GIT_SYNC_BRANCH
+      #       value: master
+      #     - name: GIT_SYNC_WAIT
+      #       value: "3600"
+    # initContainers:
+    #   - name: git-sync-init
+    #     image: openweb/git-sync
+    #     command: ["/git-init.sh"]
+    #     volumeMounts:
+    #       - name: config
+    #         mountPath: /git
+    #       - name: git-init
+    #         mountPath: /git-init.sh
+    #         subPath: git-init.sh
       # - name: hass-restore
       #   image: ubuntu:21.04
       #   command: ["/hass-restore.sh"]
@@ -104,11 +104,11 @@ spec:
     #   enabled: true
     #   repo: https://github.com/shanedabes/hass-config.git
     #   secret: github-creds
-    nodeSelector:
-      kubernetes.io/hostname: "rouen"
-    podAnnotations:
-      reloader.stakater.com/auto: "true"
-      backup.velero.io/backup-volumes: config
+    # nodeSelector:
+    #   kubernetes.io/hostname: "mallard"
+    # podAnnotations:
+    #   reloader.stakater.com/auto: "true"
+    #   backup.velero.io/backup-volumes: config
   valuesFrom:
     - kind: Secret
       name: hass-values

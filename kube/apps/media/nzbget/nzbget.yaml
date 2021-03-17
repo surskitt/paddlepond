@@ -34,8 +34,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: "nfs-client"
-        # storageClass: local-path
+        storageClass: longhorn
       downloads:
         enabled: false
       extraMounts:

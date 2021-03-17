@@ -33,7 +33,7 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: nfs-client
+        storageClass: longhorn
         accessMode: ReadWriteOnce
         size: "1Gi"
     additionalVolumes:
@@ -49,7 +49,7 @@ spec:
         retain: true
       permit_join: true
       mqtt:
-        server: mqtt://mosquitto.home-assistant.svc.cluster.local:1883
+        server: mqtt://mosquitto:1883
       serial:
         port: /dev/ttyUSB0
       advanced:
@@ -60,7 +60,7 @@ spec:
         experimental:
           new_api: true
     nodeSelector:
-      kubernetes.io/hostname: "rouen"
+      kubernetes.io/hostname: "mallard"
   valuesFrom:
     - kind: Secret
       name: zigbee2mqtt-values

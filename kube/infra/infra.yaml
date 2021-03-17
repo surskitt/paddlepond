@@ -35,23 +35,36 @@ spec:
       name: traefik
       namespace: kube-system
 ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+# kind: Kustomization
+# metadata:
+#   name: nfs-client-provisioner
+#   namespace: flux-system
+# spec:
+#   interval: 5m
+#   path: "./kube/infra/nfs-client-provisioner"
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   healthChecks:
+#     - apiVersion: apps/v1
+#       kind: Deployment
+#       name: nfs-client-provisioner
+#       namespace: nfs-client-provisioner
+# ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: nfs-client-provisioner
+  name: longhorn
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./kube/infra/nfs-client-provisioner"
+  path: "./kube/infra/longhorn"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: nfs-client-provisioner
-      namespace: nfs-client-provisioner
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
