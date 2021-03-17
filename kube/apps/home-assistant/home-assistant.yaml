@@ -46,9 +46,9 @@ spec:
         configMap:
           name: hass-restore
           defaultMode: 0777
-      - name: backups
-        persistentVolumeClaim:
-          claimName: nfs-hass-backup-pvc
+      # - name: backups
+      #   persistentVolumeClaim:
+      #     claimName: nfs-hass-backup-pvc
       - name: ha-key
         secret:
           secretName: ha-key
@@ -85,17 +85,17 @@ spec:
           - name: git-init
             mountPath: /git-init.sh
             subPath: git-init.sh
-      - name: hass-restore
-        image: ubuntu:21.04
-        command: ["/hass-restore.sh"]
-        volumeMounts:
-          - name: config
-            mountPath: /config
-          - name: backups
-            mountPath: /backups
-          - name: hass-restore
-            mountPath: /hass-restore.sh
-            subPath: hass-restore.sh
+      # - name: hass-restore
+      #   image: ubuntu:21.04
+      #   command: ["/hass-restore.sh"]
+      #   volumeMounts:
+      #     - name: config
+      #       mountPath: /config
+      #     - name: backups
+      #       mountPath: /backups
+      #     - name: hass-restore
+      #       mountPath: /hass-restore.sh
+      #       subPath: hass-restore.sh
     # prometheus:
     #   serviceMonitor:
     #     enabled: true
