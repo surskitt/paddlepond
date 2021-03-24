@@ -41,6 +41,8 @@ spec:
         persistence:
           enabled: true
           storageClass: longhorn
+        service:
+          type: LoadBalancer
     additionalVolumes:
       - name: secrets
         secret:
