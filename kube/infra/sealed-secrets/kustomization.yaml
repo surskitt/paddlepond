@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: sealed-secrets
 resources:
   - namespace.yaml
-  - sealed-secrets.yaml
+  - release.yaml

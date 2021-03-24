@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.rook.io/release
+      # renovate: registryUrl=https://charts.longhorn.io
       chart: longhorn
       version: v1.1.0
       sourceRef:
@@ -17,6 +17,39 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      longhorn:
+        engine:
+          repository: longhornio/longhorn-engine
+          tag: v1.1.0
+        manager:
+          repository: longhornio/longhorn-manager
+          tag: v1.1.0
+        ui:
+          repository: longhornio/longhorn-ui
+          tag: v1.1.0
+        instanceManager:
+          repository: longhornio/longhorn-instance-manager
+          tag: v1_20201216
+        shareManager:
+          repository: longhornio/longhorn-share-manager
+          tag: v1_20201204
+      csi:
+        attacher:
+          repository: longhornio/csi-attacher
+          tag: v2.2.1-lh1
+        provisioner:
+          repository: longhornio/csi-provisioner
+          tag: v1.6.0-lh1
+        nodeDriverRegistrar:
+          repository: longhornio/csi-node-driver-registrar
+          tag: v1.2.0-lh1
+        resizer:
+          repository: longhornio/csi-resizer
+          tag: v0.5.1-lh1
+        snapshotter:
+          repository: longhornio/csi-snapshotter
+          tag: v2.1.1-lh1
     ingress:
       enabled: true
       tlsSecret: longhorn-tls

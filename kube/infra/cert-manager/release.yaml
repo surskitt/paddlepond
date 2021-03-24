@@ -17,6 +17,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: quay.io/jetstack/cert-manager-controller
+      tag: v1.2.0
+    webhook:
+      image:
+        repository: quay.io/jetstack/cert-manager-webhook
+        tag: v1.2.0
     installCRDs: true
     webhook:
       enabled: true
@@ -25,6 +32,9 @@ spec:
     #   - --dns01-recursive-nameservers-only
     caInjector:
       replicaCount: 1
+      image:
+        repository: quay.io/jetstack/cert-manager-cainjector
+        tag: v1.2.0
     # podDnsPolicy: "None"
     # podDnsConfig:
     #   nameservers:
