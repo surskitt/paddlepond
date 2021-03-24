@@ -30,9 +30,6 @@ spec:
         traefik.ingress.kubernetes.io/router.tls: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
     persistence:
-      #
-      # config needs to be local-path, see https://github.com/Sonarr/Sonarr/issues/1886
-      #
       config:
         enabled: true
         storageClass: longhorn
