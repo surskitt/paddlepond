@@ -34,6 +34,7 @@ spec:
       transcode:
         enabled: true
         storageClass: longhorn
+        accessMode: "ReadWriteOnce"
       data:
         # enabled: true
         claimName: nfs-media-pvc
