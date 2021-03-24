@@ -37,9 +37,6 @@ spec:
         storageClass: longhorn
     mariadb:
       enabled: true
-      image:
-        repository: bitnami/mariadb
-        tag: 10.5.9-debian-10-r0
       primary:
         persistence:
           enabled: true
