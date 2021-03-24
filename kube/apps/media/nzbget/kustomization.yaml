@@ -3,8 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: media
 resources:
-  - nzbget-secrets.yaml
-  - nzbget.yaml
-  # - nzbget-exporter-deploy.yaml
-  # - nzbget-exporter-servicemonitor.yaml
-  # - nzbget-exporter-svc.yaml
+  - secrets.yaml
+  - release.yaml
+  # - exporter-deploy.yaml
+  # - exporter-servicemonitor.yaml
+  # - exporter-svc.yaml
