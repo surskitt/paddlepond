@@ -50,7 +50,7 @@ spec:
       enabled: true
       image:
         repository: onedr0p/exportarr
-        tag: v0.3.3
+        tag: v0.3.4
         pullPolicy: IfNotPresent
       port: 9707
       url: "http://localhost:8989"
