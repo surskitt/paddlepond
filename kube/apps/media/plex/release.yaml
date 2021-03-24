@@ -40,7 +40,8 @@ spec:
         # enabled: true
         claimName: nfs-media-pvc
       config:
-        storageClass: longhorn
+        enabled: true
+        storageClass: longhorn-static # after restoring
         size: 20Gi
         accessMode: "ReadWriteOnce"
     resources:
