@@ -35,6 +35,12 @@ spec:
       config:
         enabled: true
         storageClass: longhorn
+    mariadb:
+      enabled: true
+      primary:
+        persistence:
+          enabled: true
+          storageClass: longhorn
     additionalVolumes:
       - name: secrets
         secret:
