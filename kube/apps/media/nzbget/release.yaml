@@ -37,9 +37,9 @@ spec:
         storageClass: longhorn
       downloads:
         enabled: false
-      extraMounts:
-        - name: media
-          claimName: nfs-media-pvc
+      media:
+        enabled: true
+        existingClaim: nfs-media-pvc
     # resources:
     #   requests:
     #     cpu: 500m
