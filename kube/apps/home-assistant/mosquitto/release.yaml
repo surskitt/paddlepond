@@ -18,6 +18,7 @@ spec:
       interval: 5m
   values:
     image:
+      repository: eclipse-mosquitto
       tag: 1.6.12
     service:
       type: LoadBalancer
