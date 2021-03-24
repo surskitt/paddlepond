@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: home-assistant
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      tag: 2021.1.5
+    env:
+      TZ: "Europe/London"
+      PUID: "1000"
+      PGID: "1000"
+    hostNetwork: true
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn
+    additionalVolumes:
+      - name: secrets
+        secret:
+          secretName: hass-secrets
+      - name: git-init
+        configMap:
+          name: git-init
+          defaultMode: 0777
+      # - name: ha-key
+      #   secret:
+      #     secretName: ha-key
+      #     defaultMode: 0700
+    additionalVolumeMounts:
+      - name: secrets
+        mountPath: /config/secrets.yaml
+        subPath: secrets.yaml
+      # - name: ha-key
+      #   mountPath: /root/.ssh/id_rsa
+      #   subPath: id_rsa
+    # prometheus:
+    #   serviceMonitor:
+    #     enabled: true
+    #     interval: 5m
+  valuesFrom:
+    - kind: Secret
+      name: hass-secrets
+      valuesKey: values
