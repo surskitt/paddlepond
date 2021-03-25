@@ -36,14 +36,18 @@ spec:
         storageClass: longhorn
         size: 20Gi
         accessMode: "ReadWriteOnce"
-      data:
-        # enabled: true
-        claimName: nfs-media-pvc
       config:
         enabled: true
         storageClass: longhorn-static # after restoring
         size: 20Gi
         accessMode: "ReadWriteOnce"
+    additionalVolumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: nfs-media-pvc
+    additionalVolumeMounts:
+      - name: media
+        mountPath: /data
     resources:
       limits:
         memory: 4900Mi
