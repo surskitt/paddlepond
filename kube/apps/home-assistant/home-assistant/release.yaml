@@ -25,6 +25,7 @@ spec:
       PUID: "1000"
       PGID: "1000"
     hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       enabled: true
       annotations:
