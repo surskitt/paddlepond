@@ -44,4 +44,5 @@ spec:
           persistentVolumeClaim:
             claimName: forked-daapd-config
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
