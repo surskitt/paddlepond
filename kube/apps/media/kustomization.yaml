@@ -15,3 +15,5 @@ resources:
 # - rm
   - forked-daapd
   - youtubedl-material
+  - calibre-web
+  - nzbhydra2
