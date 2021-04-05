@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: linuxserver/nzbhydra2
-      tag: version-v3.8.1
+      tag: version-v3.13.2
     env:
       TZ: "Europe/London"
     ingress:
