@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: esphome
+  namespace: home-assistant
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: esphome
+      version: 6.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: esphome/esphome
+      tag: 1.16.2
+    env:
+      TZ: "Europe/London"
+      ESPHOME_DASHBOARD_USE_PING: true
+      USERNAME: shane
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn
+  valuesFrom:
+    - kind: Secret
+      name: esphome-secrets
+      valuesKey: values
