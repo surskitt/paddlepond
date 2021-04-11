@@ -20,7 +20,7 @@ spec:
     env:
       DRONE_RPC_HOST: drone
       DRONE_RPC_PROTO: http
-      DRONE_NAMESPACE_HOME: drone
+      DRONE_NAMESPACE_DEFAULT: drone
   valuesFrom:
     - kind: Secret
       name: drone-runner-secrets
