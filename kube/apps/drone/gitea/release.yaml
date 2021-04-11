@@ -32,6 +32,9 @@ spec:
       #   builtIn:
       #     postgresql:
       #       enabled: false
+        service:
+          DISABLE_REGISTRATION: true
+          REQUIRE_SIGNIN_VIEW: true
       cache:
         builtIn:
           enabled: true
