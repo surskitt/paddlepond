@@ -27,7 +27,7 @@ spec:
         traefik.ingress.kubernetes.io/router.tls: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
     env:
-      DRONE_GIT_ALWAYS_AUTH: false
+      DRONE_GIT_ALWAYS_AUTH: true
       DRONE_SERVER_PROTO: https
       DRONE_PROMETHEUS_ANONYMOUS_ACCESS: true
       DRONE_USER_CREATE: "username:shane,admin:true"
