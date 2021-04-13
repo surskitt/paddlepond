@@ -18,8 +18,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: linuxserver/radarr
-      tag: 3.0.0.3465-ls20
+      repository: ghcr.io/k8s-at-home/radarr
+      tag: v3.0.2.4552
     timezone: "Europe/London"
     puid: 1000
     pgid: 1000

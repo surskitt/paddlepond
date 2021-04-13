@@ -18,8 +18,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: linuxserver/jackett
-      tag: version-v0.16.2199
+      repository: ghcr.io/k8s-at-home/jackett
+      tag: v0.17.882
     timezone: "Europe/London"
     puid: 1000
     pgid: 1000
