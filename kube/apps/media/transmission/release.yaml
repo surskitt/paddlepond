@@ -18,8 +18,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: linuxserver/transmission
-      tag: 2.94-r2-ls44
+      repository: ghcr.io/k8s-at-home/transmission
+      tag: v3.00
     service:
       type: ClusterIP
       port: 9091
