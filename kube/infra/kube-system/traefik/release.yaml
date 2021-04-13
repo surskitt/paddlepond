@@ -19,7 +19,7 @@ spec:
   values:
     image:
       name: traefik
-      tag: v2.4.8
+      tag: 2.2.0
     additionalArguments:
       - "--providers.kubernetesingress"
       - "--metrics.prometheus=true"
