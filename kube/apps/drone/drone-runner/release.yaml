@@ -17,6 +17,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: drone/drone-runner-kube
+      tag: 1.0.0-beta.6
     env:
       DRONE_RPC_HOST: drone
       DRONE_RPC_PROTO: http
