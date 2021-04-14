@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: gitea/gitea
-      tag: 1.13.7
+      tag: 1.14.0
     gitea:
       admin:
         username: shane
