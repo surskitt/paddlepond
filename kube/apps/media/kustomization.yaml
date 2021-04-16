@@ -18,3 +18,4 @@ resources:
   - youtubedl-material
   - calibre-web
   # - nzbhydra2
+  - flood
