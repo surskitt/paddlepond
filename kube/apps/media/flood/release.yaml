@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: flood
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: flood
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: jesec/flood
+      tag: 4.5.3
+    env:
+      FLOOD_OPTION_RUNDIR: /home/download/.local/share/flood
+    # env:
+    #   FLOOD_OPTION_RUNDIR: /config
+    #   FLOOD_OPTION_AUTH: none
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+    persistence:
+      data:
+        enabled: true
+        existingClaim: nfs-media-pvc
+        mountPath: /downloads
+        subPath: downloads/torrents
+      # config:
+      #   enabled: true
+      #   size: 1Gi
+      #   storageClass: longhorn
+  valuesFrom:
+    - kind: Secret
+      name: flood-secrets
+      valuesKey: values.yml
