@@ -15,7 +15,7 @@ resources:
   - bazarr
 # - rm
   - forked-daapd
-  - youtubedl-material
+  # - youtubedl-material
   - calibre-web
   # - nzbhydra2
   - flood
