@@ -21,8 +21,6 @@ spec:
       repository: ghcr.io/k8s-at-home/sonarr
       tag: v3.0.6.1196
     timezone: "Europe/London"
-    puid: 1000
-    pgid: 1000
     ingress:
       enabled: true
       annotations:
@@ -46,15 +44,15 @@ spec:
         cpu: 25m
       limits:
         memory: 1000Mi
-    exportarr:
-      enabled: true
-      image:
-        repository: onedr0p/exportarr
-        tag: v0.3.4
-        pullPolicy: IfNotPresent
-      port: 9707
-      url: "http://localhost:8989"
-      enableEpisodeQualityMetrics: true
+    # exportarr:
+    #   enabled: true
+    #   image:
+    #     repository: onedr0p/exportarr
+    #     tag: v0.3.4
+    #     pullPolicy: IfNotPresent
+    #   port: 9707
+    #   url: "http://localhost:8989"
+    #   enableEpisodeQualityMetrics: true
       # serviceMonitor:
       #   enabled: true
   valuesFrom:
