@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: media
 resources:
   - secrets.yaml
-  - pvc.yaml
+  - configmap.yaml
   - release.yaml
-  - exporter-deploy.yaml
-  - exporter-svc.yaml
+  # - exporter-deploy.yaml
+  # - exporter-svc.yaml
   # - exporter-servicemonitor.yaml

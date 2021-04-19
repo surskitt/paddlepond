@@ -9,46 +9,52 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://bananaspliff.github.io/geek-charts
-      chart: transmission-openvpn
-      version: 0.1.0
+      chart: transmission
+      version: 3.3.0
       sourceRef:
         kind: HelmRepository
-        name: bananaspliff-charts
+        name: k8s-at-home-charts
         namespace: flux-system
       interval: 5m
   values:
     image:
-      repository: ghcr.io/k8s-at-home/transmission
-      tag: v3.00
-    service:
-      type: ClusterIP
-      port: 9091
+      # repository: ghcr.io/k8s-at-home/transmission
+      # tag: v3.00
+      repository: linuxserver/transmission
+      tag: version-3.00-r2
     ingress:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: traefik
         traefik.ingress.kubernetes.io/router.tls: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
-      path: /
-    volumes:
-      - name: "downloads"
-        persistentVolumeClaim:
-          claimName: nfs-media-pvc
-      - name: "config"
-        persistentVolumeClaim:
-          claimName: transmission-config
-    volumeMounts:
-      - name: "downloads"
-        mountPath: "/downloads"
-        subPath: "downloads/torrents"
-      - name: "config"
-        mountPath: "/config"
-    # resources:
-    #   requests:
-    #     memory: 350Mi
-    #     cpu: 25m
-    #   limits:
-    #     memory: 1000Mi
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn
+      downloads:
+        enabled: true
+        existingClaim: nfs-media-pvc
+        mountPath: /downloads
+        subPath: downloads/torrents
+    transmissionConfig:
+      ratio-limit: 2
+      ratio-limit-enabled: true
+      rpc-authentication-required: true
+      script-torrent-done-enabled: true
+      script-torrent-done-filename: "/torrent-done.sh"
+      watch-dir: "/downloads/watch"
+    envFrom:
+      - secretRef:
+          name: transmission-secrets
+    additionalVolumes:
+      - name: torrent-done
+        configMap:
+          name: transmission-torrent-done-sh
+          defaultMode: 0777
+    additionalVolumeMounts:
+      - name: torrent-done
+        mountPath: /torrent-done.sh
   valuesFrom:
     - kind: Secret
       name: transmission-secrets
