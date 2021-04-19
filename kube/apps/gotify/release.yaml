@@ -32,6 +32,7 @@ spec:
       data:
         enabled: true
         storageClass: longhorn
+        mountPath: /app/data
   valuesFrom:
     - kind: Secret
       name: gotify-secrets
