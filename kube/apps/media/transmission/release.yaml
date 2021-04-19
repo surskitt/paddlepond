@@ -42,7 +42,7 @@ spec:
       ratio-limit-enabled: true
       rpc-authentication-required: true
       script-torrent-done-enabled: true
-      script-torrent-done-filename: "/torrent-done.sh"
+      script-torrent-done-filename: "/scripts/torrent-done.sh"
       watch-dir: "/downloads/watch"
     envFrom:
       - secretRef:
@@ -54,7 +54,8 @@ spec:
           defaultMode: 0777
     additionalVolumeMounts:
       - name: torrent-done
-        mountPath: /torrent-done.sh
+        mountPath: /scripts/torrent-done.sh
+        subPath: torrent-done.sh
   valuesFrom:
     - kind: Secret
       name: transmission-secrets
