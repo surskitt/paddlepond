@@ -8,4 +8,4 @@ data:
   gotify.sh: |
     #!/usr/bin/env bash
     
-    curl "http://gotify.gotify.svc.cluster.local/message?token=${GOTIFY_TOKEN}" -F "title=Download finished" -F "message=${2%.*}" -F priority=5
+    curl "http://gotify.gotify.svc.cluster.local/message?token=${GOTIFY_TOKEN}" -F "title=Download finished" -F "message=${5} - ${2%.*}" -F priority=5
