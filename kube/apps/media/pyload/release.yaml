@@ -37,6 +37,18 @@ spec:
         existingClaim: nfs-media-pvc
         mountPath: /downloads
         subPath: downloads/pyload
+    envFrom:
+      - secretRef:
+          name: pyload-secrets
+    additionalVolumes:
+      - name: gotifysh
+        configMap:
+          name: pyload-gotifysh
+          defaultMode: 0777
+    additionalVolumeMounts:
+      - name: gotifysh
+        mountPath: /config/scripts/download_finished/gotify.sh
+        subPath: gotify.sh
   valuesFrom:
     - kind: Secret
       name: pyload-secrets
