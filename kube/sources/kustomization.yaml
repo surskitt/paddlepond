@@ -10,3 +10,4 @@ resources:
   - traefik-helm-repository.yaml
   - bananaspliff-helm-repository.yaml
   - vmware-tanzu-helm-repository.yaml
+  - argoproj-helm-repository.yaml

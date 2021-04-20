@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: argo
+  namespace: argo
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://argoproj.github.io/argo-helm
+      chart: argo
+      version: 0.16.8
+      sourceRef:
+        kind: HelmRepository
+        name: argoproj-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    workflow:
+      serviceAccount:
+        create: true
+        name: argo-workflow
+      rbac:
+        create: true
+    controller:
+      image:
+        repository: argoproj/workflow-controller
+        tag: v2.12.5
+        # metricsConfig:
+        #   enabled: true
+        # serviceMonitor:
+        #   enabled: true
+      # containerRuntimeExecutor: pns
+      containerRuntimeExecutor: k8sapi
+      workflowNamespaces:
+        - argo
+        - arch-repo
+        - media
+        - gowon
+        - home-assistant
+    executor:
+      image:
+        repository: argoproj/argoexec
+        tag: v2.12.5
+    server:
+      image:
+        repository: argocli
+        tag: v2.12.5 
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+    minio:
+      install: true
+      image:
+        repository: minio/minio
+        tag: RELEASE.2021-02-14T04-01-33Z
+      mcImage:
+        repository: minio/mc
+        tag: RELEASE.2021-02-14T04-28-06Z
+      helmKubectlJqImage:
+        repository: bskim45/helm-kubectl-jq
+        tag: 3.1.0
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 15Gi
+  valuesFrom:
+    - kind: Secret
+      name: argo-secrets
+      valuesKey: values
