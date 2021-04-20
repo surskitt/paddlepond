@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+
+  vars:
+    root_dir: "{{ playbook_dir }}"
+    public_key: "{{ root_dir }}/infra/sealed-secrets/cert.pem"
+    search_dir: "{{ root_dir }}"
+    password_store_dir: "{{ '~/.password-store' | expanduser }}"
+    paddlepond_pass_dir: "{{ (password_store_dir, 'paddlepond') | path_join }}"
+
+  tasks:
+    - name: Find secrets template files
+      find:
+        path: "{{ search_dir }}"
+        patterns: "*.yaml.j2"
+        recurse: true
+      register: j2_tmpls
+
+    - name: Find all passwordstore secrets
+      find:
+        path: "{{ paddlepond_pass_dir }}"
+        patterns: "*.gpg"
+        recurse: true
+      register: password_files
+
+    - name: Read passwords
+      set_fact: {"pass_{{ pname }}":"{{ password }}"}
+      loop: "{{ password_files.files }}"
+      loop_control:
+        label: "{{ pfile }}"
+      vars:
+        pfile: "{{ item.path | relpath(password_store_dir) | splitext | first }}"
+        password: "{{ lookup('passwordstore', pfile) }}"
+        pname: "{{ item.path | relpath(paddlepond_pass_dir) | splitext | first | replace('/', '_') }}"
+
+    - name: Seal templates
+      command:
+        cmd: kubeseal --format=yaml --cert="{{ public_key }}"
+        stdin: "{{ lookup('template', item.path) }}"
+      loop: "{{ j2_tmpls.files }}"
+      loop_control:
+        label: "{{ item.path }}"
+      register: sealed_secrets
+
+    - name: Write sealed secrets files
+      copy:
+        content: "{{ item.stdout }}"
+        dest: "{{ item.item.path | splitext | first }}"
+      loop: "{{ sealed_secrets.results }}"
+      loop_control:
+        label: "{{ item.item.path }}"
