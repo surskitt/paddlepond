@@ -21,6 +21,8 @@
         path: "{{ paddlepond_pass_dir }}"
         patterns: "*.gpg"
         recurse: true
+        follow: true
+        file_type: any
       register: password_files
 
     - name: Read passwords
