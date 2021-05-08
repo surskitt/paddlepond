@@ -42,7 +42,7 @@ spec:
     executor:
       image:
         repository: argoproj/argoexec
-        tag: v2.12.5
+        tag: v2.12.11
     server:
       image:
         repository: argoproj/argocli
