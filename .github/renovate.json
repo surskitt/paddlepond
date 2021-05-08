@@ -1,6 +1,6 @@
 { 
   "enabled" : true,
-  "helm-values" : { "fileMatch" : [ "kube/release\\.yaml$" ] },
+  "helm-values" : { "fileMatch" : [ "kube/.+release\\.yaml$" ] },
   "kubernetes" : { 
       "fileMatch" : [ "kube/.+\\.yaml$" ],
       "ignorePaths" : [ "kube/flux-system" ]
