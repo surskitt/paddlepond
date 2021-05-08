@@ -26,7 +26,7 @@ spec:
     controller:
       image:
         repository: argoproj/workflow-controller
-        tag: v3.0.2
+        tag: v2.12.5
         # metricsConfig:
         #   enabled: true
         # serviceMonitor:
