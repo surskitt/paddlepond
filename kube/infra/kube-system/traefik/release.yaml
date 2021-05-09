@@ -37,3 +37,6 @@ spec:
         port: 8082
         exposedPort: 8082
         expose: true
+    service:
+      spec:
+        externalTrafficPolicy: Local
