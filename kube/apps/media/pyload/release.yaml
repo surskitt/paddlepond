@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: linuxserver/pyload
-      tag: version-5f5aaf56
+      tag: version-784be5d5
     env:
       TZ: "Europe/London"
     ingress:
