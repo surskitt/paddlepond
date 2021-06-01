@@ -22,6 +22,24 @@ spec:
       # tag: v3.00
       repository: linuxserver/transmission
       tag: version-3.00-r2
+    service:
+      additionalServices:
+        - enabled: true
+          nameSuffix: utptcp
+          type: LoadBalancer
+          port:
+            port: 51413
+            name: utptcp
+            protocol: TCP
+            targetport: 51413
+        - enabled: true
+          nameSuffix: utpudp
+          type: LoadBalancer
+          port:
+            port: 51413
+            name: utpudp
+            protocol: UDP
+            targetport: 51413
     ingress:
       enabled: true
       annotations:
