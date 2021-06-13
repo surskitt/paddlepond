@@ -1,0 +1,38 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: wireguard
+  namespace: wireguard
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://place1.github.io/wg-access-server
+      chart: wg-access-server
+      version: v0.4.6
+      sourceRef:
+        kind: HelmRepository
+        name: wg-access-server-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: place1/wg-access-server
+    wireguard:
+      service:
+        type: LoadBalancer
+    persistence:
+      enabled: true
+      size: 100Mi
+      storageClass: longhorn
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+  valuesFrom:
+    - kind: Secret
+      name: wireguard-secrets
+      valuesKey: values
