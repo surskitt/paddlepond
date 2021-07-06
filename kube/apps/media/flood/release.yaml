@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: flood
-      version: 4.4.0
+      version: 5.2.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: jesec/flood
-      tag: 4.6.0
+      tag: 4.6.1
     env:
       FLOOD_OPTION_RUNDIR: /home/download/.local/share/flood
     # env:
