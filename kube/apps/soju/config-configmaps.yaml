@@ -44,30 +44,31 @@ data:
       echo 'USER shane 8 * :shane'
 
       echo 'PRIVMSG BouncerServ : network create -addr ircs://delta.uk.eu.synirc.net:6697 -name synirc -nick shane'
-      echo 'PRIVMSG BouncerServ : network create -addr ircs://irc.freenode.net:6697 -name freenode -nick sharktamer'
+      echo 'PRIVMSG BouncerServ : network create -addr ircs://irc.libera.chat:6697 -name libera -nick sharktamer'
 
       sleep 3
 
       echo "PRIVMSG NickServ/synirc : identify ${SOJU_IRC_SYNIRC_NICKSERV}"
-      echo "PRIVMSG NickServ/freenode : identify ${SOJU_IRC_FREENODE_NICKSERV}"
+      echo "PRIVMSG NickServ/libera : identify ${SOJU_IRC_LIBERA_NICKSERV}"
 
       sleep 3
 
       echo 'JOIN #owls/synirc'
+      echo 'JOIN #pokeforum/synirc'
 
-      echo 'JOIN #ansible/freenode'
-      echo 'JOIN #archlinux/freenode'
-      echo 'JOIN #go-nuts/freenode'
-      echo 'JOIN #jenkins/freenode'
-      echo 'JOIN #kubernetes/freenode'
-      echo 'JOIN #pass/freenode'
-      echo 'JOIN #prometheus/freenode'
-      echo 'JOIN #python/freenode'
-      echo 'JOIN #qutebrowser/freenode'
-      echo 'JOIN #soju/freenode'
-      echo 'JOIN #ubuntu/freenode'
-      echo 'JOIN #weechat/freenode'
-      echo 'JOIN #wireguard/freenode'
+      echo 'JOIN #ansible/libera'
+      echo 'JOIN #archlinux/libera'
+      echo 'JOIN #go-nuts/libera'
+      echo 'JOIN #jenkins/libera'
+      echo 'JOIN #kubernetes/libera'
+      echo 'JOIN #pass/libera'
+      echo 'JOIN #prometheus/libera'
+      echo 'JOIN #python/libera'
+      echo 'JOIN #qutebrowser/libera'
+      echo 'JOIN #soju/libera'
+      echo 'JOIN #ubuntu/libera'
+      echo 'JOIN #weechat/libera'
+      echo 'JOIN #wireguard/libera'
 
       sleep 10
 

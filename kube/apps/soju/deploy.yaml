@@ -106,11 +106,11 @@ spec:
                 secretKeyRef:
                   name: soju-cfg
                   key: SOJU_IRC_SYNIRC_NICKSERV
-            - name: SOJU_IRC_FREENODE_NICKSERV
+            - name: SOJU_IRC_LIBERA_NICKSERV
               valueFrom:
                 secretKeyRef:
                   name: soju-cfg
-                  key: SOJU_IRC_FREENODE_NICKSERV
+                  key: SOJU_IRC_LIBERA_NICKSERV
           volumeMounts:
             - name: irc-init
               mountPath: /app/irc-init.sh
