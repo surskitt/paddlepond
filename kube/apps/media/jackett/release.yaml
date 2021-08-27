@@ -45,6 +45,15 @@ spec:
         cpu: 25m
       limits:
         memory: 1000Mi
+    addons:
+      vpn:
+        enabled: true
+        type: openvpn
+        openvpn:
+          repository: dperson/openvpn-client
+          tag: latest
+          authSecret: jackett-secrets
+        configFileSecret: jackett-secrets
   valuesFrom:
     - kind: Secret
       name: jackett-secrets
