@@ -32,7 +32,7 @@
         label: "{{ pfile }}"
       vars:
         pfile: "{{ item.path | relpath(password_store_dir) | splitext | first }}"
-        password: "{{ lookup('passwordstore', pfile) }}"
+        password: "{{ lookup('passwordstore', pfile + ' returnall=true') }}"
         pname: "{{ item.path | relpath(paddlepond_pass_dir) | splitext | first | replace('/', '_') }}"
 
     - name: Seal templates

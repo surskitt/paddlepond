@@ -74,6 +74,15 @@ spec:
       - name: torrent-done
         mountPath: /scripts/torrent-done.sh
         subPath: torrent-done.sh
+    addons:
+      vpn:
+        enabled: true
+        type: openvpn
+        openvpn:
+          repository: dperson/openvpn-client
+          tag: latest
+          authSecret: transmission-secrets
+        configFileSecret: transmission-secrets
   valuesFrom:
     - kind: Secret
       name: transmission-secrets

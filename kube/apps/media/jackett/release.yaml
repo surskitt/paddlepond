@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: ghcr.io/k8s-at-home/jackett
-      tag: v0.18.545
+      tag: v0.18.609
     timezone: "Europe/London"
     puid: 1000
     pgid: 1000
@@ -45,6 +45,15 @@ spec:
         cpu: 25m
       limits:
         memory: 1000Mi
+    addons:
+      vpn:
+        enabled: true
+        type: openvpn
+        openvpn:
+          repository: dperson/openvpn-client
+          tag: latest
+          authSecret: jackett-secrets
+        configFileSecret: jackett-secrets
   valuesFrom:
     - kind: Secret
       name: jackett-secrets
