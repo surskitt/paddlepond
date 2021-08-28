@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: forked-daapd
-          image: linuxserver/daapd:27.4-ls40
+          image: linuxserver/daapd:28.1-ls49
           env:
             - name: TZ
               value: Europe/London
