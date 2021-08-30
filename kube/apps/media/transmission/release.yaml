@@ -56,6 +56,9 @@ spec:
         mountPath: /downloads
         subPath: downloads/torrents
     transmissionConfig:
+      dht-enabled: false
+      peer-limit-global: 100
+      peer-limit-per-torrent: 50
       ratio-limit: 2
       ratio-limit-enabled: true
       rpc-authentication-required: true
