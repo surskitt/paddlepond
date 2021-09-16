@@ -20,22 +20,25 @@ spec:
     image:
       repository: ghcr.io/k8s-at-home/plex 
       tag: v1.22.2.4282-a97b03fad
+    env:
+      TZ: "Europe/London"
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: traefik
-        traefik.ingress.kubernetes.io/router.tls: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-    timezone: "Europe/London"
+      main:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
     service:
-      type: ClusterIP
-      # port: 32400
+      main:
+        type: ClusterIP
+        # port: 32400
     persistence:
       transcode:
         enabled: true
-        emptyDir:
-          enabled: true
-          medium: Memory
+        type: emptyDir
+        medium: Memory
       config:
         enabled: true
         storageClass: longhorn-static # after restoring
