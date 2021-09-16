@@ -27,15 +27,25 @@ spec:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: traefik
-        traefik.ingress.kubernetes.io/router.tls: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
     persistence:
       config:
         enabled: true
         storageClass: longhorn
+      secrets:
+        enabled: true
+        type: custom
+        volumeSpec:
+          secret:
+            secretName: hass-secrets
+        subPath:
+          - path: secrets.yaml
+            mountPath: /config/secrets.yaml
     mariadb:
       enabled: true
       primary:
@@ -45,9 +55,6 @@ spec:
         service:
           type: LoadBalancer
     additionalVolumes:
-      - name: secrets
-        secret:
-          secretName: hass-secrets
       - name: git-init
         configMap:
           name: git-init
@@ -56,10 +63,7 @@ spec:
       #   secret:
       #     secretName: ha-key
       #     defaultMode: 0700
-    additionalVolumeMounts:
-      - name: secrets
-        mountPath: /config/secrets.yaml
-        subPath: secrets.yaml
+    # additionalVolumeMounts:
       # - name: ha-key
       #   mountPath: /root/.ssh/id_rsa
       #   subPath: id_rsa
