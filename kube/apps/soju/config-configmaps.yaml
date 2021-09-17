@@ -19,7 +19,7 @@ data:
   cert-init.sh: |
     #!/usr/bin/env sh
 
-    openssl s_client -connect "delta.uk.eu.synirc.net:6697" 2>/dev/null </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > "/usr/local/share/ca-certificates/delta.uk.eu.synirc.net.pem"
+    openssl s_client -connect "euclid.ie.eu.synirc.net:6697" 2>/dev/null </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > "/usr/local/share/ca-certificates/euclid.ie.eu.synirc.net.pem"
     update-ca-certificates
 
     cp /etc/ssl/certs/* /etc/ssl/certs-new
@@ -43,7 +43,7 @@ data:
       echo 'NICK shane'
       echo 'USER shane 8 * :shane'
 
-      echo 'PRIVMSG BouncerServ : network create -addr ircs://delta.uk.eu.synirc.net:6697 -name synirc -nick shane'
+      echo 'PRIVMSG BouncerServ : network create -addr ircs://euclid.ie.eu.synirc.net:6697 -name synirc -nick shane'
       echo 'PRIVMSG BouncerServ : network create -addr ircs://irc.libera.chat:6697 -name libera -nick sharktamer'
 
       sleep 3
