@@ -18,26 +18,40 @@ spec:
       interval: 5m
   values:
     image:
-      # repository: ghcr.io/k8s-at-home/transmission
-      # tag: v3.00
-      repository: linuxserver/transmission
-      tag: version-3.00-r2
+      repository: ghcr.io/k8s-at-home/transmission
+      tag: v3.00
+    env:
+      TRANSMISSION_DHT_ENABLED: false
+      TRANSMISSION_PEER_LIMIT_GLOBAL: 100
+      TRANSMISSION_PEER_LIMIT_PER_TORRENT: 50
+      TRANSMISSION_RATIO_LIMIT: 2
+      TRANSMISSION_RATIO_LIMIT_ENABLED: true
+      TRANSMISSION_RPC_HOST_WHITELIST_ENABLED: false
+      TRANSMISSION_RPC_WHITELIST_ENABLED: false
+      TRANSMISSION_RPC_AUTHENTICATION_REQUIRED: false
+      TRANSMISSION_SCRIPT_TORRENT_DONE_ENABLED: true
+      TRANSMISSION_SCRIPT_TORRENT_DONE_FILENAME: "/scripts/torrent-done.sh"
+      TRANSMISSION_WATCH_DIR_ENABLED: true
+      TRANSMISSION_WATCH_DIR: "/downloads/watch"
     service:
-      additionalServices:
-        - enabled: true
-          nameSuffix: utptcp
-          type: LoadBalancer
-          port:
+      utptcp:
+        enabled: true
+        nameOverride: utptcp
+        type: LoadBalancer
+        ports:
+          utptcp:
+            enabled: true
             port: 51413
-            name: utptcp
             protocol: TCP
             targetport: 51413
-        - enabled: true
-          nameSuffix: utpudp
-          type: LoadBalancer
-          port:
+      utpudp:
+        enabled: true
+        namOverride: utpudp
+        type: LoadBalancer
+        ports:
+          utpudp:
+            enabled: true
             port: 51413
-            name: utpudp
             protocol: UDP
             targetport: 51413
     ingress:
@@ -56,16 +70,6 @@ spec:
         existingClaim: nfs-media-pvc
         mountPath: /downloads
         subPath: downloads/torrents
-    transmissionConfig:
-      dht-enabled: false
-      peer-limit-global: 100
-      peer-limit-per-torrent: 50
-      ratio-limit: 2
-      ratio-limit-enabled: true
-      rpc-authentication-required: true
-      script-torrent-done-enabled: true
-      script-torrent-done-filename: "/scripts/torrent-done.sh"
-      watch-dir: "/downloads/watch"
     envFrom:
       - secretRef:
           name: transmission-secrets
