@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rtsp-simple-server
+  namespace: home-assistant
+  labels:
+    app: rtsp-simple-server
+spec:
+  ports:
+    - port: 1935
+      targetPort: 1935
+      protocol: TCP
+      name: "1935"
+    - port: 8554
+      targetPort: 8554
+      protocol: TCP
+      name: "8554"
+  selector:
+    app: rtsp-simple-server
