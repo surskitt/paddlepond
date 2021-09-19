@@ -9,3 +9,5 @@ resources:
   - home-assistant
   - eufy-ha-mqtt-bridge
   - esphome
+  - eufy-security-ws
+  - rtsp-simple-server
