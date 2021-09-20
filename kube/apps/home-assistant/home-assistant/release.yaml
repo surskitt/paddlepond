@@ -46,6 +46,18 @@ spec:
         subPath:
           - path: secrets.yaml
             mountPath: /config/secrets.yaml
+      ssh-key:
+        enabled: true
+        type: custom
+        volumeSpec:
+          secret:
+            secretName: hass-ssh-key
+            defaultMode: 0700
+        subPath:
+          - path: id_rsa
+            mountPath: /root/.ssh/id_rsa
+          - path: id_rsa.pub
+            mountPath: /root/.ssh/id_rsa.pub
     mariadb:
       enabled: true
       primary:
