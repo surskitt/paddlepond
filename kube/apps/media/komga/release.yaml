@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: gotson/komga
-      tag: 0.128.3
+      tag: 0.128.4
     ingress:
       main:
         enabled: true
