@@ -70,6 +70,11 @@ spec:
         existingClaim: nfs-media-pvc
         mountPath: /downloads
         subPath: downloads/torrents
+      p:
+        enabled: true
+        existingClaim: nfs-p-pvc
+        mountPath: /pdl
+        subPath: .torrents
     envFrom:
       - secretRef:
           name: transmission-secrets
