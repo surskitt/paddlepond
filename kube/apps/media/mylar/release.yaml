@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: ghcr.io/linuxserver/mylar3
-      tag: v0.5.8-ls32
+      tag: v0.5.9-ls32
     ingress:
       main:
         enabled: true
