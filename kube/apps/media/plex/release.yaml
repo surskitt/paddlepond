@@ -32,8 +32,10 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
     service:
       main:
-        type: ClusterIP
-        # port: 32400
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        port:
+          port: 32400
     persistence:
       transcode:
         enabled: true
