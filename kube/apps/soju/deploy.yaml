@@ -16,109 +16,31 @@ spec:
       labels:
         app: soju
     spec:
-      initContainers:
-        - name: sojuctl-init
-          image: shanedabes/sojuctl:0.2.0
-          command: ["/app/sojuctl-init.sh"]
-          env:
-            - name: SOJU_IRC_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: soju-cfg
-                  key: SOJU_IRC_PASSWORD
-          volumeMounts:
-            - name: sojuctl-init-sh
-              mountPath: /app/sojuctl-init.sh
-              subPath: sojuctl-init.sh
-            - name: config
-              mountPath: /config
-            - name: soju-cfg
-              mountPath: /config/soju.cfg
-              subPath: soju.cfg
-        - name: cert-init
-          image: shanedabes/soju:0.2.0
-          command: ["/app/cert-init.sh"]
-          volumeMounts:
-            - name: certificates
-              mountPath: /etc/ssl/certs-new
-            - name: cert-init
-              mountPath: /app/cert-init.sh
-              subPath: cert-init.sh
       containers:
         - name: soju
-          image: shanedabes/soju:0.2.0
-          command: ["/app/soju", "-config", "/config/soju.cfg"]
+          image: ghcr.io/shanedabes/soju:v0.2.2
           env:
             - name: GODEBUG
               value: x509ignoreCN=0
+            - name: TLS_CERT
+              value: /config/tls/tls.crt
+            - name: TLS_KEY
+              value: /config/tls/tls.key
+            - name: SOJU_INIT
+              valueFrom:
+                secretKeyRef:
+                  name: soju-secrets
+                  key: SOJU_INIT
+            - name: SOJU_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: soju-secrets
+                  key: SOJU_HOST
           volumeMounts:
             - name: soju-cert-tls
               mountPath: /config/tls
               readOnly: true
-            - name: config
-              mountPath: /config
-            - name: certificates
-              mountPath: /etc/ssl/certs
-            - name: soju-cfg
-              mountPath: /config/soju.cfg
-              subPath: soju.cfg
       volumes:
-        - name: config
-          emptyDir: {}
-        - name: certificates
-          emptyDir: {}
-        - name: soju-cfg
-          secret:
-            secretName: soju-cfg
-        - name: sojuctl-init-sh
-          configMap:
-            name: sojuctl-init-sh
-            defaultMode: 0777
         - name: soju-cert-tls
           secret:
             secretName: soju-cert-tls
-        - name: cert-init
-          configMap:
-            name: cert-init
-            defaultMode: 0777
-      restartPolicy: Always
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: irc-init
-  namespace: soju
-spec:
-  template:
-    spec:
-      containers:
-        - name: irc-init
-          image: shanedabes/soju:0.2.0
-          command: ["/app/irc-init.sh"]
-          env:
-            - name: SOJU_IRC_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: soju-cfg
-                  key: SOJU_IRC_PASSWORD
-            - name: SOJU_IRC_SYNIRC_NICKSERV
-              valueFrom:
-                secretKeyRef:
-                  name: soju-cfg
-                  key: SOJU_IRC_SYNIRC_NICKSERV
-            - name: SOJU_IRC_LIBERA_NICKSERV
-              valueFrom:
-                secretKeyRef:
-                  name: soju-cfg
-                  key: SOJU_IRC_LIBERA_NICKSERV
-          volumeMounts:
-            - name: irc-init
-              mountPath: /app/irc-init.sh
-              subPath: irc-init.sh
-      volumes:
-        - name: irc-init
-          configMap:
-            name: irc-init
-            defaultMode: 0777
-      restartPolicy: Never
-  backoffLimit: 4
