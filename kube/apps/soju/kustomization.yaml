@@ -4,8 +4,7 @@ kind: Kustomization
 namespace: soju
 resources:
   - namespace.yaml
-  - config-configmaps.yaml
-  - config-secrets.yaml
+  - secrets.yaml
   - cert.yaml
   - deploy.yaml
   - service.yaml
