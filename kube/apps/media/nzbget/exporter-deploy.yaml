@@ -23,7 +23,7 @@ spec:
         prometheus.io/port: '9452'
     spec:
       containers:
-        - image: frebib/nzbget-exporter:0.2.0
+        - image: frebib/nzbget-exporter:0.2.2
           name: nzbget-exporter
           imagePullPolicy: Always
           resources:
