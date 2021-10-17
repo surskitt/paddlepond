@@ -1,4 +1,5 @@
 { 
+  "dependencyDashboard": true,
   "enabled" : true,
   "helm-values" : { "fileMatch" : [ "kube/.+release\\.yaml$" ] },
   "kubernetes" : { 
