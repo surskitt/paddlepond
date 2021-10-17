@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jod
+  namespace: gowon
+  labels:
+    app.kubernetes.io/name: jod
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jod
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: jod
+    spec:
+      containers:
+        - name: jod
+          image: ghcr.io/gowon-irc/gowon-jod:0.1.0-9
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
