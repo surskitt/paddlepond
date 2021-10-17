@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urls
+  namespace: gowon
+  labels:
+    app.kubernetes.io/name: urls
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: urls
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: urls
+    spec:
+      containers:
+        - name: urls
+          image: ghcr.io/gowon-irc/gowon-urls:0.1.0-7
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
