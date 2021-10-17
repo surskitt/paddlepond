@@ -5,6 +5,7 @@ metadata:
   name: urls
   namespace: gowon
   labels:
+    app: gowon
     app.kubernetes.io/name: urls
 spec:
   selector:
@@ -13,11 +14,12 @@ spec:
   template:
     metadata:
       labels:
+        app: gowon
         app.kubernetes.io/name: urls
     spec:
       containers:
         - name: urls
-          image: ghcr.io/gowon-irc/gowon-urls:0.1.0-7
+          image: ghcr.io/gowon-irc/gowon-urls:0.1.0-9
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
