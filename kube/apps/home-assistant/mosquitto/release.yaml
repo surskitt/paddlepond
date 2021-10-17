@@ -21,12 +21,14 @@ spec:
       repository: eclipse-mosquitto
       tag: 2.0.12
     service:
-      type: LoadBalancer
+      main:
+        type: LoadBalancer
     persistence:
       data:
         enabled: true
         storageClass: longhorn
         size: 100Mi
+        accessMode: ReadWriteOnce
         # existingClaim: mosquitto-data
     # monitor:
     #   podMonitor:
