@@ -5,6 +5,7 @@ metadata:
   name: jod
   namespace: gowon
   labels:
+    app: gowon
     app.kubernetes.io/name: jod
 spec:
   selector:
@@ -13,6 +14,7 @@ spec:
   template:
     metadata:
       labels:
+        app: gowon
         app.kubernetes.io/name: jod
     spec:
       containers:
