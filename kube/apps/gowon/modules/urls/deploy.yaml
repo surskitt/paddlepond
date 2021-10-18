@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: urls
-          image: ghcr.io/gowon-irc/gowon-urls:0.1.0-9
+          image: ghcr.io/gowon-irc/gowon-urls:0.1.0-19
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
