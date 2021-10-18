@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: gowon
-          image: ghcr.io/gowon-irc/gowon:0.1.0-48
+          image: ghcr.io/gowon-irc/gowon:0.1.0-66
           env:
             - name: GOWON_SERVER
               value: irc.synirc.net:6667
