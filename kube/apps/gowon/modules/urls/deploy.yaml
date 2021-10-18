@@ -8,6 +8,8 @@ metadata:
     app: gowon
     app.kubernetes.io/name: urls
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: urls

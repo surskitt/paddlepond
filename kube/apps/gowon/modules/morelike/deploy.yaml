@@ -8,6 +8,8 @@ metadata:
     app: gowon
     app.kubernetes.io/name: morelike
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: morelike
