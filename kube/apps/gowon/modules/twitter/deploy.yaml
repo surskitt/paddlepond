@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: twitter
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: twitter
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: twitter
+    spec:
+      containers:
+        - name: twitter
+          image: ghcr.io/gowon-irc/gowon-twitter:0.1.0-2
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
+            - name: GOWON_TWITTER_CONSUMER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: twitter-env
+                  key: GOWON_TWITTER_CONSUMER_KEY
+            - name: GOWON_TWITTER_CONSUMER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: twitter-env
+                  key: GOWON_TWITTER_CONSUMER_SECRET
+            - name: GOWON_TWITTER_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: twitter-env
+                  key: GOWON_TWITTER_ACCESS_TOKEN
+            - name: GOWON_TWITTER_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: twitter-env
+                  key: GOWON_TWITTER_ACCESS_SECRET
