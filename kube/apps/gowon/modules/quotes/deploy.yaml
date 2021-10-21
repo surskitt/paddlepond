@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotes
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: quotes
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: quotes
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: quotes
+    spec:
+      containers:
+        - name: quotes
+          image: ghcr.io/gowon-irc/gowon-quotes:0.1.0-1
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883

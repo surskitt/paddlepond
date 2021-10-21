@@ -4,11 +4,13 @@ kind: Kustomization
 namespace: gowon
 resources:
   - checkiday
+  - congratulations
   - donger
   - jod
   - lastfm
   - morelike
   - pokedex
+  - quotes
   - tenor
   - trakt
   - twitter

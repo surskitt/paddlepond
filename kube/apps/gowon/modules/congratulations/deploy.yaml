@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: congratulations
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: congratulations
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: congratulations
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: congratulations
+    spec:
+      containers:
+        - name: congratulations
+          image: ghcr.io/gowon-irc/gowon-congratulations:0.1.0-1
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
