@@ -21,15 +21,32 @@ spec:
     spec:
       containers:
         - name: gowon
-          image: ghcr.io/gowon-irc/gowon:0.1.0-66
+          image: ghcr.io/gowon-irc/gowon:0.1.0-73
           env:
             - name: GOWON_SERVER
-              value: irc.synirc.net:6667
+              valueFrom:
+                secretKeyRef:
+                  name: gowon-env
+                  key: GOWON_SERVER
             - name: GOWON_BROKER
               value: mosquitto:1883
-            - name: GOWON_NICK
-              value: gowon
             - name: GOWON_USER
-              value: gowon
+              valueFrom:
+                secretKeyRef:
+                  name: gowon-env
+                  key: GOWON_USER
+            - name: GOWON_NICK
+              valueFrom:
+                secretKeyRef:
+                  name: gowon-env
+                  key: GOWON_NICK
+            - name: GOWON_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gowon-env
+                  key: GOWON_PASSWORD
             - name: GOWON_CHANNELS
-              value: "#owls"
+              valueFrom:
+                secretKeyRef:
+                  name: gowon-env
+                  key: GOWON_CHANNELS
