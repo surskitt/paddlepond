@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: markov
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: markov
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: markov
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: markov
+    spec:
+      containers:
+        - name: markov
+          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-1
+          env:
+            - name: GOWON_BROKER_HOST
+              value: mosquitto
+            - name: GOWON_MARKOV_CORPUS
+              value: "owls:owls.txt"
+            - name: GOWON_MARKOV_DATA_DIR
+              value: /data
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: markov-data

@@ -8,9 +8,12 @@ resources:
   - donger
   - jod
   - lastfm
+  - markov
   - morelike
   - pokedex
   - quotes
+  - qwantz
+  - talk
   - tenor
   - trakt
   - twitter
