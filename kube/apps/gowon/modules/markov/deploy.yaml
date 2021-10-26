@@ -19,16 +19,30 @@ spec:
         app: gowon
         app.kubernetes.io/name: markov
     spec:
+      initContainers:
+        - name: init-file-wait
+          image: alpine:latest
+          command:
+            - "sh"
+            - "-c"
+            - "while [[ ! -f /data/owls.json && ! -f /data/shane.json && ! -f /data/edd.json && ! -f /data/seb.json ]]; do echo waiting for corpus files; sleep 1; done"
+          volumeMounts:
+            - name: data
+              mountPath: /data
       containers:
         - name: markov
-          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-1
+          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-10
           env:
             - name: GOWON_BROKER_HOST
               value: mosquitto
-            - name: GOWON_MARKOV_CORPUS
-              value: "owls:owls.txt"
+            - name: GOWON_MARKOV_MODELS
+              value: "owls:owls.json,shane:shane.json,edd:edd.json,seb:seb.json"
             - name: GOWON_MARKOV_DATA_DIR
               value: /data
+            - name: GOWON_MARKOV_CACHE_TTL
+              value: "300"
+            - name: GOWON_MARKOV_MSG_CHANGE
+              value: "0.02"
           volumeMounts:
             - name: data
               mountPath: /data
