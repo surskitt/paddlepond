@@ -31,7 +31,7 @@ spec:
               mountPath: /data
       containers:
         - name: markov
-          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-10
+          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-11
           env:
             - name: GOWON_BROKER_HOST
               value: mosquitto
@@ -41,7 +41,7 @@ spec:
               value: /data
             - name: GOWON_MARKOV_CACHE_TTL
               value: "300"
-            - name: GOWON_MARKOV_MSG_CHANGE
+            - name: GOWON_MARKOV_MSG_CHANCE
               value: "0.02"
           volumeMounts:
             - name: data
