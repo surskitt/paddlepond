@@ -42,7 +42,7 @@ spec:
             - name: GOWON_MARKOV_CACHE_TTL
               value: "300"
             - name: GOWON_MARKOV_MSG_CHANCE
-              value: "0.02"
+              value: "0.05"
           volumeMounts:
             - name: data
               mountPath: /data
