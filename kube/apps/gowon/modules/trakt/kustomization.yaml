@@ -4,4 +4,5 @@ kind: Kustomization
 namespace: gowon
 resources:
   - secrets.yaml
+  - pvc.yaml
   - deploy.yaml
