@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: trakt
-          image: ghcr.io/gowon-irc/gowon-trakt:0.1.0-4
+          image: ghcr.io/gowon-irc/gowon-trakt:0.1.0-5
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
@@ -30,3 +30,10 @@ spec:
                 secretKeyRef:
                   name: trakt-env
                   key: GOWON_TRAKT_API_KEY
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: trakt-data
