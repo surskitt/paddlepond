@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitlbee
+  namespace: bitlbee
+  labels:
+    app: bitlbee
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitlbee
+  template:
+    metadata:
+      labels:
+        app: bitlbee
+    spec:
+      initContainers:
+        # - name: volume-mount-hack
+        #   image: ezkrg/bitlbee-libpurple:latest
+        #   command: ["sh", "-c", "chmod -R 777 /var/lib/bitlbee && chmod -R 777 /var/run/signald"]
+        #   volumeMounts:
+        #   - name: bitlbee-data
+        #     mountPath: /var/lib/bitlbee
+        #   - name: signald-socket
+        #     mountPath: /var/run/signald
+      containers:
+        # - name: signald
+        #   image: finn/signald:latest
+        #   volumeMounts:
+        #     - mountPath: /signald
+        #       name: signald-socket
+        - name: bitlbee
+          image: ezkrg/bitlbee-libpurple:debian-20210922235056
+          ports:
+            - containerPort: 6667
+          volumeMounts:
+            - name: bitlbee-data
+              mountPath: /var/lib/bitlbee
+            # - mountPath: /var/run/signald
+            #   name: signald-socket
+      volumes:
+        - name: bitlbee-data
+          persistentVolumeClaim:
+            claimName: bitlbee
+        # - name: signald-socket
+        #   persistentVolumeClaim:
+        #     claimName: signald-local-path-pvc
