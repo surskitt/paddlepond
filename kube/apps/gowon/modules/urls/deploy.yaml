@@ -26,4 +26,4 @@ spec:
             - name: GOWON_BROKER
               value: mosquitto:1883
             - name: GOWON_URL_FILTERS
-              value: "(http(s)?:\\/\\/.)?(www\\.)?twitter.com/\\w+/status/\\d+"
+              value: "(http(s)?:\\/\\/.)?(www\\.)?twitter.com/\\w+/status/\\d+,((?:https?:)?\\/\\/)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(\\/(?:[\\w\\-]+\\?v=|embed\\/|v\\/)?)([\\w\\-]+)(\\S+)?"
