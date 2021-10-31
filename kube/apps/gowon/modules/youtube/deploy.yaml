@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: youtube
-          image: ghcr.io/gowon-irc/gowon-youtube:0.1.0-1
+          image: ghcr.io/gowon-irc/gowon-youtube:0.1.0-2
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
