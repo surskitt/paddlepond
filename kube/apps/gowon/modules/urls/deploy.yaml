@@ -25,3 +25,5 @@ spec:
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
+            - name: GOWON_URL_FILTERS
+              value: "(http(s)?:\\/\\/.)?(www\\.)?twitter.com/\\w+/status/\\d+"
