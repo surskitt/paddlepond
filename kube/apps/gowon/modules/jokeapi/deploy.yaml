@@ -21,7 +21,9 @@ spec:
     spec:
       containers:
         - name: jokeapi
-          image: ghcr.io/gowon-irc/gowon-jokeapi:0.1.0-3
+          image: ghcr.io/gowon-irc/gowon-jokeapi:0.1.0-4
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
+            - name: GOWON_JOKEAPI_BLACKLIST
+              value: "racist,sexist"
