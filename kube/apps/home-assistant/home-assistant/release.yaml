@@ -58,6 +58,18 @@ spec:
             mountPath: /root/.ssh/id_rsa
           - path: id_rsa.pub
             mountPath: /root/.ssh/id_rsa.pub
+      k8s-api-token:
+        enabled: true
+        type: custom
+        volumeSpec:
+          secret:
+            secretName: home-assistant-k8s-api-token
+            defaultMode: 0700
+        subPath:
+          - path: token
+            mountPath: /config/k8s_token
+          - path: ca.crt
+            mountPath: /config/k8s_ca.crt
     mariadb:
       enabled: true
       primary:
