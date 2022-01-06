@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: komga
-      version: 2.0.1
+      version: 2.1.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: gotson/komga
-      tag: 0.137.0
+      tag: 0.142.0
     ingress:
       main:
         enabled: true

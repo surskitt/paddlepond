@@ -26,7 +26,7 @@ spec:
     controller:
       image:
         repository: argoproj/workflow-controller
-        tag: v2.12.5
+        tag: v2.12.13
         # metricsConfig:
         #   enabled: true
         # serviceMonitor:
@@ -42,11 +42,11 @@ spec:
     executor:
       image:
         repository: argoproj/argoexec
-        tag: v2.12.5
+        tag: v2.12.13
     server:
       image:
         repository: argoproj/argocli
-        tag: v2.12.5 
+        tag: v2.12.13 
       ingress:
         enabled: true
         annotations:
