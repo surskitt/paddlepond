@@ -50,7 +50,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: serpentine.lan
-    path: /mnt/md0/p
+    path: /mnt/md2/p
   mountOptions:
     - tcp
     - intr
