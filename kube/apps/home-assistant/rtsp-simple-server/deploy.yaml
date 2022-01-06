@@ -22,4 +22,8 @@ spec:
           env:
             - name: RTSP_PROTOCOLS
               value: tcp
+            - name: RTSP_PATHS_ALL_RUNONDEMAND
+              value: "echo 'incoming'"
+            - name: RTSP_PATHS_ALL_RUNONDEMANDRESTART
+              value: "yes"
       restartPolicy: Always
