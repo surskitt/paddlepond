@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: gotify/server
-      tag: 2.1.3
+      tag: 2.1.4
     env:
       TZ: "Europe/London"
     ingress:
