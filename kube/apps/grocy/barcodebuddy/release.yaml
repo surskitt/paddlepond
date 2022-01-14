@@ -1,0 +1,36 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: barcodebuddy
+  namespace: grocy
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./charts/barcodebuddy
+      version: 1.0.0
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: f0rc3/barcodebuddy-docker
+      tag: v1.8.1.4
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn
+  valuesFrom:
+    - kind: Secret
+      name: barcodebuddy-secrets
+      valuesKey: values.yml
