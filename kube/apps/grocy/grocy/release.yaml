@@ -2,15 +2,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: nzbhydra2
-  namespace: media
+  name: grocy
+  namespace: grocy
 spec:
   interval: 5m
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: nzbhydra2
-      version: 10.1.0
+      chart: grocy
+      version: 8.2.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -18,21 +18,20 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/k8s-at-home/nzbhydra2
-      tag: v4.0.0
-    env:
-      TZ: "Europe/London"
+      repository: linuxserver/grocy
+      tag: version-v3.0.1
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: traefik
-        traefik.ingress.kubernetes.io/router.tls: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
     persistence:
       config:
         enabled: true
         storageClass: longhorn
   valuesFrom:
     - kind: Secret
-      name: nzbhydra2-secrets
+      name: grocy-secrets
       valuesKey: values.yml
