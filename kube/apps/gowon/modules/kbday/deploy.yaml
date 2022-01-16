@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: kbday
-          image: ghcr.io/gowon-irc/gowon-kbday:0.1.0-1
+          image: ghcr.io/gowon-irc/gowon-kbday:0.1.0-3
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
