@@ -46,7 +46,7 @@ spec:
     server:
       image:
         repository: argoproj/argocli
-        tag: v2.12.13 
+        tag: v3.2.9 
       ingress:
         enabled: true
         annotations:
