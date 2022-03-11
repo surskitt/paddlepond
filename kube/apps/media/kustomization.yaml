@@ -5,6 +5,7 @@ namespace: media
 resources:
   - namespace.yaml
   - media-pv.yaml
+  - intel-gpu-plugin
   - plex
   - transmission
   - nzbget

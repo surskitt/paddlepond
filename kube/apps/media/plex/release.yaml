@@ -50,12 +50,21 @@ spec:
         enabled: true
         type: pvc
         existingClaim: nfs-media-pvc
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      supplementalGroups:
+        - 986
+        - 989
     resources:
       limits:
         memory: 4900Mi
+        gpu.intel.com/i915: 1
       requests:
         cpu: 35m
         memory: 1500Mi
+        gpu.intel.com/i915: 1
     nodeSelector:
       kubernetes.io/arch: "amd64"
   valuesFrom:
