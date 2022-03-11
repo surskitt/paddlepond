@@ -59,11 +59,11 @@ spec:
         - 989
     resources:
       limits:
-        memory: 4900Mi
+        memory: 10000Mi
         gpu.intel.com/i915: 1
       requests:
-        cpu: 35m
-        memory: 1500Mi
+        cpu: 1000m
+        memory: 1000Mi
         gpu.intel.com/i915: 1
     nodeSelector:
       kubernetes.io/arch: "amd64"
