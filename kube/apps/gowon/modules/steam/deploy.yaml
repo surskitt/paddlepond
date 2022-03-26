@@ -30,6 +30,8 @@ spec:
                 secretKeyRef:
                   name: steam-env
                   key: GOWON_STEAM_API_KEY
+            - name: GOWON_STEAM_KV_PATH
+              value: /data/kv.db
           volumeMounts:
             - name: data
               mountPath: /data
