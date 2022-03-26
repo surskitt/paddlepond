@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: steam
-          image: ghcr.io/gowon-irc/gowon-steam:0.1.0-8
+          image: ghcr.io/gowon-irc/gowon-steam:0.1.0-16
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
