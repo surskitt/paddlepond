@@ -24,7 +24,7 @@ spec:
       enabled: true
       image:
         repository: quay.io/jetstack/cert-manager-webhook
-        tag: v1.7.2
+        tag: v1.8.0
     installCRDs: true
     # extraArgs:
     #   - --dns01-recursive-nameservers=1.1.1.1:53
