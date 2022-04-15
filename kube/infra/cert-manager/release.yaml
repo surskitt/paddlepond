@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.jetstack.io/
       chart: cert-manager
-      version: v1.4.0
+      version: v1.8.0
       sourceRef:
         kind: HelmRepository
         name: jetstack-charts
@@ -19,12 +19,12 @@ spec:
   values:
     image:
       repository: quay.io/jetstack/cert-manager-controller
-      tag: v1.7.2
+      tag: v1.8.0
     webhook:
       enabled: true
       image:
         repository: quay.io/jetstack/cert-manager-webhook
-        tag: v1.7.2
+        tag: v1.8.0
     installCRDs: true
     # extraArgs:
     #   - --dns01-recursive-nameservers=1.1.1.1:53
@@ -33,7 +33,7 @@ spec:
       replicaCount: 1
       image:
         repository: quay.io/jetstack/cert-manager-cainjector
-        tag: v1.7.2
+        tag: v1.8.0
     # podDnsPolicy: "None"
     # podDnsConfig:
     #   nameservers:
