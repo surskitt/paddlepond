@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hass-lovelace-kindle-screensaver
+  namespace: home-assistant
+  labels:
+    app: hass-lovelace-kindle-screensaver
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5001
+      targetPort: 5000
+      protocol: TCP
+  selector:
+    app: hass-lovelace-kindle-screensaver

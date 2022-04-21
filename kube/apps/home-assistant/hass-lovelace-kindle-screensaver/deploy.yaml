@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hass-lovelace-kindle-screensaver
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hass-lovelace-kindle-screensaver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hass-lovelace-kindle-screensaver
+    spec:
+      containers:
+        - name: hass-lovelace-kindle-screensaver
+          image: sibbl/hass-lovelace-kindle-screensaver:1.0.4
+          env:
+            - name: HA_BASE_URL
+              value: http://home-assistant:8123
+            - name: HA_SCREENSHOT_URL
+              value: "/lovelace/kindle1?kiosk"
+            - name: HA_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hass-lovelace-kindle-screensaver
+                  key: HA_ACCESS_TOKEN
+            - name: HA_BATTERY_WEBHOOK
+              valueFrom:
+                secretKeyRef:
+                  name: hass-lovelace-kindle-screensaver
+                  key: HA_BATTERY_WEBHOOK
+      restartPolicy: Always
