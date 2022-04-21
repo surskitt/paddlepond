@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: steam
-          image: ghcr.io/gowon-irc/gowon-steam:0.1.0-8
+          image: ghcr.io/gowon-irc/gowon-steam:0.1.0-16
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
@@ -30,6 +30,8 @@ spec:
                 secretKeyRef:
                   name: steam-env
                   key: GOWON_STEAM_API_KEY
+            - name: GOWON_STEAM_KV_PATH
+              value: /data/kv.db
           volumeMounts:
             - name: data
               mountPath: /data

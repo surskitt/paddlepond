@@ -13,7 +13,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: serpentine.lan
-    path: /mnt/md0/dropbox
+    path: /mnt/md1/dropbox
   mountOptions:
     - tcp
     - intr
