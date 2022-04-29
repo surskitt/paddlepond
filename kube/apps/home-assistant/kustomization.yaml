@@ -11,3 +11,4 @@ resources:
   - esphome
   - eufy-security-ws
   - rtsp-simple-server
+  - hass-lovelace-kindle-screensaver
