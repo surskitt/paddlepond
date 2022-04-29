@@ -38,11 +38,20 @@ spec:
               mountPath: /config
       volumes:
         - name: media
-          persistentVolumeClaim:
-            claimName: nfs-media-pvc
+          hostPath:
+            path: /mnt/usb
         - name: config
           persistentVolumeClaim:
             claimName: forked-daapd-config
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - mallard
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
