@@ -23,6 +23,72 @@ data:
     bindings:
       - namespace: media
         resource: Deployment
+        name: bazarr
+
+        patch:
+          - topic: bazarr/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: bazarr/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: calibre-web
+
+        patch:
+          - topic: calibre-web/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: calibre-web/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: flood
+
+        patch:
+          - topic: flood/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: flood/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
         name: jackett
 
         patch:
@@ -42,3 +108,180 @@ data:
               map:
                 1: "ON"
                 ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: komga
+
+        patch:
+          - topic: komga/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: komga/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: mylar
+
+        patch:
+          - topic: mylar/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: mylar/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: nzbget
+
+        patch:
+          - topic: nzbget/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: nzbget/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: plex
+
+        patch:
+          - topic: plex/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: plex/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: pyload
+
+        patch:
+          - topic: pyload/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: pyload/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: radarr
+
+        patch:
+          - topic: radarr/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: radarr/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: sonarr
+
+        patch:
+          - topic: sonarr/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: sonarr/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
+      - namespace: media
+        resource: Deployment
+        name: transmission
+
+        patch:
+          - topic: transmission/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: transmission/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+
