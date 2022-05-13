@@ -18,7 +18,6 @@ resources:
   - forked-daapd
   # - youtubedl-material
   - calibre-web
-  # - nzbhydra2
   - flood
   - pyload
   - xteve
