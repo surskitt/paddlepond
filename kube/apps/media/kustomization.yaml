@@ -16,7 +16,6 @@ resources:
   - bazarr
 # - rm
   - forked-daapd
-  # - youtubedl-material
   - calibre-web
   - flood
   - pyload
