@@ -6,14 +6,12 @@ resources:
   - checkiday
   - congratulations
   - donger
-  - jod
-  - jokeapi
+  - gotemplate
   - kbday
   - lastfm
   - markov
   - morelike
   - pokedex
-  - quotes
   - qwantz
   - retroachievements
   - steam
@@ -22,6 +20,5 @@ resources:
   - trakt
   - twitter
   - urls
-  - uselessfacts
   - wikipedia
   - wordnik
