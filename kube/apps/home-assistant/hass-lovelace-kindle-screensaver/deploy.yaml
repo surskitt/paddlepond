@@ -34,4 +34,6 @@ spec:
                 secretKeyRef:
                   name: hass-lovelace-kindle-screensaver
                   key: HA_BATTERY_WEBHOOK
+            - name: RENDERING_TIMEOUT
+              value: "30000"
       restartPolicy: Always
