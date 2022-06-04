@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: rtsp-simple-server
-          image: aler9/rtsp-simple-server:v0.18.4
+          image: aler9/rtsp-simple-server:v0.19.0
           env:
             - name: RTSP_PROTOCOLS
               value: tcp
