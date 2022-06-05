@@ -5,8 +5,9 @@ metadata:
   name: private
   namespace: flux-system
 spec:
-  interval: 5m0s
+  url: ssh://git@github.com/shanedabes/paddlepond-private.git
   ref:
     branch: master
-  url: ssh://git@github.com/shanedabes/paddlepond-private.git
-
+  interval: 5m0s
+  secretRef:
+    name: private
