@@ -33,7 +33,7 @@ spec:
       replicaCount: 1
       image:
         repository: quay.io/jetstack/cert-manager-cainjector
-        tag: v1.8.0
+        tag: v1.8.1
     # podDnsPolicy: "None"
     # podDnsConfig:
     #   nameservers:
