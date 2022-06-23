@@ -19,8 +19,11 @@ spec:
       containers:
         - name: restic
           image: restic/rest-server:0.11.0
+          env:
+            - name: DISABLE_AUTHENTICATION
+              value: "true"
           ports:
-            - containerPort: 80
+            - containerPort: 8000
               name: http
               protocol: TCP
           volumeMounts:
