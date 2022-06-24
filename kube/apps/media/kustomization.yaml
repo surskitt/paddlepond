@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: media
 resources:
   - namespace.yaml
-  - media-pv.yaml
+  - pv-media.yaml
+  - pv-backups.yaml
   - intel-gpu-plugin
   - plex
   - transmission
@@ -14,7 +15,6 @@ resources:
   - sonarr
   - radarr
   - bazarr
-# - rm
   - forked-daapd
   - calibre-web
   - flood
