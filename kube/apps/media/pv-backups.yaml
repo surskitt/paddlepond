@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-backups-pv
+  namespace: media
+spec:
+  storageClassName: backups
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: serpentine.lan
+    path: /mnt/md1/backups
+  mountOptions:
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - rsize=32768
+    - wsize=32768
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-backups-pvc
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: backups
+  resources:
+    requests:
+      storage: 1Mi

@@ -39,6 +39,11 @@ spec:
       media:
         enabled: true
         existingClaim: nfs-media-pvc
+      backups:
+        enabled: true
+        existingClaim: nfs-backups-pvc
+        mountPath: /config/Backups
+        subPath: sonarr
     resources:
       requests:
         memory: 350Mi
