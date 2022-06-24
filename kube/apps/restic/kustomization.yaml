@@ -5,4 +5,4 @@ namespace: restic
 resources: 
   - namespace.yaml
   - secrets.yaml
-  - source-kustomization.yaml
+  - release.yaml
