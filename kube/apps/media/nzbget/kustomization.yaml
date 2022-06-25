@@ -5,6 +5,8 @@ namespace: media
 resources:
   - secrets.yaml
   - release.yaml
+  - backupconfiguration.yaml
+  - backuprepository.yaml
   # - exporter-deploy.yaml
   # - exporter-servicemonitor.yaml
   # - exporter-svc.yaml
