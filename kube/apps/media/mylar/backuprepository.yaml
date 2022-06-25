@@ -1,0 +1,11 @@
+---
+apiVersion: stash.appscode.com/v1alpha1
+kind: Repository
+metadata:
+  name: mylar
+  namespace: media
+spec:
+  backend:
+    rest:
+      url: http://restic-rest-server.restic.svc:8000/paddlepond/mylar
+    storageSecretName: restic-secrets
