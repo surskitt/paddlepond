@@ -31,6 +31,7 @@ spec:
       config:
         enabled: true
         size: 8Gi
+        storageClass: local-path
       data:
         enabled: true
         type: pvc
