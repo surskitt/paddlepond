@@ -30,6 +30,7 @@ spec:
     persistence:
       config:
         enabled: true
+        storageClass: local-path
       data:
         enabled: true
         type: pvc
