@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: komga
+  namespace: media
+spec:
+  repository:
+    name: komga
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: komga
+    volumeMounts:
+      - name: config
+        mountPath: /config
+    rules:
+      - paths:
+          - /config/database.sqlite
