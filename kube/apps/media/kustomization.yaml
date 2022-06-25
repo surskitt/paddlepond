@@ -6,6 +6,7 @@ resources:
   - namespace.yaml
   - pv-media.yaml
   - pv-backups.yaml
+  - secrets.yaml
   - intel-gpu-plugin
   - plex
   - transmission

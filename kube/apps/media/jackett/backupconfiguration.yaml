@@ -1,0 +1,29 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupConfiguration
+metadata:
+  name: jackett
+  namespace: media
+spec:
+  repository:
+    name: jackett
+  schedule: "0 3 * * *"
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: jackett
+    volumeMounts:
+      - name: config
+        mountPath: /config
+    paths:
+      - /config
+  runtimeSettings:
+    container:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+  retentionPolicy:
+    name: 'keep-last-week'
+    keepLast: 7
+    prune: true
