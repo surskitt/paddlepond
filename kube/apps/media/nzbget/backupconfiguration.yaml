@@ -2,17 +2,17 @@
 apiVersion: stash.appscode.com/v1beta1
 kind: BackupConfiguration
 metadata:
-  name: jackett
+  name: nzbget
   namespace: media
 spec:
   repository:
-    name: jackett
-  schedule: "0 3 * * *"
+    name: nzbget
+  schedule: "0 15 * * *"
   target:
     ref:
       apiVersion: apps/v1
       kind: Deployment
-      name: jackett
+      name: nzbget
     volumeMounts:
       - name: config
         mountPath: /config

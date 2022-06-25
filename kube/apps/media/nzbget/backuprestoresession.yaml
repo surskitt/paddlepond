@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: nzbget
+  namespace: media
+spec:
+  repository:
+    name: nzbget
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: nzbget
+    volumeMounts:
+      - name: config
+        mountPath: /config
+    rules:
+      - paths:
+          - /config

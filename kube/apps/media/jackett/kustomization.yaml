@@ -5,5 +5,5 @@ namespace: media
 resources:
   - secrets.yaml
   - release.yaml
-  - backupconfiguration.yaml
   - backuprepository.yaml
+  - backupconfiguration.yaml
