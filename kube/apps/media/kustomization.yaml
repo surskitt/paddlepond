@@ -15,7 +15,6 @@ resources:
   - jackett
   - sonarr
   - radarr
-  - bazarr
   - forked-daapd
   - calibre-web
   - flood
