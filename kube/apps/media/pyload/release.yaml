@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pyload
-      version: 6.1.0
+      version: 6.3.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -18,8 +18,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: linuxserver/pyload
-      tag: version-784be5d5
+      repository: ghcr.io/linuxserver/pyload
+      tag: version-5de90278
     env:
       TZ: "Europe/London"
     ingress:
@@ -32,7 +32,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-path
       downloads:
         enabled: true
         existingClaim: nfs-media-pvc

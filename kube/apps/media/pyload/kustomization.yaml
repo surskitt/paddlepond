@@ -6,3 +6,5 @@ resources:
   - secrets.yaml
   - configmap.yaml
   - release.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
