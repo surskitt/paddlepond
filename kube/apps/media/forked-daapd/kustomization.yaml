@@ -8,3 +8,5 @@ resources:
   - deploy.yaml
   - service.yaml
   - ingress.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
