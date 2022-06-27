@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: owntone
+  namespace: media
+spec:
+  repository:
+    name: owntone
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: forked-daapd
+    volumeMounts:
+      - name: config
+        mountPath: /config
+    rules:
+      - paths:
+          - /config
