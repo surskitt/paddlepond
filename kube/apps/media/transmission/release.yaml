@@ -24,7 +24,7 @@ spec:
       TRANSMISSION_DHT_ENABLED: true
       TRANSMISSION_PEER_LIMIT_GLOBAL: 100
       TRANSMISSION_PEER_LIMIT_PER_TORRENT: 50
-      TRANSMISSION_PEER_PORT: 54873
+      TRANSMISSION_PEER_PORT: 59244
       TRANSMISSION_RATIO_LIMIT: 2
       TRANSMISSION_RATIO_LIMIT_ENABLED: true
       TRANSMISSION_RPC_HOST_WHITELIST_ENABLED: false
@@ -65,7 +65,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-path
       downloads:
         enabled: true
         existingClaim: nfs-media-pvc
@@ -92,6 +92,9 @@ spec:
       vpn:
         enabled: true
         type: wireguard
+        env:
+          KILLSWITCH: "true"
+          KILLSWITCH_EXCLUDEDNETWORKS_IPV4: "10.43.0.0/16;192.168.1.0/24;10.42.0.0/24"
         wireguard:
           repository: ghcr.io/k8s-at-home/wireguard
           tag: v1.0.20210914

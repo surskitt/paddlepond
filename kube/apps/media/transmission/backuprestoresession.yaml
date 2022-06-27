@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  repository:
+    name: transmission
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: transmission
+    volumeMounts:
+      - name: config
+        mountPath: /config
+    rules:
+      - paths:
+          - /config

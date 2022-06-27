@@ -6,6 +6,8 @@ resources:
   - secrets.yaml
   - configmap.yaml
   - release.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
   # - exporter-deploy.yaml
   # - exporter-svc.yaml
   # - exporter-servicemonitor.yaml
