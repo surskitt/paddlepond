@@ -7,5 +7,5 @@ metadata:
 spec:
   backend:
     rest:
-      url: http://restic-rest-server.restic.svc.cluster.local:8000/paddlepond/transmission
+      url: http://restic-rest-server-nfs.restic.svc.cluster.local:8000/paddlepond/transmission
     storageSecretName: restic-secrets

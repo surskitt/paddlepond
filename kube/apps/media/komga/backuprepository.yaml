@@ -7,5 +7,5 @@ metadata:
 spec:
   backend:
     rest:
-      url: http://restic-rest-server.restic.svc:8000/paddlepond/komga
+      url: http://restic-rest-server-nfs.restic.svc:8000/paddlepond/komga
     storageSecretName: restic-secrets
