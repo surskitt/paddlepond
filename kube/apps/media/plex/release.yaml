@@ -25,7 +25,6 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: traefik
         annotations:
           kubernetes.io/ingress.class: traefik
           traefik.ingress.kubernetes.io/router.tls: "true"
@@ -43,7 +42,7 @@ spec:
         medium: Memory
       config:
         enabled: true
-        storageClass: longhorn-static # after restoring
+        storageClass: local-path
         size: 20Gi
         accessMode: "ReadWriteOnce"
       data:

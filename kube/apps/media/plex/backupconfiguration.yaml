@@ -1,0 +1,33 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupConfiguration
+metadata:
+  name: plex
+  namespace: media
+spec:
+  repository:
+    name: plex
+  schedule: "50 15 * * *"
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: plex
+    volumeMounts:
+      - name: config
+        mountPath: /config
+    paths:
+      - /config
+    exclude:
+      - "/config/Library/Application Support/Plex Media Server/Cache"
+      - "/config/Library/Application Support/Plex Media Server/Crash Reports"
+      - "/config/Library/Application Support/Plex Media Server/Diagnostics"
+      - "/config/Library/Application Support/Plex Media Server/Logs"
+      - "/config/Library/Application Support/Plex Media Server/Media"
+      - "/config/Library/Application Support/Plex Media Server/Metadata/Albums"
+      - "/config/Library/Application Support/Plex Media Server/Metadata/Artists"
+  retentionPolicy:
+    name: 'keep-last-week'
+    keepLast: 7
+    prune: true
+  timeOut: 10m
