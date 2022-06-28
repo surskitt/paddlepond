@@ -5,3 +5,5 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - release.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
