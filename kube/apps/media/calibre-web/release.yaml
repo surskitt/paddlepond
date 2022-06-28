@@ -38,7 +38,7 @@ spec:
       #   existingClaim: nfs-media-pvc
       config:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-path
       books:
         enabled: true
         existingClaim: nfs-dropbox-pvc
