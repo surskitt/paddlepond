@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: trakt
+  namespace: gowon
+spec:
+  repository:
+    name: trakt
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: trakt
+    volumeMounts:
+      - name: data
+        mountPath: /data
+    rules:
+      - paths:
+          - /data

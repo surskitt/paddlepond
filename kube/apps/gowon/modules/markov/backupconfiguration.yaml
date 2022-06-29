@@ -1,0 +1,27 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupConfiguration
+metadata:
+  name: markov
+  namespace: gowon
+spec:
+  repository:
+    name: markov
+  schedule: "20 16 * * *"
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: markov
+    volumeMounts:
+      - name: data
+        mountPath: /data
+    paths:
+      - /data
+    exclude:
+      - /data/lost+found
+  retentionPolicy:
+    name: 'keep-last-week'
+    keepLast: 7
+    prune: true
+  timeOut: 5m

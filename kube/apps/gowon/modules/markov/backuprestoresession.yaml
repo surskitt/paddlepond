@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: markov
+  namespace: gowon
+spec:
+  repository:
+    name: markov
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: markov
+    volumeMounts:
+      - name: data
+        mountPath: /data
+    rules:
+      - paths:
+          - /data

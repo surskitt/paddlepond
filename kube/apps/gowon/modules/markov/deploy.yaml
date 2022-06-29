@@ -19,16 +19,16 @@ spec:
         app: gowon
         app.kubernetes.io/name: markov
     spec:
-      initContainers:
-        - name: init-file-wait
-          image: alpine:latest
-          command:
-            - "sh"
-            - "-c"
-            - "while [[ ! -f /data/owls.json && ! -f /data/shane.json && ! -f /data/edd.json && ! -f /data/seb.json ]]; do echo waiting for corpus files; sleep 1; done"
-          volumeMounts:
-            - name: data
-              mountPath: /data
+      # initContainers:
+      #   - name: init-file-wait
+      #     image: alpine:latest
+      #     command:
+      #       - "sh"
+      #       - "-c"
+      #       - "while [[ ! -f /data/owls.json && ! -f /data/shane.json && ! -f /data/edd.json && ! -f /data/seb.json ]]; do echo waiting for corpus files; sleep 1; done"
+      #     volumeMounts:
+      #       - name: data
+      #         mountPath: /data
       containers:
         - name: markov
           image: ghcr.io/gowon-irc/gowon-markov:0.1.0-11

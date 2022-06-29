@@ -23,6 +23,6 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-path
         size: 100Mi
         accessMode: ReadWriteOnce
