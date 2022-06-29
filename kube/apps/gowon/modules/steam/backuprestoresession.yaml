@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: steam
+  namespace: gowon
+spec:
+  repository:
+    name: steam
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: steam
+    volumeMounts:
+      - name: data
+        mountPath: /data
+    rules:
+      - paths:
+          - /data

@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: gowon
 resources:
   - namespace.yaml
+  - secrets.yaml
   - mosquitto
   - gowon
   - modules

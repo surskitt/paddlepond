@@ -6,3 +6,5 @@ resources:
   - secrets.yaml
   - pvc.yaml
   - deploy.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml

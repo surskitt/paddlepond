@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: retroachievements
+  namespace: gowon
+spec:
+  repository:
+    name: retroachievements
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: retroachievements
+    volumeMounts:
+      - name: data
+        mountPath: /data
+    rules:
+      - paths:
+          - /data
