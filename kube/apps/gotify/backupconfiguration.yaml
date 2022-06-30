@@ -1,0 +1,27 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupConfiguration
+metadata:
+  name: gotify
+  namespace: gotify
+spec:
+  repository:
+    name: gotify
+  schedule: "0 17 * * *"
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: gotify
+    volumeMounts:
+      - name: data
+        mountPath: /app/data
+    paths:
+      - /app/data
+    exclude:
+      - /app/data/lost+found
+  retentionPolicy:
+    name: 'keep-last-week'
+    keepLast: 7
+    prune: true
+  timeOut: 5m
