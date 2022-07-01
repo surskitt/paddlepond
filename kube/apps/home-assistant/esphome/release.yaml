@@ -36,7 +36,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-path
   valuesFrom:
     - kind: Secret
       name: esphome-secrets
