@@ -4,10 +4,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: bitlbee
   namespace: bitlbee
+  labels:
+    app: bitlbee
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 100Mi
-  storageClassName: longhorn
+  storageClassName: local-path

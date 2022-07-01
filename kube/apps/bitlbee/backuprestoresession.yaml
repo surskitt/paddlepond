@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: bitlbee
+  namespace: bitlbee
+spec:
+  repository:
+    name: bitlbee
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: bitlbee
+    volumeMounts:
+      - name: bitlbee-data
+        mountPath: /var/lib/bitlbee
+    rules:
+      - paths:
+          - /var/lib/bitlbee

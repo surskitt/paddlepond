@@ -7,3 +7,5 @@ resources:
   - pvc.yaml
   - deploy.yaml
   - service.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
