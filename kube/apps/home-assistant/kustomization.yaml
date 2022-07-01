@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: home-assistant
 resources:
   - namespace.yaml
+  - secrets.yaml
   - mosquitto
   - zigbee2mqtt
   - home-assistant
