@@ -35,7 +35,7 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: longhorn-static # after restoring...
+        storageClass: local-path
         accessMode: ReadWriteOnce
         size: "1Gi"
     additionalVolumes:
