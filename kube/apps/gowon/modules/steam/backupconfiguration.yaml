@@ -2,11 +2,11 @@
 apiVersion: stash.appscode.com/v1beta1
 kind: BackupConfiguration
 metadata:
-  name: steam
+  name: gowon-steam
   namespace: gowon
 spec:
   repository:
-    name: steam
+    name: gowon-steam
   schedule: "40 16 * * *"
   target:
     ref:

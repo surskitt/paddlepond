@@ -2,11 +2,11 @@
 apiVersion: stash.appscode.com/v1beta1
 kind: BackupConfiguration
 metadata:
-  name: trakt
+  name: gowon-trakt
   namespace: gowon
 spec:
   repository:
-    name: trakt
+    name: gowon-trakt
   schedule: "50 16 * * *"
   target:
     ref:
