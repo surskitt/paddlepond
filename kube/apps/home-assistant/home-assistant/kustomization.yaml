@@ -6,3 +6,5 @@ resources:
   - secrets.yaml
   - ssh-key-secrets.yaml
   - release.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
