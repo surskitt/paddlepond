@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: calibre-web
   namespace: media
+  labels:
+    restic-instance: nfs
 spec:
   backend:
     rest:

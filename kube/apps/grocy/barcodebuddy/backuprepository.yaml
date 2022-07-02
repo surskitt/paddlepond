@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: barcodebuddy
   namespace: grocy
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:

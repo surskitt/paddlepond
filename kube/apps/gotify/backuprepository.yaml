@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: gotify
   namespace: gotify
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:

@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: esphome
   namespace: home-assistant
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:
