@@ -70,14 +70,14 @@ spec:
             mountPath: /config/k8s_token
           - path: ca.crt
             mountPath: /config/k8s_ca.crt
-    mariadb:
-      enabled: true
-      primary:
-        persistence:
-          enabled: true
-          storageClass: longhorn
-        service:
-          type: LoadBalancer
+    # mariadb:
+    #   enabled: true
+    #   primary:
+    #     persistence:
+    #       enabled: true
+    #       storageClass: local-path
+    #     # service:
+    #     #   type: LoadBalancer
     additionalVolumes:
       - name: git-init
         configMap:
