@@ -20,5 +20,5 @@ spec:
     ingress:
       enabled: false
     image:
-      repository: quay.io/bitnami/sealed-secrets-controller
-      tag: v0.17.4
+      repository: bitnami/sealed-secrets-controller
+      tag: v0.18.0
