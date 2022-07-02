@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  url: https://containous.github.io/traefik-helm-chart
+  url: https://helm.traefik.io/traefik
   timeout: 3m
