@@ -1,0 +1,20 @@
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: zigbee2mqtt
+  namespace: home-assistant
+spec:
+  repository:
+    name: zigbee2mqtt
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: zigbee2mqtt
+    volumeMounts:
+      - name: data
+        mountPath: /data
+    rules:
+      - paths:
+          - /data
