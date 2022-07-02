@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: lastfm
   namespace: gowon
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:

@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: nzbget
   namespace: media
+  labels:
+    restic-instance: nfs
 spec:
   backend:
     rest:

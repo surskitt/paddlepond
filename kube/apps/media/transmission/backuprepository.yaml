@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: transmission
   namespace: media
+  labels:
+    restic-instance: nfs
 spec:
   backend:
     rest:

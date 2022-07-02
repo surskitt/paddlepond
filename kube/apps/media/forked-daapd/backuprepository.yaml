@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: owntone
   namespace: media
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:

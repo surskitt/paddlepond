@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: bitlbee
   namespace: bitlbee
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:

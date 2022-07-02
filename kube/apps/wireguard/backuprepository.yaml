@@ -4,6 +4,8 @@ kind: Repository
 metadata:
   name: wireguard
   namespace: wireguard
+  labels:
+    restic-instance: local
 spec:
   backend:
     rest:
