@@ -2,7 +2,7 @@
 apiVersion: stash.appscode.com/v1alpha1
 kind: Repository
 metadata:
-  name: lastfm
+  name: gowon-lastfm
   namespace: gowon
   labels:
     restic-instance: local

@@ -2,11 +2,11 @@
 apiVersion: stash.appscode.com/v1beta1
 kind: BackupConfiguration
 metadata:
-  name: retroachievements
+  name: gowon-retroachievements
   namespace: gowon
 spec:
   repository:
-    name: retroachievements
+    name: gowon-retroachievements
   schedule: "30 16 * * *"
   target:
     ref:

@@ -2,7 +2,7 @@
 apiVersion: stash.appscode.com/v1alpha1
 kind: Repository
 metadata:
-  name: trakt
+  name: gowon-trakt
   namespace: gowon
   labels:
     restic-instance: local
