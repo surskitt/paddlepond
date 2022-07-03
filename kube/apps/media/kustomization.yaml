@@ -7,7 +7,7 @@ resources:
   - pv-media.yaml
   - pv-backups.yaml
   - secrets.yaml
-  - intel-gpu-plugin
+  # - intel-gpu-plugin
   - plex
   - transmission
   - nzbget
