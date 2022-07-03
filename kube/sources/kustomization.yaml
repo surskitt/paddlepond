@@ -11,3 +11,4 @@ resources:
   - bananaspliff-helm-repository.yaml
   - vmware-tanzu-helm-repository.yaml
   - appcode-helm-repository.yaml
+  - nicholaswilde-helm-repository.yaml
