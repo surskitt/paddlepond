@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: bitlbee
 resources: 
   - namespace.yaml
+  - secrets.yaml
   - pvc.yaml
   - deploy.yaml
   - service.yaml
