@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: grocy
 resources:
   - namespace.yaml
+  - secrets.yaml
   - grocy
   - barcodebuddy
