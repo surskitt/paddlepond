@@ -6,7 +6,7 @@ metadata:
   namespace: gowon
 spec:
   repository:
-    name: steam
+    name: gowon-steam
   target:
     ref:
       apiVersion: apps/v1

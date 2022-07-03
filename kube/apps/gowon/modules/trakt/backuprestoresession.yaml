@@ -6,7 +6,7 @@ metadata:
   namespace: gowon
 spec:
   repository:
-    name: trakt
+    name: gowon-trakt
   target:
     ref:
       apiVersion: apps/v1
