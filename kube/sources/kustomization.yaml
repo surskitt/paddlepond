@@ -13,3 +13,4 @@ resources:
   - appcode-helm-repository.yaml
   - nicholaswilde-helm-repository.yaml
   - wireguard-helm-repository.yaml
+  - oriedge-helmrepository.yaml
