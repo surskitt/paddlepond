@@ -12,3 +12,4 @@ resources:
   - vmware-tanzu-helm-repository.yaml
   - appcode-helm-repository.yaml
   - nicholaswilde-helm-repository.yaml
+  - wireguard-helm-repository.yaml
