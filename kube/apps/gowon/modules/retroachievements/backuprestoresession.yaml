@@ -6,7 +6,7 @@ metadata:
   namespace: gowon
 spec:
   repository:
-    name: retroachievements
+    name: gowon-retroachievements
   target:
     ref:
       apiVersion: apps/v1

@@ -6,7 +6,7 @@ metadata:
   namespace: gowon
 spec:
   repository:
-    name: markov
+    name: gowon-markov
   target:
     ref:
       apiVersion: apps/v1
