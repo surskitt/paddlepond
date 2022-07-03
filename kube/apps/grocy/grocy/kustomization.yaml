@@ -5,3 +5,5 @@ namespace: grocy
 resources:
   - secrets.yaml
   - release.yaml
+  - backuprepository.yaml
+  - backupconfiguration.yaml
