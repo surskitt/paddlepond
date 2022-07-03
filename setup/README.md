@@ -10,6 +10,8 @@ It should be possible to include an autoinstall file in the install medium to al
 
 Install nfs-common
 
+Install bluez
+
 Remount /mnt/usb
 
 ## Installing k3s
