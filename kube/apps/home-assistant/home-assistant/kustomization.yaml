@@ -5,6 +5,7 @@ namespace: home-assistant
 resources:
   - secrets.yaml
   - ssh-key-secrets.yaml
+  - serviceaccount.yaml
   - release.yaml
   - backuprepository.yaml
   - backupconfiguration.yaml
