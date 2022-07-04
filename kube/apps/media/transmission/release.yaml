@@ -24,7 +24,7 @@ spec:
       TRANSMISSION_DHT_ENABLED: true
       TRANSMISSION_PEER_LIMIT_GLOBAL: 100
       TRANSMISSION_PEER_LIMIT_PER_TORRENT: 50
-      TRANSMISSION_PEER_PORT: 59244
+      TRANSMISSION_PEER_PORT: 61660
       TRANSMISSION_RATIO_LIMIT: 2
       TRANSMISSION_RATIO_LIMIT_ENABLED: true
       TRANSMISSION_RPC_HOST_WHITELIST_ENABLED: false
@@ -92,6 +92,9 @@ spec:
       vpn:
         enabled: true
         type: wireguard
+        securityContext:
+          runAsUser: 568
+          runAsGroup: 568
         env:
           KILLSWITCH: "true"
           KILLSWITCH_EXCLUDEDNETWORKS_IPV4: "10.43.0.0/16;192.168.1.0/24;10.42.0.0/24"
