@@ -13,3 +13,4 @@ resources:
   - eufy-security-ws
   - rtsp-simple-server
   - hass-lovelace-kindle-screensaver
+  - mqtt-kube
