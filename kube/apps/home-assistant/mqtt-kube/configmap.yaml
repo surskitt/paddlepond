@@ -23,28 +23,6 @@ data:
     bindings:
       - namespace: media
         resource: Deployment
-        name: bazarr
-
-        patch:
-          - topic: bazarr/power/set
-            locus: "spec.replicas"
-            values:
-              map:
-                "ON": 1
-                "OFF": 0
-
-        watch:
-          - locus: "status.availableReplicas"
-            topic: bazarr/power/state
-            retain: true
-            qos: 1
-            values:
-              map:
-                1: "ON"
-                ~: "OFF"
-
-      - namespace: media
-        resource: Deployment
         name: calibre-web
 
         patch:
@@ -285,3 +263,24 @@ data:
                 1: "ON"
                 ~: "OFF"
 
+      - namespace: restic
+        resource: deployment
+        name: restic-rest-server-nfs
+
+        patch:
+          - topic: resticnfs/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: resticnfs/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
