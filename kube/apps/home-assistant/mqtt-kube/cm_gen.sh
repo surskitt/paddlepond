@@ -28,7 +28,7 @@ data:
     bindings:
 EOF
 
-for deploy in bazarr calibre-web flood jackett komga mylar nzbget plex pyload radarr sonarr transmission; do
+for deploy in calibre-web flood jackett komga mylar nzbget plex pyload radarr sonarr transmission; do
     cat << EOF >> "${SCRIPT_DIR}/configmap.yaml"
       - namespace: media
         resource: Deployment
@@ -54,3 +54,27 @@ for deploy in bazarr calibre-web flood jackett komga mylar nzbget plex pyload ra
 
 EOF
 done
+
+cat << EOF >> "${SCRIPT_DIR}/configmap.yaml"
+      - namespace: restic
+        resource: deployment
+        name: restic-rest-server-nfs
+
+        patch:
+          - topic: resticnfs/power/set
+            locus: "spec.replicas"
+            values:
+              map:
+                "ON": 1
+                "OFF": 0
+
+        watch:
+          - locus: "status.availableReplicas"
+            topic: resticnfs/power/state
+            retain: true
+            qos: 1
+            values:
+              map:
+                1: "ON"
+                ~: "OFF"
+EOF
