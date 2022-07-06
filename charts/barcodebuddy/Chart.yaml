@@ -8,11 +8,11 @@ kubeVersion: ">=1.16.0-0"
 keywords:
   - grocy
   - barcodebuddy
-home: https://github.com/shanedabes/paddlepond/tree/master/charts/barcodebuddy
+home: https://github.com/surskitt/paddlepond/tree/master/charts/barcodebuddy
 sources:
   - https://github.com/Forceu/barcodebuddy
 maintainers:
-  - name: shanedabes
+  - name: surskitt
     email: shane@isda.best
 dependencies:
   - name: common

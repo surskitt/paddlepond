@@ -8,11 +8,11 @@ kubeVersion: ">=1.16.0-0"
 keywords:
   - restic
   - backups
-home: https://github.com/shanedabes/paddlepond/tree/master/charts/restic-rest-server
+home: https://github.com/surskitt/paddlepond/tree/master/charts/restic-rest-server
 sources:
   - https://github.com/restic/rest-server
 maintainers:
-  - name: shanedabes
+  - name: surskitt
     email: shane@isda.best
 dependencies:
   - name: common
