@@ -4,5 +4,4 @@ kind: Kustomization
 namespace: stash
 resources:
   - namespace.yaml
-  - secrets.yaml
   - release.yaml
