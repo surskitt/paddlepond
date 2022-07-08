@@ -12,4 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: infra
+    - name: sealed-secrets
+    - name: traefik
+    - name: cert-manager
+    - name: stash
