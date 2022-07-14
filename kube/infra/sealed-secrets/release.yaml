@@ -21,4 +21,4 @@ spec:
       enabled: false
     image:
       repository: bitnami/sealed-secrets-controller
-      tag: v0.18.0
+      tag: v0.18.1
