@@ -9,11 +9,15 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://place1.github.io/wg-access-server
-      chart: wg-access-server
+      # chart: wg-access-server
+      chart: ./charts/wg-access-server
       version: v0.4.6
       sourceRef:
-        kind: HelmRepository
-        name: wg-access-server-charts
+        # kind: HelmRepository
+        # name: wg-access-server-charts
+        # namespace: flux-system
+        kind: GitRepository
+        name: flux-system
         namespace: flux-system
       interval: 5m
   values:
