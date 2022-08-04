@@ -17,5 +17,5 @@ spec:
       interval: 1m
   valuesFrom:
     - kind: Secret
-      name: soju-cfg
+      name: soju-secrets
       valuesKey: cert-values
