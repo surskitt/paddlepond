@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soju
+  namespace: bitlbee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soju
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: soju
+    spec:
+      containers:
+        - name: soju
+          image: ghcr.io/surskitt/soju:v0.3.0
+          env:
+            - name: GODEBUG
+              value: x509ignoreCN=0
+            - name: TLS_CERT
+              value: /config/tls/tls.crt
+            - name: TLS_KEY
+              value: /config/tls/tls.key
+            - name: SOJU_INIT
+              valueFrom:
+                secretKeyRef:
+                  name: soju-secrets
+                  key: SOJU_INIT
+            - name: SOJU_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: soju-secrets
+                  key: SOJU_HOST
+          volumeMounts:
+            - name: soju-cert-tls
+              mountPath: /config/tls
+              readOnly: true
+      volumes:
+        - name: soju-cert-tls
+          secret:
+            secretName: soju-cert-tls
