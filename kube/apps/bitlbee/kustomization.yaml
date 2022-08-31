@@ -6,8 +6,8 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - pvc.yaml
-  - deploy.yaml
+  # - deploy.yaml
   - service.yaml
   - backuprepository.yaml
   - backupconfiguration.yaml
-  - soju
+  # - soju
