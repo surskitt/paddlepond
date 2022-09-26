@@ -9,5 +9,5 @@ resources:
   # - deploy.yaml
   - service.yaml
   - backuprepository.yaml
-  - backupconfiguration.yaml
+  # - backupconfiguration.yaml
   # - soju
