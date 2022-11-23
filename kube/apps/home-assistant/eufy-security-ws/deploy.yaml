@@ -32,4 +32,6 @@ spec:
                   key: PASSWORD
             - name: COUNTRY
               value: GB
+            - name: TRUSTED_DEVICE_NAME
+              value: HomeAssistant
       restartPolicy: Always
