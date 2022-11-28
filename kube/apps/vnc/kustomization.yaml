@@ -5,6 +5,4 @@ namespace: vnc
 resources:
   - namespace.yaml
   - secrets.yaml
-  - deploy.yaml
-  - service.yaml
-  - ingress.yaml
+  - release.yaml
