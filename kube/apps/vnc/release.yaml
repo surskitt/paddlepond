@@ -20,11 +20,23 @@ spec:
     image:
       repository: ghcr.io/consol/docker-headless-vnc-container/rocky-xfce-vnc
       tag: v2.0.1
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      # fsGroup: 0
     service:
       main:
         ports:
           http:
             port: 6901
+      vnc:
+        enabled: true
+        type: LoadBalancer
+        ports:
+          vnc:
+            enabled: true
+            port: 5901
+            protocol: TCP
     ingress:
       main:
         enabled: true
