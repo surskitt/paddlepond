@@ -36,7 +36,8 @@ spec:
             - name: GOWON_BROKER_HOST
               value: mosquitto
             - name: GOWON_MARKOV_MODELS
-              value: "owls:owls.json,shane:shane.json,edd:edd.json,seb:seb.json"
+              # value: "owls:owls.json,shane:shane.json,edd:edd.json,seb:seb.json"
+              value: "owls:owls.json"
             - name: GOWON_MARKOV_DATA_DIR
               value: /data
             - name: GOWON_MARKOV_CACHE_TTL
