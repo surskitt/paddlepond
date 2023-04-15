@@ -12,5 +12,9 @@ spec:
       port: 3689
       protocol: TCP
       targetPort: http
+    - name: websocket
+      port: 3688
+      protocol: TCP
+      targetPort: websocket
   selector:
     app: forked-daapd

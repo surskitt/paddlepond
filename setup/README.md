@@ -2,53 +2,39 @@
 
 ## Installing ubuntu server
 
-Download and install ubuntu server edition.
+Download and write ubuntu server edition to a usb drive.
 
-It should be possible to include an autoinstall file in the install medium to allow ssh with a preset password to complete install.
+Create a second usb drive with label "cidata" and copy the two files within `cloud-init` to the root of the drive.
+
+Insert both drives to machine, power on and ssh to installer@host with password `password`.
+
+Complete installation.
 
 ## Setup server
 
-Install nfs-common
+Use `ssh-copy-id` to copy ssh public key to servers.
 
-Install bluez
+Use the `prepare.yaml` playbook to prepare the base ubuntu operating system for k3s.
 
-Remount /mnt/usb
+    ansible-playbook -i inventory prepare.yaml -e ansible_user=shane -e ansible_become_pass="$(pass pass)"
 
 ## Installing k3s
 
-Setup ssh access to root user.
+Use the `install.yaml` playbook to install k3s on the servers.
 
-Run k3sup to install k3s onto server.
-
-    k3sup install --ip 192.168.2.5 --ssh-key ~/.ssh/id_rsa --local-path ~/.kube/config --k3s-extra-args '--no-deploy traefik'
+    ansible-playbook -i inventory install.yaml 
 
 ## Install flux
 
-Set GITHUB_TOKEN environment variable
-    
-    export GITHUB_TOKEN="$(pass github_paddlepond_personal_access_token)"
+Use the `flux.yaml` playbook to setup requisite secrets then install flux on the servers.
 
-Install flux using cli
+    ansible-playbook -i inventory flux.yaml
 
-    flux bootstrap github \
-      --owner=shanedabes \
-      --repository=paddlepond \
-      --path=kube \
-      --personal
+## Combining above steps
 
-Get sealed secrets cert
+There is a `playbook.yaml` that can be used instead to run all the above playbooks one after the other.
 
-    kubeseal --fetch-cert \
-      --controller-namespace=sealed-secrets \
-      --controller-name=sealed-secrets > kube/infra/sealed-secrets/cert.pem
-
-Generate new stash license key from website and edit pass password
-
-    pass edit ss edit paddlepond/stash/licensea
-
-Reseal sealed secrets
-
-    kube/seal.sh
+    ansible-playbook -i inventory playbook.yaml -e ansible_user=shane -e ansible_become_pass="$(pass pass)"
 
 ## Restore from backups
 
@@ -64,3 +50,7 @@ Copy snapshot data from nfs restic to local restic
 Create restore sessions
 
     for i in $(find kube -name backuprestoresession.yaml); do kubectl apply -f "${i}"; done
+
+Delete restore sessions once backups complete
+
+    for i in $(find kube -name backuprestoresession.yaml); do kubectl delete -f "${i}"; done
