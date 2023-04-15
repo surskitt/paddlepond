@@ -30,6 +30,9 @@ spec:
             - containerPort: 3689
               name: http
               protocol: TCP
+            - containerPort: 3688
+              name: websocket
+              protocol: TCP
           volumeMounts:
             - name: media
               mountPath: /music
