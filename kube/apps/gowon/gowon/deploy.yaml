@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: gowon
-          image: ghcr.io/gowon-irc/gowon:0.1.0-73
+          image: ghcr.io/gowon-irc/gowon:0.1.0-96
           env:
             - name: GOWON_SERVER
               valueFrom:
