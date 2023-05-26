@@ -8,9 +8,9 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://containous.github.io/traefik-helm-chart
+      # renovate: registryUrl=https://traefik.github.io/charts
       chart: traefik
-      version: 10.24.0
+      version: 23.0.1
       sourceRef: 
         kind: HelmRepository
         name: traefik-charts
@@ -19,7 +19,7 @@ spec:
   values:
     image:
       name: traefik
-      tag: 2.8.0
+      tag: 2.10.1
     additionalArguments:
       - "--providers.kubernetesingress"
       - "--metrics.prometheus=true"
@@ -40,3 +40,8 @@ spec:
     service:
       spec:
         externalTrafficPolicy: Local
+    providers:
+      kubernetesCRD:
+        allowExternalNameServices: true
+      kubernetesIngress:
+        allowExternalNameServices: true
