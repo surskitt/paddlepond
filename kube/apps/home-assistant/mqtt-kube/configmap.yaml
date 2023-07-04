@@ -177,10 +177,10 @@ data:
 
       - namespace: media
         resource: Deployment
-        name: pyload
+        name: aria2
 
         patch:
-          - topic: pyload/power/set
+          - topic: aria2/power/set
             locus: "spec.replicas"
             values:
               map:
@@ -189,7 +189,7 @@ data:
 
         watch:
           - locus: "status.availableReplicas"
-            topic: pyload/power/state
+            topic: aria2/power/state
             retain: true
             qos: 1
             values:
