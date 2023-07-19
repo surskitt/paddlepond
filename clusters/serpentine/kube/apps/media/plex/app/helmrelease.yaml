@@ -40,6 +40,9 @@ spec:
       TZ: Europe/London
     service:
       main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.51.5
         ports:
           http:
             port: 32400
@@ -47,8 +50,6 @@ spec:
       main:
         enabled: true
         ingressClassName: nginx
-        # annotations:
-        #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
