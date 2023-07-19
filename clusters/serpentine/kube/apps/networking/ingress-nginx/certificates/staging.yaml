@@ -5,7 +5,7 @@ metadata:
   name: "${SECRET_DOMAIN/./-}-staging"
   namespace: networking
 spec:
-  secretName: "${SECRET_DOMAIN/./-}-staging-tls"
+  secretName: "${SECRET_DOMAIN//./-}-staging-tls"
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
