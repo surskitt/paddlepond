@@ -5,9 +5,9 @@ metadata:
   name: cloudflared
   namespace: networking
   annotations:
-    external-dns.alpha.kubernetes.io/target: "ingress.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "ingress-s.${SECRET_ZONE}"
 spec:
   endpoints:
-    - dnsName: "ingress.${SECRET_DOMAIN}"
+    - dnsName: "ingress-s.${SECRET_ZONE}"
       recordType: CNAME
       targets: ["${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
