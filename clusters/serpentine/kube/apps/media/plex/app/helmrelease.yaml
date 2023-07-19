@@ -76,6 +76,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /srv/nfs/media
+        mountPath: /media
       transcode:
         enabled: true
         type: emptyDir
