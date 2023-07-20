@@ -1,0 +1,28 @@
+---
+commands:
+  - command: joke
+    apiUrl: "https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist"
+    template: |
+      {{- if eq .type "twopart" -}}
+      {{ .setup }}
+      {{ .delivery }}
+      {{- else -}}
+      {{ .joke }}
+      {{- end -}}
+
+  - command: jod
+    apiUrl: "https://api.jokes.one/jod"
+    template: >
+      {{ range .contents.jokes }}{{ .joke.text }}{{ end }}
+
+  - command: qod
+    apiUrl: "http://quotes.rest/qod.json"
+    template: |
+      {{ range .contents.quotes }}
+      {{ .quote }}
+       - {{ .author }}
+      {{- end }}
+
+  - command: fact
+    apiUrl: "https://uselessfacts.jsph.pl/random.json?language=en"
+    template: "{{ .text }}"

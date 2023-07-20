@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gotemplate
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: gotemplate
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gotemplate
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: gotemplate
+    spec:
+      containers:
+        - name: gotemplate
+          image: ghcr.io/gowon-irc/gowon-gotemplate:0.1.0-11
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
+            - name: GOWON_GOTEMPLATE_CONFIG
+              value: /config/config.yaml
+          volumeMounts:
+            - mountPath: /config/config.yaml
+              name: config
+              subPath: config.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: gotemplate-config
