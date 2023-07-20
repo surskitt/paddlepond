@@ -12,7 +12,7 @@ spec:
       chart: app-template
       sourceRef:
         kind: HelmRepository
-        name: bjw-charts
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   install:
