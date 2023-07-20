@@ -1,5 +1,0 @@
-#cloud-config
-chpasswd:
-    expire: false
-    list:
-        - installer:$6$0N3NI7AArS0w.m0F$vOpyXi29UACohoKf1vW/yxHewcFMFdK6vsjC7Ey8zVYmhIgL.EACYbZMx2taFoaOqE1SMXPdhUWgS/mH855790
