@@ -41,8 +41,8 @@ spec:
       - --crd-source-kind=DNSEndpoint
     policy: sync
     sources: ["crd", "ingress"]
-    txtPrefix: k8s.
-    txtOwnerId: default
+    txtPrefix: k8s-serpentine.
+    txtOwnerId: serpentine
     domainFilters: ["${SECRET_ZONE}"]
     serviceMonitor:
       enabled: true
