@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retroachievements
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: retroachievements
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: retroachievements
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: retroachievements
+    spec:
+      containers:
+        - name: retroachievements
+          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-2
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
+            - name: GOWON_RA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: retroachievements-env
+                  key: GOWON_RA_USERNAME
+            - name: GOWON_RA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: retroachievements-env
+                  key: GOWON_RA_API_KEY
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: retroachievements-data

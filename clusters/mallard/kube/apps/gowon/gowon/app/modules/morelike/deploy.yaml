@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morelike
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: morelike
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: morelike
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: morelike
+    spec:
+      containers:
+        - name: morelike
+          image: ghcr.io/gowon-irc/gowon-morelike:0.1.0-3
+          env:
+            - name: GOWON_BROKER_HOST
+              value: mosquitto
+            - name: GOWON_MORELIKE_SUB_WORDS
+              valueFrom:
+                secretKeyRef:
+                  name: morelike-env
+                  key: GOWON_MORELIKE_SUB_WORDS
+            - name: GOWON_MORELIKE_IGNORED_WORDS
+              valueFrom:
+                secretKeyRef:
+                  name: morelike-env
+                  key: GOWON_MORELIKE_IGNORED_WORDS

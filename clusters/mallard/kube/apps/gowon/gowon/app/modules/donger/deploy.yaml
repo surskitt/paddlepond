@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: donger
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: donger
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: donger
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: donger
+    spec:
+      containers:
+        - name: donger
+          image: ghcr.io/gowon-irc/gowon-donger:0.1.0-2
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883

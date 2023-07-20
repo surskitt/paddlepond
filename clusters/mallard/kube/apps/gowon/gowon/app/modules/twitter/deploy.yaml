@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: twitter
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: twitter
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: twitter
+    spec:
+      containers:
+        - name: twitter
+          image: ghcr.io/gowon-irc/gowon-twitter:0.1.0-21
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
