@@ -9,7 +9,7 @@ image:
   # -- image repository
   repository: f0rc3/barcodebuddy-docker
   # -- image tag
-  tag: v1.8.1.4
+  tag: v1.8.1.5
   # -- image pull policy
   pullPolicy: IfNotPresent
 
