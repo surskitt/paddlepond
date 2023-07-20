@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordnik
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: wordnik
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wordnik
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: wordnik
+    spec:
+      containers:
+        - name: wordnik
+          image: ghcr.io/gowon-irc/gowon-wordnik:0.1.0-1
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
+            - name: GOWON_WORDNIK_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wordnik-env
+                  key: GOWON_WORDNIK_API_KEY
