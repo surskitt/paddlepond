@@ -87,7 +87,7 @@ spec:
         storageClass: local-path
         accessMode: ReadWriteOnce
         size: 1Gi
-      data:
+      downloads:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/downloads/aria2
