@@ -25,6 +25,7 @@ spec:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.32.1
+
     env:
       TZ: "Europe/London"
       ZIGBEE2MQTT_DATA: /data
@@ -37,11 +38,13 @@ spec:
       ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: "24"
       ZIGBEE2MQTT_CONFIG_ADVANCED_FRONTENT_PORT: "8080"
       ZIGBEE2MQTT_CONFIG_ADVANCED_EXPERIMENTAL_NEW_API: "true"
+
     service:
       main:
         ports:
           http:
             port: 8080
+
     ingress:
       main:
         enabled: true
@@ -56,6 +59,7 @@ spec:
         tls:
           - hosts:
               - *host
+
     persistence:
       data:
         enabled: true
@@ -69,6 +73,10 @@ spec:
         type: hostPath
         hostPath: /dev/ttyUSB0
         mountPath: /dev/ttyUSB0
+
+    securityContext:
+      privileged: true
+
     resources:
       requests:
         cpu: 10m
