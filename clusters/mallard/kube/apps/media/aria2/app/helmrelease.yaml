@@ -1,0 +1,93 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: aria2
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      version: 1.5.1
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
+  values:
+    image:
+      repository: p3terx/aria2-pro
+      tag: 202209060423
+    sidecars:
+      ariang:
+        name: ariang
+        image: p3terx/ariang
+        tag: latest@sha256:c7180691bbca397f62c4983f05455b01b09f18c3bdf5e6e69d6db1c6e574fc33
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.50.6
+        ports:
+          http:
+            enabled: true
+            port: 6800
+          listen:
+            enabled: true
+            port: 6888
+          ariang:
+            enabled: true
+            port: 6880
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host aria2.${{ SECRET_DOMAIN }}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: ariang
+                  port: 6880
+        tls:
+          - hosts:
+              - *host
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        storageClass: local-path
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      data:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/downloads/aria2
