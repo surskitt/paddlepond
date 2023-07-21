@@ -54,6 +54,7 @@ spec:
         storageClass: local-path
         retain: true
         accessMode: ReadWriteOnce
+        size: 1Gi
       usb:
         enabled: true
         type: hostPath
