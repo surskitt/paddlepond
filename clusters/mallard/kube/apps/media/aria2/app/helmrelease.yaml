@@ -41,12 +41,12 @@ spec:
   values:
     image:
       repository: p3terx/aria2-pro
-      tag: 202209060423
+      tag: "202209060423"
     sidecars:
       ariang:
         name: ariang
         image: p3terx/ariang
-        tag: latest@sha256:c7180691bbca397f62c4983f05455b01b09f18c3bdf5e6e69d6db1c6e574fc33
+        tag: "latest@sha256:c7180691bbca397f62c4983f05455b01b09f18c3bdf5e6e69d6db1c6e574fc33"
     service:
       main:
         type: LoadBalancer
