@@ -20,8 +20,8 @@ spec:
       repository: ghcr.io/esphome/esphome
       tag: 2023.7.0
     
-    # env:
-    #   ESPHOME_DASHBOARD_USE_PING: "true"
+    env:
+      ESPHOME_DASHBOARD_USE_PING: "true"
 
     service:
       main:
