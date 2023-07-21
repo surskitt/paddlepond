@@ -53,6 +53,7 @@ spec:
         type: pvc
         storageClass: local-path
         retain: true
+        accessMode: ReadWriteOnce
       usb:
         enabled: true
         type: hostPath
