@@ -91,3 +91,4 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/downloads/aria2
+        mountPath: /downloads
