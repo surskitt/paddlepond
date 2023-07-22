@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 20Mi
-  storageClassName: local-path
+  storageClassName: local-hostpath
