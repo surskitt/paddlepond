@@ -35,7 +35,7 @@ spec:
     storageClasses:
       - name: local-hostpath
         defaultClass: false
-        reclaimPolicy: Retain
+        reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
         # distributed support is not yet ready for expansion
         allowVolumeExpansion: false
@@ -87,6 +87,6 @@ spec:
         local-hostpath:
           shareBasePath: "/var/mnt/sata/demo-csi-local-path"
           controllerBasePath: "/var/mnt/sata/demo-csi-local-path"
-          dirPermissionsMode: "0770"
+          dirPermissionsMode: "0777"
           dirPermissionsUser: 0
           dirPermissionsGroup: 0
