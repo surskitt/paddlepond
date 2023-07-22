@@ -86,16 +86,19 @@ spec:
           - hosts:
               - *host-api
     podSecurityContext:
-      runAsUser: 1032
+      runAsUser: 1000
       runAsGroup: 100
       fsGroup: 100
       fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups: [100]
     persistence:
-      config:
+      data:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/k3s_storage/minio
-        mountPath: /config
+        hostPathType: Directory
+        mountPath: /data
+        readOnly: false
     podAnnotations:
       secret.reloader.stakater.com/reload: minio
     # resources:
