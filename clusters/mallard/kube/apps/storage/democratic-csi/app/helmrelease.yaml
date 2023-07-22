@@ -33,7 +33,7 @@ spec:
       fsGroupPolicy: File #
 
     storageClasses:
-      - name: democratic-csi-local-hostpath
+      - name: local-hostpath
         defaultClass: false
         reclaimPolicy: Retain
         volumeBindingMode: WaitForFirstConsumer
@@ -41,7 +41,7 @@ spec:
         allowVolumeExpansion: false
 
     volumeSnapshotClasses:
-      - name: democratic-csi-local-hostpath
+      - name: local-hostpath
         deletionPolicy: Delete
 
     controller:
