@@ -5,4 +5,5 @@ resources:
   - ./namespace.yaml
   - ./democratic-csi/ks.yaml
   - ./snapshot-controller/ks.yaml
+  - ./minio/ks.yaml
   - ./volsync/ks.yaml
