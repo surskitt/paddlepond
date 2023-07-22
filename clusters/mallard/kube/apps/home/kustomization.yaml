@@ -7,3 +7,4 @@ resources:
   - ./zigbee2mqtt/ks.yaml
   - ./home-assistant/ks.yaml
   - ./esphome/ks.yaml
+  - ./scrypted/ks.yaml
