@@ -36,7 +36,7 @@ spec:
       MINIO_VOLUMES: /data
     envFrom:
       - secretRef:
-          name: minio-secret
+          name: minio
     args: ["server", "/data", "--console-address", ":9001"]
     service:
       main:
