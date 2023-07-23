@@ -1,0 +1,14 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: steam-dest
+  namespace: gowon
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: steam-restic
+    copyMethod: Direct
+    destinationPVC: steam-data
+    storageClassName: local-hostpath
