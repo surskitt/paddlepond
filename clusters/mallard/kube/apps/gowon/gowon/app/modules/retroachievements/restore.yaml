@@ -1,0 +1,14 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: retroachievements-dest
+  namespace: gowon
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: retroachievements-restic
+    copyMethod: Direct
+    destinationPVC: retroachievements-data
+    storageClassName: local-hostpath
