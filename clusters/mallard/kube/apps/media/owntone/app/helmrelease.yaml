@@ -87,4 +87,4 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/music
-        mountPath: /downloads
+        mountPath: /music
