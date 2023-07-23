@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./aria2/ks.yaml
   - ./owntone/ks.yaml
+  - ./transmission/ks.yaml
