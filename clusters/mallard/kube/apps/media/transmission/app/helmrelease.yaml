@@ -112,6 +112,12 @@ spec:
       startup:
         enabled: false
     persistence:
+      config:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
       downloads:
         enabled: true
         type: hostPath
