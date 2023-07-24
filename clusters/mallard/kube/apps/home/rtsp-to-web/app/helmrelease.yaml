@@ -21,6 +21,9 @@ spec:
     remediation:
       retries: 5
   values:
+    image:
+      repository: ghcr.io/deepch/rtsptoweb
+      tag: v2.4.3
     env:
       TZ: Europe/London
     service:
