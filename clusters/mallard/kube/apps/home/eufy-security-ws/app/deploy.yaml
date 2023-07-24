@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eufy-security-ws
+  namespace: home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eufy-security-ws
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: eufy-security-ws
+    spec:
+      containers:
+        - name: eufy-security-ws
+          image: bropat/eufy-security-ws:1.5.2
+          env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: eufy-security-ws
+                  key: USERNAME
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: eufy-security-ws
+                  key: PASSWORD
+            - name: COUNTRY
+              value: GB
+            - name: TRUSTED_DEVICE_NAME
+              value: HomeAssistant
+      restartPolicy: Always
