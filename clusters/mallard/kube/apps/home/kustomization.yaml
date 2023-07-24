@@ -7,6 +7,7 @@ resources:
   - ./zigbee2mqtt/ks.yaml
   - ./eufy-security-ws/ks.yaml
   - ./mediamtx/ks.yaml
+  - ./rtsp-to-web/ks.yaml
   - ./home-assistant/ks.yaml
   - ./esphome/ks.yaml
   # - ./scrypted/ks.yaml
