@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-gortc
   namespace: flux-system
 spec:
-  path: ./clusters/mallard/kube/apps/home/gortc/app
+  path: ./clusters/mallard/kube/apps/home/go2rtc/app
   prune: true
   sourceRef:
     kind: GitRepository
