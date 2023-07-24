@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediamtx
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediamtx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mediamtx
+    spec:
+      containers:
+        - name: mediamtx
+          image: bluenviron/mediamtx:0.23.8
+          env:
+            - name: RTSP_PROTOCOLS
+              value: tcp
+            # - name: RTSP_PATHS_ALL_RUNONDEMAND
+            #   value: "echo 'incoming'"
+            # - name: RTSP_PATHS_ALL_RUNONDEMANDRESTART
+            #   value: "yes"
+      restartPolicy: Always
