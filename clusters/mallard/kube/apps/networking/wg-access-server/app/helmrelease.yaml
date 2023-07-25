@@ -75,3 +75,5 @@ spec:
         type: hostPath
         hostPath: /dev/net/tun
         hostPathType: CharDevice
+    securityContext:
+      privileged: true
