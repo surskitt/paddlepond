@@ -69,7 +69,7 @@ spec:
         type: pvc
         accessMode: ReadWriteOnce
         size: 100Mi
-        storageClas: local-hostpath
+        storageClass: local-hostpath
       tun:
         enabled: true
         type: hostPath
