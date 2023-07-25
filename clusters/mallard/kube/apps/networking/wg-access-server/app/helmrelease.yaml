@@ -63,3 +63,15 @@ spec:
         tls:
           - hosts:
               - *host
+    persistence:
+      data:
+        enabled: true
+        type: pvc
+        accessMode: ReadWriteOnce
+        size: 100Mi
+        storageClas: local-hostpath
+      tun:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/net/tun
+        hostPathType: CharDevice
