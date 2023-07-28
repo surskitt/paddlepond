@@ -6,4 +6,5 @@ resources:
   - ./aria2/ks.yaml
   - ./owntone/ks.yaml
   - ./transmission/ks.yaml
+  - ./sonarr/ks.yaml
   - ./syncthing/ks.yaml
