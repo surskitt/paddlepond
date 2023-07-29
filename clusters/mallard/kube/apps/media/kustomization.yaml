@@ -9,4 +9,5 @@ resources:
   - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
   - ./radarr/ks.yaml
+  - ./recyclarr/ks.yaml
   - ./syncthing/ks.yaml
