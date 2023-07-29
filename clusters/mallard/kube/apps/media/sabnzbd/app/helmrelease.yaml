@@ -72,11 +72,11 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-      media:
+      downloads:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/downloads/nzb
-        mountPath: /media
+        mountPath: /downloads
       incomplete:
         enabled: true
         type: emptyDir
