@@ -8,4 +8,5 @@ resources:
   - ./transmission/ks.yaml
   - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
+  - ./radarr/ks.yaml
   - ./syncthing/ks.yaml
