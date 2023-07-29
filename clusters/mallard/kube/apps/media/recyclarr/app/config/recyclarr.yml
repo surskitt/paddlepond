@@ -25,7 +25,6 @@ sonarr:
       - name: SD
         reset_unmatched_scores: true
 
-
     custom_formats:
       - trash_ids:
           # Streaming Services

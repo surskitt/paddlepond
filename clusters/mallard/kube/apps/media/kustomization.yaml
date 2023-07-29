@@ -10,4 +10,5 @@ resources:
   - ./sonarr/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
+  - ./plex/ks.yaml
   - ./syncthing/ks.yaml
