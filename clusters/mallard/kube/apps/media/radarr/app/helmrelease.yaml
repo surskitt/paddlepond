@@ -41,7 +41,7 @@ spec:
       main:
         ports:
           http:
-            port: &port 8989
+            port: 7878
     ingress:
       main:
         enabled: true
