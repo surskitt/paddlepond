@@ -1,0 +1,75 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    controller:
+      annotations:
+        reloader.stakater.com/auto: 'true'
+    image:
+      repository: ghcr.io/onedr0p/prowlarr-nightly
+      tag: 1.8.0.3805@sha256:0ee4191a7134c7a5d54408a5589700ddd49e23f85aadd985e2662ff45488b236
+    env:
+      PROWLARR__INSTANCE_NAME: mallard
+      PROWLARR__LOG_LEVEL: info
+    envFrom:
+      - secretRef:
+          name: prowlarr
+    service:
+      main:
+        ports:
+          http:
+            port: 9696
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          # nginx.ingress.kubernetes.io/configuration-snippet: |
+          #   proxy_set_header Accept-Encoding "";
+          #   sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${EXTERNAL_DOMAIN}/css/base/prowlarr/plex.css"></head>';
+          #   sub_filter_once on;
+        hosts:
+          - host: &host 'prowlarr.${SECRET_DOMAIN}'
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: 'OnRootMismatch'
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+    resources:
+      requests:
+        cpu: 10m
+        memory: 100Mi
+      limits:
+        memory: 500Mi
