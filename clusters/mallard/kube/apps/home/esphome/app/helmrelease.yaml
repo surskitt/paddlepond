@@ -53,7 +53,7 @@ spec:
       config:
         enabled: true
         type: pvc
-        storageClass: local-path
+        storageClass: local-hostpath
         retain: true
 
     # addons:
