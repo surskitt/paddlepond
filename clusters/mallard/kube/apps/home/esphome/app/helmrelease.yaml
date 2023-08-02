@@ -55,6 +55,10 @@ spec:
         type: pvc
         storageClass: local-hostpath
         retain: true
+      cache:
+        enabled: true
+        type: emptyDir
+        mountPath: /config/.esphome
 
     # addons:
     #   codeserver:
