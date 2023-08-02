@@ -1,0 +1,17 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: wg-access-server
+  namespace: home
+spec:
+  sourcePVC: wg-access-server-data
+  trigger:
+    schedule: "0 5 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: wg-access-server-restic
+    retain:
+      daily: 7
+    copyMethod: Clone
+    storageClassName: local-hostpath
