@@ -1,0 +1,21 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: plex
+  namespace: home
+spec:
+  sourcePVC: plex-config
+  trigger:
+    schedule: "0 5 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: plex-restic
+    retain:
+      daily: 7
+    copyMethod: Clone
+    storageClassName: local-hostpath
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
