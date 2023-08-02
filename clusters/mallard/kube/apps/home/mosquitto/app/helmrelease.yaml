@@ -44,10 +44,11 @@ spec:
       tag: 2.0.15
     service:
       main:
-        # type: LoadBalancer
-        # externalTrafficPolicy: Local
-        # annotations:
-        #   metallb.universe.tf/loadBalancerIPs: '${CLUSTER_LB_MOSQUITTO}'
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.50.103
+        annotations:
+          "coredns.io/hostname": "mosquitto-home.${SECRET_DOMAIN}"
         ports:
           http:
             enabled: false
