@@ -15,3 +15,7 @@ spec:
       daily: 7
     copyMethod: Clone
     storageClassName: local-hostpath
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
