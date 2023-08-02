@@ -1,0 +1,17 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: home-assistant
+  namespace: home
+spec:
+  sourcePVC: home-assistant-config
+  trigger:
+    schedule: "0 5 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: home-assistant-restic
+    retain:
+      daily: 7
+    copyMethod: Clone
+    storageClassName: local-hostpath
