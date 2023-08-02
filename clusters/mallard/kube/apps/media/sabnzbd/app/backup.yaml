@@ -2,15 +2,15 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: sanbznd
+  name: sabnzbd
   namespace: media
 spec:
-  sourcePVC: sanbznd-config
+  sourcePVC: sabnzbd-config
   trigger:
     schedule: "0 5 * * *"
   restic:
     pruneIntervalDays: 14
-    repository: sanbznd-restic
+    repository: sabnzbd-restic
     retain:
       daily: 7
     copyMethod: Clone
