@@ -89,6 +89,7 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         mountPath: /config/dbase_and_logs
+        size: 1Gi
       music:
         enabled: true
         type: hostPath
