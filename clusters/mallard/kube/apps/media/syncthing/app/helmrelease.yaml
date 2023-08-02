@@ -68,6 +68,7 @@ spec:
         enabled: true
         type: pvc
         storageClass: local-hostpath
+        mountPath: /var/syncthing
         accessMode: ReadWriteOnce
         size: 10Gi
       data:
