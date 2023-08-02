@@ -83,6 +83,12 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+      db:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        mountPath: /config/dbase_and_logs
       music:
         enabled: true
         type: hostPath
