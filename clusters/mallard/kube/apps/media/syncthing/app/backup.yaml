@@ -1,0 +1,21 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: syncthing
+  namespace: media
+spec:
+  sourcePVC: syncthing-config
+  trigger:
+    schedule: "0 5 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: syncthing-restic
+    retain:
+      daily: 7
+    copyMethod: Clone
+    storageClassName: local-hostpath
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
