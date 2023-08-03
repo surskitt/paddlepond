@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-snapshot-controller
   namespace: flux-system
 spec:
-  path: ./clusters/mallard/kube/apps/kube-system/snapshot-controller/app
+  path: ./clusters/serpentine/kube/apps/kube-system/snapshot-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
