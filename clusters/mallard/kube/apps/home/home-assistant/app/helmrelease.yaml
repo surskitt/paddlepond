@@ -58,6 +58,13 @@ spec:
         type: pvc
         storageClass: local-hostpath
         retain: true
+      db:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        mountPath: /config/db
+        size: 5Gi
     addons:
       codeserver:
         enabled: true
