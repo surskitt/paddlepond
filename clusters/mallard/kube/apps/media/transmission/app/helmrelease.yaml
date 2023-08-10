@@ -107,7 +107,7 @@ spec:
       downloads:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/downloads/torrents
+        hostPath: /mnt/ssd/media/downloads/torrents
         mountPath: /downloads
     # resources:
     #   requests:

@@ -77,7 +77,7 @@ spec:
       media:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/videos
+        hostPath: /mnt/ssd/media/
         mountPath: /media
       transcode:
         enabled: true

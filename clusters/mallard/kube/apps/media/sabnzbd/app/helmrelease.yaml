@@ -75,7 +75,7 @@ spec:
       downloads:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/downloads/nzb
+        hostPath: /mnt/ssd/media/downloads/nzb
         mountPath: /downloads
       incomplete:
         enabled: true

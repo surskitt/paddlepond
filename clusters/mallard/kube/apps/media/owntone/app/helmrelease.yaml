@@ -93,5 +93,5 @@ spec:
       music:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/music
+        hostPath: /mnt/ssd/media/music
         mountPath: /music
