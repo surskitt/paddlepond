@@ -9,3 +9,4 @@ resources:
   - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./wg-access-server/ks.yaml
+  - ./tor-socks-proxy/ks.yaml

@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tor-socks-proxy
+  namespace: networking
+  labels:
+    app: tor-socks-proxy
+spec:
+  ports:
+    - port: 9150
+      targetPort: 9150
+      protocol: TCP
+      name: "9150"
+  selector:
+    app: tor-socks-proxy
