@@ -67,7 +67,7 @@ spec:
       media:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/
+        hostPath: /mnt/ssd/media
         mountPath: /media
     # resources:
     #   requests:
