@@ -24,6 +24,15 @@ spec:
   values:
     env:
       TZ: "Europe/London"
+      OUTPUT_TEMPLATE: "%(upload_date)s - %(title)s - %(id)s (%(extractor)s).%(ext)s"
+      YTDL_OPTIONS: >
+        {
+          "merge_output_format": "mkv",
+          "noplaylist": true,
+          "subtitleslangs": ["en", "-live_chat"],
+          "updatetime": false,
+          "writesubtitles": true
+        }
     image:
       repository: ghcr.io/alexta69/metube
       tag: latest@sha256:84588424a33548dcd8910b687ba93b4454f599765332b9c1199e6984bf748537
@@ -45,11 +54,6 @@ spec:
         ports:
           http:
             port: 8081
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-      fsGroupChangePolicy: "OnRootMismatch"
     persistence:
       downloads:
         enabled: true
