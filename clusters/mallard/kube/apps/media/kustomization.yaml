@@ -17,4 +17,5 @@ resources:
   - ./syncthing/ks.yaml
   - ./metube/ks.yaml
   - ./komga/ks.yaml
+  - ./kavita/ks.yaml
   - ./mylar/ks.yaml
