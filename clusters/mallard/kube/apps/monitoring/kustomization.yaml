@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./gotify/ks.yaml
-  - ./goldilocks/ks.yaml
+  # - ./goldilocks/ks.yaml
