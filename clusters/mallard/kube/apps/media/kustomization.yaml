@@ -16,6 +16,6 @@ resources:
   - ./plex/ks.yaml
   - ./syncthing/ks.yaml
   - ./metube/ks.yaml
-  - ./komga/ks.yaml
+  # - ./komga/ks.yaml
   - ./kavita/ks.yaml
   - ./mylar/ks.yaml
