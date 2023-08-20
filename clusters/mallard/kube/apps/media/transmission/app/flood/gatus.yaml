@@ -17,3 +17,4 @@ data:
           - "[STATUS] == 200"
         alerts:
           - type: custom
+          - type: telegram
