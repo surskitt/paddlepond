@@ -5,3 +5,4 @@ namespace: media
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
+  - ./gatus.yaml
