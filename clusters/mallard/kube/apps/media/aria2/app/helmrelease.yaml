@@ -42,11 +42,6 @@ spec:
     image:
       repository: p3terx/aria2-pro
       tag: "202209060423"
-    sidecars:
-      ariang:
-        name: ariang
-        image: p3terx/ariang
-        tag: "latest@sha256:c7180691bbca397f62c4983f05455b01b09f18c3bdf5e6e69d6db1c6e574fc33"
     service:
       main:
         type: LoadBalancer
@@ -56,27 +51,6 @@ spec:
           http:
             enabled: true
             port: 6800
-          listen:
-            enabled: true
-            port: 6888
-          ariang:
-            enabled: true
-            port: 6880
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - host: &host aria2.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: ariang
-                  port: 6880
-        tls:
-          - hosts:
-              - *host
     # securityContext:
     #   runAsUser: 1000
     #   runAsGroup: 1000
