@@ -5,17 +5,7 @@ metadata:
   name: flaresolverr
   namespace: media
 spec:
-  interval: 5m
-  install:
-    timeout: 15m
-    remediation:
-      retries: 5
-  upgrade:
-    timeout: 15m
-    remediation:
-      retries: 5
-      remediateLastFailure: true
-    cleanupOnFail: true
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -24,7 +14,16 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-      interval: 5m
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     image:
       repository: ghcr.io/flaresolverr/flaresolverr

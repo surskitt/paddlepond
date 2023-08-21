@@ -5,7 +5,7 @@ metadata:
   name: mosquitto
   namespace: gowon
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       version: 1.5.1
@@ -14,30 +14,16 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-      interval: 5m
+  maxHistory: 3
   install:
-    timeout: 10m
-    replace: true
-    crds: CreateReplace
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     remediation:
-      remediateLastFailure: true
       retries: 3
-      strategy: rollback
-    cleanupOnFail: true
-    crds: CreateReplace
-  test:
-    enable: true
-  rollback:
-    recreate: true
-    force: true
     cleanupOnFail: true
   uninstall:
     keepHistory: false
-  maxHistory: 3
   values:
     image:
       repository: eclipse-mosquitto

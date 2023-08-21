@@ -5,7 +5,7 @@ metadata:
   name: rtsp-to-web
   namespace: home
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,18 +14,39 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  maxHistory: 3
   install:
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
     remediation:
-      retries: 5
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     image:
       repository: ghcr.io/deepch/rtsptoweb
       tag: v2.4.3
     env:
       TZ: Europe/London
+    initContainers:
+      copy:
+        image: busybox
+        command:
+          - "sh"
+          - "-c"
+          - |
+            if [ ! -f /config/config.json ]; then
+              cp /config-readonly/config.json /config/config.json
+            fi
+        volumeMounts:
+          - mountPath: /config-readonly
+            name: config-readonly
+          - mountPath: /config
+            name: config
+        securityContext:
+          runAsUser: 0
     service:
       main:
         ports:
@@ -55,20 +76,3 @@ spec:
       config:
         enabled: true
         type: emptyDir
-    initContainers:
-      copy:
-        image: busybox
-        command:
-          - "sh"
-          - "-c"
-          - |
-            if [ ! -f /config/config.json ]; then
-              cp /config-readonly/config.json /config/config.json
-            fi
-        volumeMounts:
-          - mountPath: /config-readonly
-            name: config-readonly
-          - mountPath: /config
-            name: config
-        securityContext:
-          runAsUser: 0

@@ -14,9 +14,8 @@ spec:
         kind: HelmRepository
         name: piraeus
         namespace: flux-system
-  maxHistory: 2
+  maxHistory: 3
   install:
-    createNamespace: true
     crds: Skip
     remediation:
       retries: 3
