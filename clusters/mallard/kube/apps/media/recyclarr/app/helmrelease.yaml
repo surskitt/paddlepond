@@ -10,11 +10,20 @@ spec:
     spec:
       chart: app-template
       version: 1.5.1
-      interval: 30m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     controller:
       type: cronjob

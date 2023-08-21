@@ -5,22 +5,25 @@ metadata:
   name: wyze-bridge
   namespace: home
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
       version: 1.5.1
-      interval: 15m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  maxHistory: 3
   install:
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
     remediation:
-      retries: 5
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     image:
       repository: mrlt8/wyze-bridge
@@ -50,13 +53,13 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-        - host: &host wyze.${SECRET_DOMAIN}
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: &host wyze.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - *host
+          - hosts:
+              - *host
     resources:
       requests:
         cpu: 35m

@@ -2,10 +2,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app home-assistant
+  name: home-assistant
   namespace: home
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,13 +14,16 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  maxHistory: 3
   install:
-    createNamespace: true
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
     remediation:
-      retries: 5
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     image:
       repository: ghcr.io/onedr0p/home-assistant
@@ -65,39 +68,6 @@ spec:
         accessMode: ReadWriteOnce
         mountPath: /config/db
         size: 5Gi
-    addons:
-      codeserver:
-        enabled: true
-        image:
-          repository: ghcr.io/coder/code-server
-          tag: 4.14.1
-        env:
-          TZ: "Europe/London"
-        workingDir: "/config"
-        args:
-          - --auth
-          - "none"
-          - --user-data-dir
-          - "/config/.vscode"
-          - --extensions-dir
-          - "/config/.vscode"
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          annotations:
-            hajimari.io/appName: "Hass Config"
-            hajimari.io/icon: cib:visual-studio-code
-          hosts:
-            - host: &hostcd "hass-code.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - *hostcd
-        volumeMounts:
-          - name: config
-            mountPath: /config
     probes:
       liveness:
         enabled: false

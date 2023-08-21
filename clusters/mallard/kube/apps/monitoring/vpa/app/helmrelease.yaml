@@ -3,8 +3,9 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: vpa
+  namespace: monitoring
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: vpa
@@ -13,23 +14,26 @@ spec:
         kind: HelmRepository
         name: fairwinds
         namespace: flux-system
-      interval: 15m
+  maxHistory: 3
   install:
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
     remediation:
-      retries: 5
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     recommender:
       enabled: true
       image:
         repository: registry.k8s.io/autoscaling/vpa-recommender
         tag: 0.14.0
-      # extraArgs:
-      #   prometheus-address: |
-      #     http://kube-prometheus-stack-prometheus.monitoring-system.svc.cluster.local:9090
-      #   storage: prometheus
+        # extraArgs:
+        #   prometheus-address: |
+        #     http://kube-prometheus-stack-prometheus.monitoring-system.svc.cluster.local:9090
+        #   storage: prometheus
     updater:
       enabled: false
     admissionController:

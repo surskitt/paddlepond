@@ -14,25 +14,15 @@ spec:
         kind: HelmRepository
         name: piraeus
         namespace: flux-system
-  maxHistory: 2
+  maxHistory: 3
   install:
-    createNamespace: true
-    crds: CreateReplace
     remediation:
       retries: 3
+    crds: CreateReplace
   upgrade:
+    remediation:
+      retries: 3
     cleanupOnFail: true
     crds: CreateReplace
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
-  # values:
-  #   volumeSnapshotClasses:
-  #     - name: democratic-csi-local-hostpath
-  #       driver: local-hostpath
-  #       annotations:
-  #         snapshot.storage.kubernetes.io/is-default-class: "true"
-  #       deletionPolicy: Delete
-    # serviceMonitor:
-    #   create: true
