@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: ghcr.io/esphome/esphome
-      tag: 2023.7.0
+      tag: 2023.8.2
     service:
       main:
         ports:
