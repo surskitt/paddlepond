@@ -14,10 +14,12 @@ resources:
   - ./grafana.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
+  - ./intel.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
   - ./kubernetes-dashboard.yaml
   - ./metrics-server.yaml
+  - ./node-feature-discovery.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
   - ./stakater.yaml
