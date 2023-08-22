@@ -29,17 +29,18 @@ spec:
       name: "org.democratic-csi.local-hostpath"
       attachRequired: false
       storageCapacity: true
-      fsGroupPolicy: File #
+      fsGroupPolicy: File
     storageClasses:
       - name: local-hostpath
         defaultClass: false
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
-        # distributed support is not yet ready for expansion
         allowVolumeExpansion: false
     volumeSnapshotClasses:
       - name: local-hostpath
         deletionPolicy: Delete
+        parameters:
+          dummy: {}
     controller:
       enabled: true
       strategy: node
