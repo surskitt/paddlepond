@@ -10,7 +10,7 @@ resources:
   - ./kbday
   - ./lastfm
   # - ./markov
-  - ./morelike
+  # - ./morelike
   - ./pokedex
   - ./qwantz
   - ./retroachievements
