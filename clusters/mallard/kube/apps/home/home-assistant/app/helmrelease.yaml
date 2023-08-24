@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/home-assistant
-      tag: 2023.8.3
+      tag: 2023.8.4
     env:
       TZ: "Europe/London"
     service:
