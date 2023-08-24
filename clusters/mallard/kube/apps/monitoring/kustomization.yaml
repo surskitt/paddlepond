@@ -7,3 +7,4 @@ resources:
   - ./vpa/ks.yaml
   - ./goldilocks/ks.yaml
   - ./gatus/ks.yaml
+  - ./speedtest-tracker/ks.yaml
