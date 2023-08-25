@@ -6,4 +6,5 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./backup.yaml
+  - ./gatus.yaml
   - ./flood

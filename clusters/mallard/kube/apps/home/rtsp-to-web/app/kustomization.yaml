@@ -5,3 +5,4 @@ namespace: home
 resources:
   - ./configmap.yaml
   - ./helmrelease.yaml
+  - ./gatus.yaml

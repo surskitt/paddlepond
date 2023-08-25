@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-gatus-ep
+  namespace: storage
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: minio
+        group: storage
+        url: https://minio.${SECRET_DOMAIN}
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: custom
+          - type: telegram
+      - name: minio-s3
+        group: storage
+        url: https://s3.${SECRET_DOMAIN}/minio/health/live
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: custom
+          - type: telegram
