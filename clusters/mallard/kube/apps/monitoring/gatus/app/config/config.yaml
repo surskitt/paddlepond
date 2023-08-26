@@ -40,14 +40,12 @@ connectivity:
     target: 1.1.1.1:53
     interval: 1m
 endpoints:
-  - name: ingress
+  - name: healthchecks.io
     group: external
-    url: https://ingress.${SECRET_DOMAIN}
-    interval: 1m
-    client:
-      dns-resolver: tcp://1.1.1.1:53
+    url: "${HEALTHCHECKS_IO_URL}"
+    interval: 5m
     conditions:
-      - "[STATUS] == 404"
+      - "[STATUS] == 200"
     alerts:
       - type: custom
       - type: telegram
