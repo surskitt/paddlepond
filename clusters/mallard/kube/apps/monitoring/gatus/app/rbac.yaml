@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.27.3-standalone-strict/serviceaccount-v1.json
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -25,6 +26,7 @@ metadata:
     meta.helm.sh/release-namespace: monitoring
     kubernetes.io/service-account.name: gatus
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/clusterrole-rbac-v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -35,6 +37,7 @@ rules:
     resources: ["configmaps", "secrets"]
     verbs: ["get", "watch", "list"]
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/clusterrolebinding-rbac-v1.json
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
