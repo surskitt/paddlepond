@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.27.3-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthchecks-ping
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: healthchecks-ping
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: healthchecks-ping
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: healthchecks-ping
+    spec:
+      containers:
+        - name: healthchecks-ping
+          image: ghcr.io/onedr0p/alpine:3.18.3
+          command:
+           - bash
+          args:
+            - -c
+            - |
+              curl $${HEALTHCHECKS_IO_URL}
+              while sleep 5m ; do
+                curl $${HEALTHCHECKS_IO_URL}
+              done
+          env:
+            - name: HEALTHCHECKS_IO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: healthchecks-ping-env
+                  key: HEALTHCHECKS_IO_URL
