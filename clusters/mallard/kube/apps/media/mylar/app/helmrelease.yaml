@@ -62,6 +62,17 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+      cache:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        mountPath: /config/mylar/cache
+      logs:
+        enabled: true
+        type: emptyDir
+        mountPath: /config/mylar/logs
       media:
         enabled: true
         type: hostPath
