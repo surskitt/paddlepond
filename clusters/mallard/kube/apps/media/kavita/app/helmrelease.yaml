@@ -59,6 +59,24 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         mountPath: /kavita/config
+      covers:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        mountPath: /kavita/config/covers
+      cache:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        mountPath: /kavita/config/cache
+      logs:
+        enabled: true
+        type: emptyDir
+        mountPath: /kavita/config/logs
       media:
         enabled: true
         type: hostPath
