@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: linuxserver/daapd
-      tag: 28.6-ls116
+      tag: 28.7-ls117
     service:
       main:
         type: LoadBalancer
