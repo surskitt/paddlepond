@@ -27,16 +27,13 @@ spec:
     keepHistory: false
   values:
     controller:
-      type: cronjob
-      cronjob:
-        schedule: '@daily'
-        ttlSecondsAfterFinished: 86400
-    restartPolicy: OnFailure
+      annotations:
+        reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/recyclarr/recyclarr
-      tag: edge@sha256:ab69c3786af1f8bf8aa2011370d9f532cb3dda025300ce8f74b5f4e90fb19cf8
-    command: ['/app/recyclarr/recyclarr']
-    args: ['sync']
+      tag: 5.3.1
+    env:
+      TZ: Europe/London
     envFrom:
       - secretRef:
           name: radarr
@@ -46,11 +43,22 @@ spec:
       main:
         enabled: false
     persistence:
-      config:
+      yaml:
         enabled: true
         type: configMap
         name: recyclarr
         subPath: recyclarr.yml
         mountPath: /config/recyclarr.yml
-        defaultMode: 0775
         readOnly: true
+      config:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+    resources:
+      requests:
+        cpu: 10m
+        memory: 50Mi
+      limits:
+        memory: 200Mi
