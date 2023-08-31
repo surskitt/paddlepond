@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: ghcr.io/alexjustesen/speedtest-tracker
-      tag: v0.11.19
+      tag: v0.11.20
     env:
       TZ: "Europe/London"
       SSL_MODE: "off"
