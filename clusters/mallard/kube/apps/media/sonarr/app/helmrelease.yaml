@@ -31,7 +31,7 @@ spec:
       tag: 4.0.0.651
     env:
       TZ: "Europe/London"
-      SONARR__INSTANCE_NAME: mallard
+      SONARR__INSTANCE_NAME: Sonarr
       SONARR__APPLICATION_URL: "https://sonarr.${SECRET_DOMAIN}"
       SONARR__LOG_LEVEL: info
     envFrom:
