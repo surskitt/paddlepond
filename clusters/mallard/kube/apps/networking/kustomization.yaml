@@ -8,6 +8,7 @@ resources:
   - ./echo-server/ks.yaml
   - ./external-dns/ks.yaml
   - ./ingress-nginx/ks.yaml
+  - ./theme-park/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./wg-access-server/ks.yaml
   - ./tor-socks-proxy/ks.yaml
