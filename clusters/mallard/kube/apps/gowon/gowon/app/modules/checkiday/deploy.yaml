@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: checkiday
-          image: ghcr.io/gowon-irc/gowon-checkiday:0.1.0-22
+          image: ghcr.io/gowon-irc/gowon-checkiday:0.1.0-23
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
