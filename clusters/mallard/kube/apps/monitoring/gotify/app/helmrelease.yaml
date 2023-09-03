@@ -31,6 +31,34 @@ spec:
       tag: 2.3.0
     env:
       TZ: "Europe/London"
+    sidecars:
+      dbclean:
+        name: dbclean
+        image: nouchka/sqlite3:latest@sha256:69c5f0f308155d20a2fcbb9acb3644efae5d5b86ae65fd63a91cc0ab496f6ae9
+        imagePullPolicy: IfNotPresent
+        command:
+          - bash
+        args:
+          - -c
+          - |
+            while : ; do
+              n="$(date +%s)" td="$(date -d '4:00' +%s)" tm="$(date -d 'tomorrow 4:00' +%s)"
+              tdw="$(($td-$n))" tmw="$(($tm-$n))"
+              if [[ "$tdw" -gt 0 ]] ; then
+                echo "waiting until 4AM ($tdw seconds)"
+                sleep "$tdw"
+              else
+                echo "waiting until 4AM tomorrow ($tmw seconds)"
+                sleep "$tdm"
+              fi
+              echo "clearing messages table"
+              sqlite3 /data/gotify.db 'DELETE FROM messages;'
+              echo "vacuuming database"
+              sqlite3 /data/gotify.db 'VACUUM;'
+            done
+        volumeMounts:
+          - name: data
+            mountPath: /data
     service:
       main:
         ports:
