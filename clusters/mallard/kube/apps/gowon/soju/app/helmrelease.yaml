@@ -1,0 +1,66 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: soju
+  namespace: gowon
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: ghcr.io/codebam/soju-docker
+      tag: nightly@sha256:990e9f632708146f573afca3d1ac0e6a796f3d0906cbd546e55df29489bbba32
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.50.104
+        annotations:
+          "coredns.io/hostname": "soju.${SECRET_DOMAIN}"
+        ports:
+          http:
+            enabled: false
+          irc:
+            enabled: true
+            primary: true
+            port: 6667
+    configMaps:
+      config:
+        enabled: true
+        data:
+          config: |
+            listen irc+insecure://
+            hostname soju.${SECRET_HOSTNAME}
+            db sqlite3 /data/soju.db
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: soju-config
+        mountPath: /config
+        subPath: config
+      data:
+        enabled: true
+        type: pvc
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 100Mi
