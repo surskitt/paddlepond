@@ -49,7 +49,7 @@ spec:
                 sleep "$tdw"
               else
                 echo "waiting until 4AM tomorrow ($tmw seconds)"
-                sleep "$tdm"
+                sleep "$tmw"
               fi
               echo "clearing messages table"
               sqlite3 /data/gotify.db 'DELETE FROM messages;'
