@@ -42,15 +42,17 @@ spec:
           irc:
             enabled: true
             primary: true
-            port: 6667
+            port: 6697
     configMaps:
       config:
         enabled: true
         data:
           config: |
-            listen irc+insecure://
+            listen ircs://
             hostname soju.${SECRET_HOSTNAME}
+            tls /tls/tls.crt /tls/tls.key
             db sqlite3 /data/soju.db
+            message-store db
     persistence:
       config:
         enabled: true
@@ -64,3 +66,9 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 100Mi
+      tls:
+        enabled: true
+        type: secret
+        name: "${SECRET_DOMAIN/./-}-production"
+        mountPath: /tls
+        readOnly: true
