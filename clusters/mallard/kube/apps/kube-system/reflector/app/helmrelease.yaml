@@ -3,17 +3,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: reloader
-  namespace: kube-system
+  name: reflector
+  namespace: system
 spec:
   interval: 30m
   chart:
     spec:
-      chart: reloader
-      version: 1.0.40
+      chart: reflector
+      version: 7.0.193
       sourceRef:
         kind: HelmRepository
-        name: stakater
+        name: emberstack-charts
         namespace: flux-system
   maxHistory: 3
   install:
@@ -25,7 +25,3 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
-  values:
-    fullnameOverride: reloader
-    reloader:
-      reloadStrategy: annotations
