@@ -31,7 +31,7 @@ spec:
         reloader.stakater.com/auto: "true"
     image:
       repository: jesec/flood
-      tag: master@sha256:255a3dac391f97b81ff901fcf37d72fb641ec466f03b2f92120b74fdc86203ae
+      tag: master@sha256:aeb7051c8e9f6c5bab7a3a0ca3103bc0fe5789434a0749d0131e7529accaaa9c
     env:
       FLOOD_OPTION_RUNDIR: /data
       FLOOD_OPTION_AUTH: "none"
