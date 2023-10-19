@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: ghcr.io/codebam/soju-docker
-      tag: nightly@sha256:7e1086e209a4bcce4d0c23ed1940f7f05951894140a943411a68d36318bcde0f
+      tag: nightly@sha256:bd47b46b9ff0d7c0414100668c3a50ad3a1fe66eeb96b3efb8debf2e18a368a1
     service:
       main:
         type: LoadBalancer
