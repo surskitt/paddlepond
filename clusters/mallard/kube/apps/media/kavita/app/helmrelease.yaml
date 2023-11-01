@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: jvmilazz0/kavita
-      tag: 0.7.9
+      tag: 0.7.10
     env:
       TZ: "Europe/London"
     service:
