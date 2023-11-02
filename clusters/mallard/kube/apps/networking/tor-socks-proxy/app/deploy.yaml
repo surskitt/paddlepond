@@ -19,5 +19,5 @@ spec:
     spec:
       containers:
         - name: tor-socks-proxy
-          image: ghcr.io/peterdavehello/tor-socks-proxy:latest@sha256:607562b7863dc8f42b961b6e7d253d8365f6688bc58cabd32c2afc6e05dc7163
+          image: ghcr.io/peterdavehello/tor-socks-proxy:latest@sha256:babdc2da3769d3301627e4f95306e4fc1eb1303f5f84aa02972814902811c056
       restartPolicy: Always

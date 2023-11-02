@@ -39,7 +39,7 @@ spec:
         }
     image:
       repository: ghcr.io/alexta69/metube
-      tag: latest@sha256:2d2fd00ab4641984da3bf9aa4340aa1bfaf349fe4e030f2e7beb9703272cc2a2
+      tag: latest@sha256:558e0f9978c75767a381e2853e726da89a116a0fb8d890aa2b75e9f37481f8d1
       imagePullPolicy: Always
     ingress:
       main:

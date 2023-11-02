@@ -27,8 +27,8 @@ spec:
     keepHistory: false
   values:
     image:
-      repository: kizaing/kavita
-      tag: 0.7.8
+      repository: jvmilazz0/kavita
+      tag: 0.7.10
     env:
       TZ: "Europe/London"
     service:

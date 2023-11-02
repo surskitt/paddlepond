@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/radarr-develop
-      tag: 5.0.1.7993
+      tag: 5.0.3.8107
     env:
       TZ: "Europe/London"
       RADARR__INSTANCE_NAME: Radarr
