@@ -24,7 +24,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/transmission
-      tag: 4.0.3
+      tag: 4.0.4
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
