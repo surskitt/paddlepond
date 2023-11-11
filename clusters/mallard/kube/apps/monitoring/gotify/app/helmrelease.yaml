@@ -34,7 +34,7 @@ spec:
     sidecars:
       dbclean:
         name: dbclean
-        image: nouchka/sqlite3:latest@sha256:fc187a8f7d5c979ab2c38252400a47443787bd8f186e1301ad4dd44b45eb5171
+        image: nouchka/sqlite3:latest@sha256:6df61aa536991b0efa69ad0332714195609399823d8def30754d2baecdcfd4ef
         imagePullPolicy: IfNotPresent
         command:
           - bash
