@@ -34,6 +34,8 @@ spec:
     # https://github.com/linuxserver/docker-webtop
     env:
       TZ: "Europe/London"
+      PUID: 1000
+      PGID: 1000
       SUBFOLDER: /
       KEYBOARD: en-gb-qwerty
       TITLE: webtop
