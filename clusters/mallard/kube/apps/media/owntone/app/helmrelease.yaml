@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,9 +26,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: linuxserver/daapd
-      tag: 28.7-ls117
+    defaultPodOptions:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: linuxserver/daapd
+              tag: 28.7-ls117
     service:
       main:
         type: LoadBalancer
@@ -38,17 +45,14 @@ spec:
           "coredns.io/hostname": "owntone-svc.${SECRET_DOMAIN}"
         ports:
           http:
-            enabled: true
             port: 3689
           websocket:
             enabled: true
             port: 3688
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
@@ -62,19 +66,16 @@ spec:
         tls:
           - hosts:
               - *host
-    # securityContext:
-    #   runAsUser: 1000
-    #   runAsGroup: 1000
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
       db:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         mountPath: /config/dbase_and_logs
@@ -83,4 +84,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media/music
-        mountPath: /music
+        advancedMounts:
+          main:
+            main:
+              - path: /music
