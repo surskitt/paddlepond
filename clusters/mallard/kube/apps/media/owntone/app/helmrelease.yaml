@@ -36,6 +36,10 @@ spec:
             image:
               repository: linuxserver/daapd
               tag: 28.7-ls117
+          spocon:
+            image: 
+              repository: spocon/spocon
+              tag: 1.6.3
     service:
       main:
         type: LoadBalancer
@@ -88,3 +92,15 @@ spec:
           main:
             main:
               - path: /music
+            spocon:
+              - path: /music
+      spocon:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          main:
+            spocon:
+              - path: /opt/librespot/config

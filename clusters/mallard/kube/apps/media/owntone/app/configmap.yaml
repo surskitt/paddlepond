@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: owntone-spocon-config
+  namespace: media
+data:
+  config.toml: |
+    [player]
+    # Audio output device (MIXER, PIPE, STDOUT)
+    output = "PIPE"
+    # Output raw (signed) PCM to this file (`player.output` must be PIPE)
+    pipe = "/music/spotify"
+    # Output metadata in Shairport Sync format (https://github.com/mikebrady/shairport-sync-metadata-reader)
+    metadataPipe = "/music/spotify.metadata"
