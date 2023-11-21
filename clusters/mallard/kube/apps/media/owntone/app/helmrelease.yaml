@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: linuxserver/daapd
-              tag: 28.7-ls117
+              tag: 28.8-ls125
           spocon:
             image: 
               repository: spocon/spocon
