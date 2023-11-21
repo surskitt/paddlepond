@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -22,30 +22,54 @@ spec:
     remediation:
       retries: 5
   values:
-    image:
-      repository: ghcr.io/onedr0p/transmission
-      tag: 4.0.4
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-    controller:
-      type: statefulset
-    env:
-      TZ: Europe/London
-      TRANSMISSION__BLOCKLIST_URL: "https://mirror.codebucket.de/transmission/blocklist.p2p.gz"
-      TRANSMISSION__DOWNLOAD_DIR: "/downloads"
-      TRANSMISSION__RPC_PORT: &port 9091
-      TRANSMISSION__PEER_PORT: &peerport 56837
-      TRANSMISSION__RATIO_LIMIT: 2
-      TRANSMISSION__RATIO_LIMIT_ENABLED: true
-      TRANSMISSION__SPEED_LIMIT_UP_ENABLED: true
-      TRANSMISSION__SPEED_LIMIT_UP: 8000
-      TRANSMISSION__UTP_ENABLED: false
-      TRANSMISSION__UMASK: 7
-    envFrom:
-      - secretRef:
-          name: transmission-rpc
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/transmission
+              tag: 4.0.4
+            env:
+              TZ: Europe/London
+              TRANSMISSION__BLOCKLIST_URL: "https://mirror.codebucket.de/transmission/blocklist.p2p.gz"
+              TRANSMISSION__DOWNLOAD_DIR: "/downloads"
+              TRANSMISSION__RPC_PORT: &port 9091
+              TRANSMISSION__PEER_PORT: &peerport 56837
+              TRANSMISSION__RATIO_LIMIT: 2
+              TRANSMISSION__RATIO_LIMIT_ENABLED: true
+              TRANSMISSION__SPEED_LIMIT_UP_ENABLED: true
+              TRANSMISSION__SPEED_LIMIT_UP: 8000
+              TRANSMISSION__UTP_ENABLED: false
+              TRANSMISSION__UMASK: 7
+            envFrom:
+              - secretRef:
+                  name: transmission-rpc
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /transmission/web/
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+            # resources:
+            #   requests:
+            #     cpu: 50m
+            #     memory: 64Mi
+            #   limits:
+            #     memory: 300Mi
+        type: statefulset
     service:
       main:
         ports:
@@ -53,10 +77,11 @@ spec:
             port: *port
       utptcp:
         enabled: true
+        controller: main
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.51.8
-          "coredns.io/hostname": "transmission-tcp.${SECRET_DOMAIN}"
+          coredns.io/hostname: "transmission-tcp.${SECRET_DOMAIN}"
         loadBalancerIP: 192.168.51.8
         externalTrafficPolicy: Local
         ports:
@@ -68,7 +93,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
@@ -76,29 +101,16 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - secretName: *host
             hosts:
               - *host
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /transmission/web/
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 10
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
@@ -106,15 +118,15 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/16tb/media/downloads/torrents
-        mountPath: /downloads
+        advancedMounts:
+          main:
+            main:
+              - path: /downloads
       p:
         enabled: true
         type: hostPath
         hostPath: /mnt/20tb/p/.torrents
-        mountPath: /pdl
-    # resources:
-    #   requests:
-    #     cpu: 50m
-    #     memory: 64Mi
-    #   limits:
-    #     memory: 300Mi
+        advancedMounts:
+          main:
+            main:
+              - path: /pdl

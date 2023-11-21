@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,12 +26,22 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: syncthing/syncthing
-      tag: 1.26.1
-    env:
-      PUID: "1000"
-      PGID: "1000"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: syncthing/syncthing
+              tag: 1.26.1
+            env:
+              PUID: "1000"
+              PGID: "1000"
+            resources:
+              requests:
+                cpu: 15m
+                memory: 249Mi
+              limits:
+                memory: 265Mi
     service:
       main:
         ports:
@@ -39,6 +49,7 @@ spec:
             port: 8384
       listdisc:
         enabled: true
+        controller: main
         type: LoadBalancer
         externalTrafficPolicy: Local
         loadBalancerIP: 192.168.50.9
@@ -57,7 +68,7 @@ spec:
       main:
         enabled: true
         primary: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
@@ -65,25 +76,27 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
-        mountPath: /var/syncthing
         accessMode: ReadWriteOnce
         size: 10Gi
+        advancedMounts:
+          main:
+            main:
+              - path: /var/syncthing
       data:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd
-        mountPath: /data
-    resources:
-      requests:
-        cpu: 15m
-        memory: 249Mi
-      limits:
-        memory: 265Mi
+        advancedMounts:
+          main:
+            main:
+              - path: /data

@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,25 +26,34 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    env:
-      TZ: "Europe/London"
-      OUTPUT_TEMPLATE: "%(upload_date)s - %(title)s - %(id)s (%(extractor)s).%(ext)s"
-      YTDL_OPTIONS: >
-        {
-          "merge_output_format": "mkv",
-          "noplaylist": true,
-          "subtitleslangs": ["en", "-live_chat"],
-          "updatetime": false,
-          "writesubtitles": true
-        }
-    image:
-      repository: ghcr.io/alexta69/metube
-      tag: latest@sha256:8fe391c1a2939fc5465af0b7d6316884af5f37ba2d7d7e27a0b108e23e48d779
-      imagePullPolicy: Always
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/alexta69/metube
+              tag: latest@sha256:8fe391c1a2939fc5465af0b7d6316884af5f37ba2d7d7e27a0b108e23e48d779
+              imagePullPolicy: Always
+            env:
+              TZ: "Europe/London"
+              OUTPUT_TEMPLATE: "%(upload_date)s - %(title)s - %(id)s (%(extractor)s).%(ext)s"
+              YTDL_OPTIONS: >
+                {
+                  "merge_output_format": "mkv",
+                  "noplaylist": true,
+                  "subtitleslangs": ["en", "-live_chat"],
+                  "updatetime": false,
+                  "writesubtitles": true
+                }
+    service:
+      main:
+        ports:
+          http:
+            port: 8081
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
@@ -52,17 +61,17 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    service:
-      main:
-        ports:
-          http:
-            port: 8081
     persistence:
       downloads:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media/downloads/ytdl
-        mountPath: /downloads
+        advancedMounts:
+          main:
+            main:
+              - path: /downloads
