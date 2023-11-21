@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: ingress-nginx
-      version: 4.8.1
+      version: 4.8.3
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
@@ -42,6 +42,7 @@ spec:
         enabled: true
       ingressClassResource:
         default: true
+      allowSnippetAnnotations: true
       config:
         client-header-timeout: 120
         client-body-buffer-size: "100M"

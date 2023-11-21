@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,9 +26,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: p3terx/aria2-pro
-      tag: "202209060423"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: p3terx/aria2-pro
+              tag: "202209060423"
+            # securityContext:
+            #   runAsUser: 1000
+            #   runAsGroup: 1000
     service:
       main:
         type: LoadBalancer
@@ -38,13 +45,10 @@ spec:
           http:
             enabled: true
             port: 6800
-    # securityContext:
-    #   runAsUser: 1000
-    #   runAsGroup: 1000
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
@@ -52,4 +56,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media/downloads/aria2
-        mountPath: /downloads
+        advancedMounts:
+          main:
+            main:
+              - path: /downloads
