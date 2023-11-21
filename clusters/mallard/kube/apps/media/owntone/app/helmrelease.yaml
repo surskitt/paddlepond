@@ -82,8 +82,11 @@ spec:
         type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
-        mountPath: /config/dbase_and_logs
         size: 1Gi
+        advancedMounts:
+          main:
+            main:
+              - path: /config/dbase_and_logs
       music:
         enabled: true
         type: hostPath
