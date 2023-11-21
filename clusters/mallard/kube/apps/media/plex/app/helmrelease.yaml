@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,15 +26,39 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/plex
-      tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
-    env:
-      TZ: Europe/London
+    # defaultPodOptions:
+    #   nodeSelector:
+    #     intel.feature.node.kubernetes.io/gpu: "true"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
+            env:
+              TZ: Europe/London
+            securityContext:
+              runAsUser: 568
+              runAsGroup: 568
+              fsGroup: 568
+              fsGroupChangePolicy: OnRootMismatch
+              supplementalGroups:
+                - 44
+                - 105
+                - 10000
+                - 1000
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+                cpu: 100m
+                memory: 2000Mi
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 7000Mi
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
     service:
       main:
         type: LoadBalancer
@@ -46,7 +70,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
@@ -58,23 +82,15 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups:
-        - 44
-        - 105
-        - 10000
-        - 1000
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 20Gi
@@ -82,17 +98,10 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media/
-        mountPath: /media
+        advancedMounts:
+          main:
+            main:
+              - path: /media
       transcode:
         enabled: true
         type: emptyDir
-    # nodeSelector:
-    #   intel.feature.node.kubernetes.io/gpu: "true"
-    resources:
-      requests:
-        gpu.intel.com/i915: 1
-        cpu: 100m
-        memory: 2000Mi
-      limits:
-        gpu.intel.com/i915: 1
-        memory: 7000Mi

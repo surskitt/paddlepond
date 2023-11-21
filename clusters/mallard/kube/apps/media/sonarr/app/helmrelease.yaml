@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,41 +26,54 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.688
-    env:
-      TZ: "Europe/London"
-      SONARR__INSTANCE_NAME: Sonarr
-      SONARR__APPLICATION_URL: "https://sonarr.${SECRET_DOMAIN}"
-      SONARR__LOG_LEVEL: info
-    envFrom:
-      - secretRef:
-          name: sonarr
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.0.731
+            env:
+              TZ: "Europe/London"
+              SONARR__INSTANCE_NAME: Sonarr
+              SONARR__APPLICATION_URL: "https://sonarr.${SECRET_DOMAIN}"
+              SONARR__LOG_LEVEL: info
+            envFrom:
+              - secretRef:
+                  name: sonarr
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &port 8989
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+            # resources:
+            #   requests:
+            #     cpu: 10m
+            #     memory: 250Mi
+            #   limits:
+            #     memory: 2000Mi
     service:
       main:
         ports:
           http:
-            port: &port 8989
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /ping
             port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
@@ -72,16 +85,15 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
@@ -89,10 +101,7 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media
-        mountPath: /media
-    # resources:
-    #   requests:
-    #     cpu: 10m
-    #     memory: 250Mi
-    #   limits:
-    #     memory: 2000Mi
+        advancedMounts:
+          main:
+            main:
+              - path: /media

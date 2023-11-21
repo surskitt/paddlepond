@@ -15,15 +15,20 @@ sonarr:
 
     quality_profiles:
       - name: Any (Non-4k)
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
       - name: HD - 720p/1080p
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
       - name: HD-1080p
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
       - name: HD-720p
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
       - name: SD
-        reset_unmatched_scores: true
+        reset_unmatched_scores:
+          enabled: true
 
     custom_formats:
       - trash_ids:

@@ -9,8 +9,8 @@ spec:
   interval: 30m
   chart:
     spec:
-      version: 1.5.1
       chart: app-template
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,9 +26,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: eclipse-mosquitto
-      tag: 2.0.18
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: eclipse-mosquitto
+              tag: 2.0.18
+            securityContext:
+              runAsUser: 1883
+              runAsGroup: 1883
     service:
       main:
         type: LoadBalancer
@@ -43,9 +50,6 @@ spec:
             enabled: true
             primary: true
             port: 1883
-    securityContext:
-      runAsUser: 1883
-      runAsGroup: 1883
     configMaps:
       config:
         enabled: true
@@ -60,5 +64,8 @@ spec:
         enabled: true
         type: configMap
         name: mosquitto-config
-        mountPath: /mosquitto/config/mosquitto.conf
-        subPath: mosquitto.conf
+        advancedMounts:
+          main:
+            main:
+              - path: /mosquitto/config/mosquitto.conf
+                subPath: mosquitto.conf
