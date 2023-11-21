@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,15 +30,39 @@ spec:
     # - name: intel-device-plugin-gpu
     #   namespace: kube-system
   values:
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/plex
-      tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
-    env:
-      TZ: Europe/London
+    # defaultPodOptions:
+    #   nodeSelector:
+    #     intel.feature.node.kubernetes.io/gpu: "true"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
+            env:
+              TZ: Europe/London
+            securityContext:
+              runAsUser: 568
+              runAsGroup: 568
+              fsGroup: 568
+              fsGroupChangePolicy: OnRootMismatch
+              supplementalGroups:
+                - 44
+                - 105
+                - 10000
+                - 1000
+            resources:
+              requests:
+                # gpu.intel.com/i915: 1
+                cpu: 100m
+                memory: 2000Mi
+              limits:
+                # gpu.intel.com/i915: 1
+                memory: 7000Mi
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
     service:
       main:
         type: LoadBalancer
@@ -50,47 +74,38 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
+          # nginx.ingress.kubernetes.io/configuration-snippet: |
+          #   proxy_set_header Accept-Encoding "";
+          #   sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/plex/nord.css"></head>';
+          #   sub_filter_once on;
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "plex.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups: [44, 105, 10000]
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 20Gi
-        storageClass: local-hostpath
-        annotations:
-          volumeType: local
-    persistence:
       media:
         enabled: true
         type: hostPath
-        hostPath: /srv/nfs/media
-        mountPath: /media
+        hostPath: /srv/nfs/media/
+        advancedMounts:
+          main:
+            main:
+              - path: /media
       transcode:
         enabled: true
         type: emptyDir
-    # nodeSelector:
-    #   intel.feature.node.kubernetes.io/gpu: "true"
-    resources:
-      requests:
-        # gpu.intel.com/i915: 1
-        cpu: 100m
-        memory: 2000Mi
-      limits:
-        # gpu.intel.com/i915: 1
-        memory: 7000Mi

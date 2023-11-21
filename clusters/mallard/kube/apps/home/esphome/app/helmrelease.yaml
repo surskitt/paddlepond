@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,16 +26,21 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: ghcr.io/esphome/esphome
-      tag: 2023.9.3
+    defaultPodOptions:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/esphome/esphome
+              tag: 2023.11.2
     service:
       main:
         ports:
           http:
             port: 6052
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       main:
         enabled: true
@@ -46,16 +51,21 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         retain: true
       cache:
         enabled: true
         type: emptyDir
-        mountPath: /config/.esphome
+        advancedMounts:
+          main:
+            main:
+              - path: /config/.esphome

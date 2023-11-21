@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,11 +26,22 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: jvmilazz0/kavita
-      tag: 0.7.10
-    env:
-      TZ: "Europe/London"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: jvmilazz0/kavita
+              tag: 0.7.10
+            env:
+              TZ: "Europe/London"
+            # securityContext:
+            #   fsGroup: 1000
+            #   fsGroupChangePolicy: "OnRootMismatch"
+            resources:
+              requests:
+                cpu: 20m
+                memory: 100Mi
     service:
       main:
         ports:
@@ -39,7 +50,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        className: "nginx"
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
@@ -47,44 +58,54 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    # podSecurityContext:
-    #   fsGroup: 1000
-    #   fsGroupChangePolicy: "OnRootMismatch"
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-        mountPath: /kavita/config
+        advancedMounts:
+          main:
+            main:
+              - path: /kavita/config
       covers:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-        mountPath: /kavita/config/covers
+        advancedMounts:
+          main:
+            main:
+              - path: /kavita/config/covers
       cache:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-        mountPath: /kavita/config/cache
+        advancedMounts:
+          main:
+            main:
+              - path: /kavita/config/cache
       logs:
         enabled: true
         type: emptyDir
-        mountPath: /kavita/config/logs
+        advancedMounts:
+          main:
+            main:
+              - path: /kavita/config/logs
       media:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media
-        mountPath: /media
-    resources:
-      requests:
-        cpu: 20m
-        memory: 100Mi
+        advancedMounts:
+          main:
+            main:
+              - path: /media
