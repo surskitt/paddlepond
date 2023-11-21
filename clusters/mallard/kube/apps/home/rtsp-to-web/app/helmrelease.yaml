@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,28 +26,37 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: ghcr.io/deepch/rtsptoweb
-      tag: v2.4.3
-    env:
-      TZ: Europe/London
-    initContainers:
-      copy:
-        image: busybox
-        command:
-          - "sh"
-          - "-c"
-          - |
-            if [ ! -f /config/config.json ]; then
-              cp /config-readonly/config.json /config/config.json
-            fi
-        volumeMounts:
-          - mountPath: /config-readonly
-            name: config-readonly
-          - mountPath: /config
-            name: config
-        securityContext:
-          runAsUser: 0
+    defaultPodOptions:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/deepch/rtsptoweb
+              tag: v2.4.3
+            env:
+              TZ: Europe/London
+        initContainers:
+          copy:
+            image:
+              repository: busybox
+              tag: 1.36
+            command:
+              - "sh"
+              - "-c"
+              - |
+                if [ ! -f /config/config.json ]; then
+                  cp /config-readonly/config.json /config/config.json
+                fi
+            volumeMounts:
+              - mountPath: /config-readonly
+                name: config-readonly
+              - mountPath: /config
+                name: config
+            securityContext:
+              runAsUser: 0
     service:
       main:
         ports:
@@ -56,7 +65,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
@@ -64,10 +73,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    hostNetwork: true
     persistence:
       config-readonly:
         enabled: true

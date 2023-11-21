@@ -3,43 +3,57 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app flood
+  name: flood
   namespace: media
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
+  maxHistory: 3
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
-    cleanupOnFail: true
     remediation:
       retries: 3
+    cleanupOnFail: true
   uninstall:
     keepHistory: false
   values:
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
-    image:
-      repository: jesec/flood
-      tag: master@sha256:f4c7ea00f92904db57df1ff1095f17f58389d6b95fdd733aa8533c65deb9343d
-    env:
-      FLOOD_OPTION_RUNDIR: /data
-      FLOOD_OPTION_AUTH: "none"
-      FLOOD_OPTION_TRURL: "http://transmission:9091/transmission/rpc"
-    envFrom:
-      - secretRef:
-          name: flood-secret
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: jesec/flood
+              tag: master@sha256:f4c7ea00f92904db57df1ff1095f17f58389d6b95fdd733aa8533c65deb9343d
+            env:
+              FLOOD_OPTION_RUNDIR: /data
+              FLOOD_OPTION_AUTH: "none"
+              FLOOD_OPTION_TRURL: "http://transmission:9091/transmission/rpc"
+            envFrom:
+              - secretRef:
+                  name: flood-secret
+            securityContext:
+              runAsUser: 1001
+              runAsGroup: 1001
+              fsGroup: 1001
+              fsGroupChangePolicy: "OnRootMismatch"
+            resources:
+              requests:
+                memory: 250Mi
+                cpu: 15m
+              limits:
+                memory: 512Mi
     service:
       main:
         ports:
@@ -48,32 +62,27 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        className: "nginx"
         annotations:
+          # nginx.ingress.kubernetes.io/configuration-snippet: |
+          #   proxy_set_header Accept-Encoding "";
+          #   sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/flood/nord.css"></head>';
+          #   sub_filter_once on;
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
           - host: &host "flood.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
-      fsGroupChangePolicy: "OnRootMismatch"
     persistence:
       data:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-    # resources:
-    #   requests:
-    #     memory: 250Mi
-    #     cpu: 15m
-    #   limits:
-    #     memory: 512Mi
