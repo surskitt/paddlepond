@@ -1,0 +1,22 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: sonarr-restore
+  namespace: media
+spec:
+  trigger:
+    manual: sonarr-restore
+  restic:
+    repository: sonarr-restic
+    copyMethod: Snapshot
+    storageClassName: local-hostpath
+    volumeSnapshotClassName: local-hostpath
+    cacheStorageClassName: local-hostpath
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    accessModes:
+      - ReadWriteOnce
+    capacity: 1Gi

@@ -97,6 +97,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: sonarr-restore
       media:
         enabled: true
         type: hostPath
