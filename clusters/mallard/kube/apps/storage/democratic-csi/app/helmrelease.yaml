@@ -79,7 +79,7 @@ spec:
     driver:
       config:
         driver: local-hostpath
-        instance_id:
+        instance_id: k8s-local-hostpath
         local-hostpath:
           shareBasePath: "/var/mnt/sata/demo-csi-local-path"
           controllerBasePath: "/var/mnt/sata/demo-csi-local-path"
