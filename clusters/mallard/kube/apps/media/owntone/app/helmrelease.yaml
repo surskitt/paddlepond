@@ -61,7 +61,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: owntone
+                  name: main
                   port: 3689
         tls:
           - hosts:
