@@ -32,7 +32,7 @@ spec:
       #         mountPath: /data
       containers:
         - name: markov
-          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-27
+          image: ghcr.io/gowon-irc/gowon-markov:0.1.0-30
           env:
             - name: GOWON_BROKER_HOST
               value: mosquitto
