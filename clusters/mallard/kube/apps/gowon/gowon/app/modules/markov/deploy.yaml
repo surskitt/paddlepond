@@ -45,6 +45,8 @@ spec:
               value: "300"
             - name: GOWON_MARKOV_MSG_CHANCE
               value: "0.05"
+            - name: GOWON_MARKOV_LOG_LEVEL
+              value: DEBUG
           volumeMounts:
             - name: data
               mountPath: /data
