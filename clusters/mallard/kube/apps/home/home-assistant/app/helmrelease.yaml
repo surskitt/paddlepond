@@ -93,3 +93,12 @@ spec:
           main:
             main:
               - path: /config/db
+      dbus:
+        enabled: true
+        type: hostPath
+        hostPath: /run/dbus
+        advancedMounts:
+          main:
+            main:
+              - path: /run/dbus
+                readOnly: true
