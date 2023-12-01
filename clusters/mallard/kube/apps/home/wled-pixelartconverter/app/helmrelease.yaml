@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: wled-pixelartconverter
+  namespace: home
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: nginx
+      version: 15.3.5
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    cloneStaticSiteFromGit:
+      enabled: true
+      repository: https://github.com/werkstrom/WLED-PixelArtConverter.git
+      branch: main
+    service:
+      type: ClusterIP
+      externalTrafficPolicy: Local
+    serverBlock: |-
+      server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+        server_name wledpx.${SECRET_DOMAIN};
+        root /app/beta;
+        index pixart.htm;
+
+        location / {
+               try_files $uri $uri/ =404;
+        }
+      }
+    ingress:
+      enabled: true
+      hostname: wledpx.${SECRET_DOMAIN}
+      extraTls:
+        - hosts:
+            - wledpx.${SECRET_DOMAIN}
+    metrics:
+      enabled: false
