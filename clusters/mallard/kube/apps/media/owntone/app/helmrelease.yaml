@@ -55,6 +55,13 @@ spec:
         className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_intercept_errors off;
+            location /api/config {
+              default_type application/json;
+              sub_filter '"websocket_port": 3688' '"websocket_port": "433/ws"';
+              sub_filter_once on;
+            }
         hosts:
           - host: &host owntone.${SECRET_DOMAIN}
             paths:
@@ -63,6 +70,22 @@ spec:
                 service:
                   name: main
                   port: 3689
+        tls:
+          - hosts:
+              - *host
+      ws:
+        enabled: true
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        hosts:
+          - host: &host owntone.${SECRET_DOMAIN}
+            paths:
+              - path: /ws
+                pathType: Prefix
+                service:
+                  name: main
+                  port: 3688
         tls:
           - hosts:
               - *host
