@@ -15,7 +15,7 @@ data:
         url: https://owntone.${SECRET_DOMAIN}
         interval: 1m
         conditions:
-          - "[STATUS] == 401"
+          - "[STATUS] == 200"
         alerts:
           - type: custom
           - type: telegram
