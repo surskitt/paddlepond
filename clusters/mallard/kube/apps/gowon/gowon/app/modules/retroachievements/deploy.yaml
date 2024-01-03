@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: retroachievements
-          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-4
+          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-5
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
