@@ -7,7 +7,6 @@ resources:
   - ./aria2/ks.yaml
   - ./owntone/ks.yaml
   - ./transmission/ks.yaml
-  # - ./qbittorrent//ks.yaml
   - ./sabnzbd/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./prowlarr/ks.yaml
