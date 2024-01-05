@@ -34,8 +34,8 @@ spec:
         - name: randomline
           image: ghcr.io/gowon-irc/gowon-randomline:0.1.0-13
           env:
-            - name: GOWON_BROKER_HOST
-              value: mosquitto
+            - name: GOWON_BROKER
+              value: mosquitto:1883
             - name: GOWON_RANDOMLINE_CHANCE
               value: "10"
             - name: GOWON_RANDOMLINE_INPUT
