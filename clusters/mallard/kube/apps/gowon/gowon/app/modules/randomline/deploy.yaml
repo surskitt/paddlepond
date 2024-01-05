@@ -32,7 +32,7 @@ spec:
               mountPath: /data
       containers:
         - name: randomline
-          image: ghcr.io/gowon-irc/gowon-randomline:0.1.0-12
+          image: ghcr.io/gowon-irc/gowon-randomline:0.1.0-13
           env:
             - name: GOWON_BROKER_HOST
               value: mosquitto
