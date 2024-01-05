@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.27.3-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: randomline
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: randomline
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: randomline
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: randomline
+    spec:
+      initContainers:
+        - name: init-file-wait
+          image: alpine:latest
+          command:
+            - "sh"
+            - "-c"
+            - "while [[ ! -f /data/input.txt ]]; do echo waiting for input file ; sleep 1; done"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      containers:
+        - name: randomline
+          image: ghcr.io/gowon-irc/gowon-randomline:0.1.0-12
+          env:
+            - name: GOWON_BROKER_HOST
+              value: mosquitto
+            - name: GOWON_RANDOMLINE_CHANCE
+              value: "10"
+            - name: GOWON_RANDOMLINE_INPUT
+              value: /data/input.txt
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: randomline-data

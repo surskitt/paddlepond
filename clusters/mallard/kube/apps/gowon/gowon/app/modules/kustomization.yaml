@@ -10,10 +10,11 @@ resources:
   - ./gotemplate
   - ./kbday
   - ./lastfm
-  - ./markov
+  # - ./markov
   # - ./morelike
   - ./pokedex
   - ./qwantz
+  - ./randomline
   - ./retroachievements
   - ./steam
   - ./talk
