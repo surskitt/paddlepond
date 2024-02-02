@@ -1,0 +1,42 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.27.3-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xboxlive
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: xboxlive
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: xboxlive
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: xboxlive
+    spec:
+      containers:
+        - name: xboxlive
+          image: ghcr.io/gowon-irc/gowon-xboxlive:0.1.0-3
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
+            - name: GOWON_XBOXLIVE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: xboxlive-env
+                  key: GOWON_XBOXLIVE_API_KEY
+            - name: GOWON_XBOXLIVE_KV_PATH
+              value: /data/kv.db
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: xboxlive-data

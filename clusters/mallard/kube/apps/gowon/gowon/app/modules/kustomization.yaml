@@ -24,4 +24,5 @@ resources:
   - ./urls
   - ./wikipedia
   - ./wordnik
+  - ./xboxlive
   - ./youtube
