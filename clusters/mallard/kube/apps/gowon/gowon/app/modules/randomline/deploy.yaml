@@ -37,7 +37,7 @@ spec:
             - name: GOWON_BROKER
               value: mosquitto:1883
             - name: GOWON_RANDOMLINE_CHANCE
-              value: "20"
+              value: "10"
             - name: GOWON_RANDOMLINE_INPUT
               value: /data/input.txt
           volumeMounts:
