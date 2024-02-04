@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: gowon
-          image: ghcr.io/gowon-irc/gowon:0.1.0-96
+          image: ghcr.io/gowon-irc/gowon:0.1.0-102
           env:
             - name: GOWON_SERVER
               valueFrom:
@@ -51,3 +51,6 @@ spec:
                 secretKeyRef:
                   name: gowon-env
                   key: GOWON_CHANNELS
+          ports:
+            - containerPort: 8080
+              name: http
