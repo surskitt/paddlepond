@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: urls-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: url
+        endpoint: http://mqttbridge:8080
+        regex: '[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+        priority: 20
+        help: get url title

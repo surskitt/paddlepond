@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gotemplate-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: joke
+        endpoint: http://mqttbridge:8080
+        help: get a joke from jokeapi.dev
+
+      - command: jod
+        endpoint: http://mqttbridge:8080
+        help: get the joke of the day from api.jokes.one
+
+      - command: qod
+        endpoint: http://mqttbridge:8080
+        help: get the quote of the day from quotes.rest
+
+      - command: fact
+        endpoint: http://mqttbridge:8080
+        help: get a fact from uselessfacts.jsph.pl

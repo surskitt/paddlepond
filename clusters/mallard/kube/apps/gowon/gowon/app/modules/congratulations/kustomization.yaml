@@ -5,3 +5,4 @@ kind: Kustomization
 namespace: gowon
 resources:
   - deploy.yaml
+  - configmap.yaml

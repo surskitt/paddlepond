@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: youtube-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: yt
+        endpoint: http://mqttbridge:8080
+        regex: '((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?`'
+        priority: 10
+        help: get youtube video information

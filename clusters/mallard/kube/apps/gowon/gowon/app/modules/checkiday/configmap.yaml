@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkiday-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: days
+        endpoint: http://mqttbridge:8080
+        help: what days is it today?

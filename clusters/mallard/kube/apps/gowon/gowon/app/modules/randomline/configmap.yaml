@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: randomline-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: owls
+        endpoint: http://mqttbridge:8080
+        regex: '.*'
+        priority: 50
+        help: get a random line from owls chat history

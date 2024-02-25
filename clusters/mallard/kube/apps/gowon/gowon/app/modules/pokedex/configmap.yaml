@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pokedex-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: pokedex
+        endpoint: http://mqttbridge:8080
+        help: get pokemon info from pokeapi.co

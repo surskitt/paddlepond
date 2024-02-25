@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.27.3-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqttbridge
+  namespace: gowon
+  labels:
+    app: gowon
+    app.kubernetes.io/name: mqttbridge
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mqttbridge
+  template:
+    metadata:
+      labels:
+        app: gowon
+        app.kubernetes.io/name: mqttbridge
+    spec:
+      containers:
+        - name: mqttbridge
+          image: ghcr.io/gowon-irc/gowon-mqtt-bridge:0.1.0-1
+          env:
+            - name: GOWON_BROKER
+              value: mosquitto:1883
+            - name: GOWON_HOST
+              value: http://gowon:8080
+          ports:
+            - containerPort: 8080
+              name: http

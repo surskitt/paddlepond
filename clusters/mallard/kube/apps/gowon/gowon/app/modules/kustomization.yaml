@@ -12,6 +12,7 @@ resources:
   - ./lastfm
   # - ./markov
   # - ./morelike
+  - ./mqttbridge
   - ./pokedex
   - ./qwantz
   - ./randomline

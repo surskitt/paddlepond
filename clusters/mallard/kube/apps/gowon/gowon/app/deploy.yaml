@@ -20,17 +20,33 @@ spec:
         app: gowon
         app.kubernetes.io/name: gowon
     spec:
+      serviceAccountName: gowon
+      initContainers:
+        - name: init-config-sync
+          image: ghcr.io/kiwigrid/k8s-sidecar:1.25.3
+          env:
+            - name: FOLDER
+              value: /config
+            - name: LABEL
+              value: gowon/enabled
+            - name: METHOD
+              value: LIST
+            - name: UNIQUE_FILENAMES
+              value: "true"
+            - name: LOG_LEVEL
+              value: DEBUG
+          volumeMounts:
+            - name: config
+              mountPath: /config
       containers:
         - name: gowon
-          image: ghcr.io/gowon-irc/gowon:0.1.0-102
+          image: ghcr.io/gowon-irc/gowon:0.1.0-124
           env:
             - name: GOWON_SERVER
               valueFrom:
                 secretKeyRef:
                   name: gowon-env
                   key: GOWON_SERVER
-            - name: GOWON_BROKER
-              value: mosquitto:1883
             - name: GOWON_USER
               valueFrom:
                 secretKeyRef:
@@ -51,6 +67,30 @@ spec:
                 secretKeyRef:
                   name: gowon-env
                   key: GOWON_CHANNELS
+            - name: GOWON_CONFIG_DIR
+              value: /config
+          volumeMounts:
+            - name: config
+              mountPath: /config
           ports:
             - containerPort: 8080
               name: http
+        - name: config-sync
+          image: ghcr.io/kiwigrid/k8s-sidecar:1.25.3
+          env:
+            - name: FOLDER
+              value: /config/source
+            - name: LABEL
+              value: gowon/enabled
+            - name: METHOD
+              value: WATCH
+            - name: UNIQUE_FILENAMES
+              value: "true"
+            - name: LOG_LEVEL
+              value: DEBUG
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          emptyDir: {}

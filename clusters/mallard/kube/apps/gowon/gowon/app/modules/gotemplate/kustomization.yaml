@@ -5,8 +5,9 @@ kind: Kustomization
 namespace: gowon
 resources:
   - deploy.yaml
+  - configmap.yaml
 
 configMapGenerator:
-  - name: gotemplate-config
+  - name: gotemplate-urls-config
     files:
       - configs/config.yaml

@@ -6,3 +6,4 @@ namespace: gowon
 resources:
   - secret.sops.yaml
   - deploy.yaml
+  - configmap.yaml

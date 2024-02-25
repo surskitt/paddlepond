@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: congratulations-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: congratulations
+        endpoint: http://mqttbridge:8080
+        regex: '.*congratulations.*'
+        help: congratulations!
+        priority: 5

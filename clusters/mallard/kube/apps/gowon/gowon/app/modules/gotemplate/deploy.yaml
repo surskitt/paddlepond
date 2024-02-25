@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: gotemplate-config
+            name: gotemplate-urls-config

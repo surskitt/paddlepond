@@ -8,3 +8,4 @@ resources:
   - pvc.yaml
   - deploy.yaml
   - backup.yaml
+  - configmap.yaml

@@ -6,3 +6,4 @@ namespace: gowon
 resources:
   - pvc.yaml
   - deploy.yaml
+  - configmap.yaml

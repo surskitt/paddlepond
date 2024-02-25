@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: markov-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: owls
+        endpoint: http://mqttbridge:8080
+        regex: '.*'
+        help: generate a random message from owls chat history
+        priority: 50

@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: donger-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: donger
+        endpoint: http://mqttbridge:8080
+        help: ┌П┐(▀̿Ĺ̯▀̿ ̿)

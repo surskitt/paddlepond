@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xboxlive-config
+  namespace: gowon
+  labels:
+    gowon/enabled: "true"
+data:
+  config.yaml: |
+    commands:
+      - command: xbl
+        endpoint: http://mqttbridge:8080
+        help: get players last played games and achievements on xboxlive
