@@ -10,5 +10,4 @@ data:
   config.yaml: |
     commands:
       - command: lastfm
-        endpoint: http://mqttbridge:8080
-        help: show last listened tracks on last.fm
+        endpoint: http://lastfm:8080

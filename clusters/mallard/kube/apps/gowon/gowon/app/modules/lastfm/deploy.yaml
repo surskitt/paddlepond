@@ -22,18 +22,21 @@ spec:
     spec:
       containers:
         - name: lastfm
-          image: ghcr.io/gowon-irc/gowon-lastfm:0.1.0-4
+          image: ghcr.io/gowon-irc/gowon-lastfm:0.1.0-20
           env:
-            - name: GOWON_BROKER
-              value: mosquitto:1883
             - name: GOWON_LASTFM_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: lastfm-env
                   key: GOWON_LASTFM_API_KEY
+            - name: GOWON_LASTFM_KV_PATH
+              value: /data/kv.db
           volumeMounts:
             - name: data
               mountPath: /data
+          ports:
+            - containerPort: 8080
+              name: http
       volumes:
         - name: data
           persistentVolumeClaim:
