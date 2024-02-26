@@ -22,18 +22,21 @@ spec:
     spec:
       containers:
         - name: trakt
-          image: ghcr.io/gowon-irc/gowon-trakt:0.1.0-5
+          image: ghcr.io/gowon-irc/gowon-trakt:0.1.0-21
           env:
-            - name: GOWON_BROKER
-              value: mosquitto:1883
             - name: GOWON_TRAKT_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: trakt-env
                   key: GOWON_TRAKT_API_KEY
+            - name: GOWON_TRAKT_KV_PATH
+              value: /data/kv.db
           volumeMounts:
             - name: data
               mountPath: /data
+          ports:
+            - containerPort: 8080
+              name: http
       volumes:
         - name: data
           persistentVolumeClaim:

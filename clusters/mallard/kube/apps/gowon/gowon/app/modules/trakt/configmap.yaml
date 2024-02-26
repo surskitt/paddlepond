@@ -10,5 +10,4 @@ data:
   config.yaml: |
     commands:
       - command: trakt
-        endpoint: http://mqttbridge:8080
-        help: get users last played tv or film on trakt
+        endpoint: http://trakt:8080
