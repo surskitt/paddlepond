@@ -10,5 +10,7 @@ data:
   config.yaml: |
     commands:
       - command: days
-        endpoint: http://mqttbridge:8080
-        help: what days is it today?
+        endpoint: http://checkiday:8080/days
+
+      - command: mdays
+        endpoint: http://checkiday:8080/mdays
