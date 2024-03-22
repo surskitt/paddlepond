@@ -34,8 +34,8 @@ spec:
         containers:
           main:
             image:
-              repository: linuxserver/daapd
-              tag: 28.8-ls125
+              repository: ghcr.io/linuxserver/daapd
+              tag: 28.9.20240321
     service:
       main:
         type: LoadBalancer
