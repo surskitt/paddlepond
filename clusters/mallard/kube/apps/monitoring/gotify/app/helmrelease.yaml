@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: gotify/server
-              tag: 2.4.0
+              tag: 2.5.0
             env:
               TZ: "Europe/London"
           dbclean:
