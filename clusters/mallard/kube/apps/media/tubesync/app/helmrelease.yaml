@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: metube
+  name: tubesync
   namespace: media
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.4.0
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,51 +27,58 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      tubesync:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
-          main:
-            image:
-              repository: ghcr.io/alexta69/metube
-              tag: '2024-05-28'
-              imagePullPolicy: Always
+          app:
             env:
+              PGID: 1000
+              PUID: 1000
+              TUBESYNC_RESET_DOWNLOAD_DIR: false
               TZ: "Europe/London"
-              OUTPUT_TEMPLATE: "%(upload_date)s - %(title)s - %(id)s (%(extractor)s).%(ext)s"
-              YTDL_OPTIONS: >
-                {
-                  "merge_output_format": "mkv",
-                  "noplaylist": true,
-                  "subtitleslangs": ["en", "-live_chat"],
-                  "updatetime": false,
-                  "writesubtitles": true
-                }
+            image:
+              repository: ghcr.io/meeb/tubesync
+              tag: latest@sha256:f7a6b1e71d2580d8c80eb430998db4db21e0a8a8e8f3f6b3d39a8fd7ac29cc3d
     service:
-      main:
+      app:
+        controller: tubesync
         ports:
           http:
-            port: 8081
+            port: 4848
     ingress:
-      main:
+      app:
         enabled: true
         className: nginx
         annotations:
           nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         hosts:
-          - host: &host "metube.${SECRET_DOMAIN}"
+          - host: &host tubesync.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
+                  port: http
         tls:
           - hosts:
               - *host
     persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: tubesync-restore
       downloads:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media/downloads/ytdl
+        hostPath: /mnt/ssd/media/downloads/tubesync
         advancedMounts:
-          main:
-            main:
+          tubesync:
+            app:
               - path: /downloads
