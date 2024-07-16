@@ -1,14 +1,10 @@
 ---
 commands:
   - command: joke
-    apiUrl: "https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist"
+    apiUrl: "https://official-joke-api.appspot.com/random_joke"
     template: |
-      {{- if eq .type "twopart" -}}
       {{ .setup }}
-      {{ .delivery }}
-      {{- else -}}
-      {{ .joke }}
-      {{- end -}}
+      {{ .punchline }}
 
   - command: jod
     apiUrl: "https://api.jokes.one/jod"
