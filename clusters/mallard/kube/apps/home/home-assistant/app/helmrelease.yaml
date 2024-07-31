@@ -102,3 +102,14 @@ spec:
             main:
               - path: /run/dbus
                 readOnly: true
+      passwd:
+        enabled: true
+        type: secret
+        name: home-assistant-secrets
+        defaultMode: 420
+        advancedMounts:
+          main:
+            main:
+            - path: /etc/passwd
+              readOnly: true
+              subPath: passwd_file
