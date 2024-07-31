@@ -34,14 +34,14 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.7.3
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2024.7.4
             env:
               TZ: "Europe/London"
             securityContext:
-              runAsUser: 568
-              runAsGroup: 568
-              fsGroup: 568
+              runAsUser: 612
+              runAsGroup: 612
+              fsGroup: 612
               fsGroupChangePolicy: "OnRootMismatch"
             probes:
               liveness:
