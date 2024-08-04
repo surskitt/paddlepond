@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.1.2
+              tag: 2024.7.3
             env:
               TZ: "Europe/London"
             securityContext:
@@ -102,3 +102,14 @@ spec:
             main:
               - path: /run/dbus
                 readOnly: true
+      passwd:
+        enabled: true
+        type: secret
+        name: home-assistant-secrets
+        defaultMode: 420
+        advancedMounts:
+          main:
+            main:
+            - path: /etc/passwd
+              readOnly: true
+              subPath: passwd_file

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: eufy-security-ws
-          image: bropat/eufy-security-ws:1.7.1
+          image: bropat/eufy-security-ws:1.8.0
           env:
             - name: USERNAME
               valueFrom:
