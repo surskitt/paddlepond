@@ -8,7 +8,7 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./kavita/ks.yaml
   - ./metube/ks.yaml
-  - ./music-assistant//ks.yaml
+  # - ./music-assistant//ks.yaml
   - ./mylar/ks.yaml
   - ./owntone/ks.yaml
   - ./plex/ks.yaml
