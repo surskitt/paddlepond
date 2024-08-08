@@ -39,7 +39,7 @@ spec:
             name: dbclean
             image:
               repository: nouchka/sqlite3
-              tag: latest@sha256:c0678b39e07de28b36690b2d42dce30ed57551df5dcc172aced35ba6b96431ea
+              tag: latest@sha256:15655f4820eb7211032234faacf05f0bb756227b22c28d33bc3e8cd2b324472b
             imagePullPolicy: IfNotPresent
             command:
               - bash
