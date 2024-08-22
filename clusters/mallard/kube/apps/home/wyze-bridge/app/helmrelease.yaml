@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: mrlt8/wyze-bridge
-              tag: 2.10.1
+              tag: 2.10.2
             env:
               TZ: "Europe/London"
             envFrom:
