@@ -2,9 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: media
 resources:
-  # - ./secret.sops.yaml
-  - ./helmrelease.yaml
-  # - ./backup.yaml
-  # - ./gatus.yaml
+  - ./namespace.yaml
+  - ./archrepo/ks.yaml
+  - ./flexo/ks.yaml

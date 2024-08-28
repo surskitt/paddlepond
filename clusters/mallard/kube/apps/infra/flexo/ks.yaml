@@ -3,10 +3,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-archrepo
+  name: cluster-apps-flexo
   namespace: flux-system
 spec:
-  path: ./clusters/mallard/kube/apps/media/archrepo/app
+  path: ./clusters/mallard/kube/apps/infra/flexo/app
   prune: true
   sourceRef:
     kind: GitRepository
