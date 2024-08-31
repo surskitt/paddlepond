@@ -22,23 +22,21 @@ spec:
     spec:
       containers:
         - name: retroachievements
-          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-5
+          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-16
           env:
-            - name: GOWON_BROKER
-              value: mosquitto:1883
-            - name: GOWON_RA_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: retroachievements-env
-                  key: GOWON_RA_USERNAME
             - name: GOWON_RA_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: retroachievements-env
                   key: GOWON_RA_API_KEY
+            - name: GOWON_RA_KV_PATH
+              value: /data/kv.db
           volumeMounts:
             - name: data
               mountPath: /data
+          ports:
+            - containerPort: 8080
+              name: http
       volumes:
         - name: data
           persistentVolumeClaim:

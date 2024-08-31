@@ -10,5 +10,4 @@ data:
   config.yaml: |
     commands:
       - command: ra
-        endpoint: http://mqttbridge:8080
-        help: get players last achievement from retroachievements
+        endpoint: http://retroachievements:8080
