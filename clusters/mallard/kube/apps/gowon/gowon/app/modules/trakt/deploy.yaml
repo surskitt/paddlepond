@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: trakt
-          image: ghcr.io/gowon-irc/gowon-trakt:0.1.0-21
+          image: ghcr.io/gowon-irc/gowon-trakt:0.1.0-23
           env:
             - name: GOWON_TRAKT_API_KEY
               valueFrom:
