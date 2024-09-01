@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: lastfm
-          image: ghcr.io/gowon-irc/gowon-lastfm:0.1.0-20
+          image: ghcr.io/gowon-irc/gowon-lastfm:0.1.0-25
           env:
             - name: GOWON_LASTFM_API_KEY
               valueFrom:
