@@ -20,5 +20,5 @@ commands:
       {{- end }}
 
   - command: fact
-    apiUrl: "https://uselessfacts.jsph.pl/random.json?language=en"
+    apiUrl: "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en"
     template: "{{ .text }}"
