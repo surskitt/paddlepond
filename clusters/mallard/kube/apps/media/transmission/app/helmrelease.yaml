@@ -39,7 +39,7 @@ spec:
               TRANSMISSION__DOWNLOAD_DIR: "/downloads"
               TRANSMISSION__RPC_PORT: &port 9091
               TRANSMISSION__PEER_PORT: &peerport 56836
-              TRANSMISSION__RATIO_LIMIT: 2
+              TRANSMISSION__RATIO_LIMIT: 0
               TRANSMISSION__RATIO_LIMIT_ENABLED: true
               TRANSMISSION__SPEED_LIMIT_UP_ENABLED: true
               TRANSMISSION__SPEED_LIMIT_UP: 8000
