@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: eclipse-mosquitto
-              tag: 2.0.18
+              tag: 2.0.20
             securityContext:
               runAsUser: 1883
               runAsGroup: 1883
