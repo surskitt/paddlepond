@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: alexxit/go2rtc
-              tag: 1.9.6
+              tag: 1.9.7
     service:
       main:
         ports:
