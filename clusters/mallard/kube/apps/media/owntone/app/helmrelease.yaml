@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/linuxserver/daapd
-              tag: 28.10.20241106
+              tag: 28.10.20241218
           scrobbler:
             image:
               repository: giof71/mpd-scrobbler
