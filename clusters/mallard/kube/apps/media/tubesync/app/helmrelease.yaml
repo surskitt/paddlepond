@@ -39,7 +39,7 @@ spec:
               TZ: "Europe/London"
             image:
               repository: ghcr.io/meeb/tubesync
-              tag: latest@sha256:db8ed8de17edaaef4fba4d2eed0a67d41ddbaf84571ee5daf9e08594199e6734
+              tag: latest@sha256:fe0bca0399f7177c3703613fdc572359a3a6b66802de9418cfa8cfc079b2616c
     service:
       app:
         controller: tubesync
