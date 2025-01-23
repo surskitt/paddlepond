@@ -19,3 +19,4 @@ resources:
   - ./syncthing/ks.yaml
   - ./transmission/ks.yaml
   - ./audiobookshelf/ks.yaml
+  - ./readarr/ks.yaml
