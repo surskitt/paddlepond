@@ -18,3 +18,4 @@ resources:
   - ./sonarr/ks.yaml
   - ./syncthing/ks.yaml
   - ./transmission/ks.yaml
+  - ./audiobookshelf/ks.yaml
