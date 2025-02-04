@@ -34,9 +34,9 @@ spec:
     cluster:
       name: home-cluster
       id: 1
-    containerRuntime:
-      integration: containerd
-      socketPath: /var/run/k3s/containerd/containerd.sock
+    # containerRuntime:
+    #   integration: containerd
+    #   socketPath: /var/run/k3s/containerd/containerd.sock
     endpointRoutes:
       enabled: true
     hubble:
@@ -108,4 +108,4 @@ spec:
     rollOutCiliumPods: true
     securityContext:
       privileged: true
-    tunnel: disabled
+    # tunnel: disabled
