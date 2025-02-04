@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ingress-nginx
+  name: ingress-nginx-tailscale
   namespace: networking
 spec:
   interval: 30m
@@ -25,31 +25,34 @@ spec:
     cleanupOnFail: true
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: cloudflared
-      namespace: networking
   values:
     controller:
       extraEnvs:
         - name: TZ
           value: "${TIMEZONE}"
       service:
+        enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: "ingress.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "192.168.50.4"
-        externalTrafficPolicy: Cluster
+          tailscale.com/hostname: "nginx-tailscale"
+          tailscale.com/tailnet-ip: "100.72.100.101"
+        type: LoadBalancer
+        loadBalancerClass: tailscale
+        externalTrafficPolicy: Local
       publishService:
         enabled: true
       ingressClassResource:
-        default: true
+        name: nginx-tailscale
+        default: false
+        controllerValue: k8s.io/ingress-nginx-tailscale
       admissionWebhooks:
         objectSelector:
           matchExpressions:
             - key: ingress-class
               operator: In
               values:
-                - nginx
+                - nginx-tailscale
       allowSnippetAnnotations: true
+      enableAnnotationValidations: true
       config:
         client-header-timeout: 120
         client-body-buffer-size: "100M"
@@ -60,13 +63,13 @@ spec:
         keep-alive-requests: 10000
         proxy-body-size: "100M"
         ssl-protocols: "TLSv1.3 TLSv1.2"
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-          namespace: networking
-          namespaceSelector:
-            any: true
+      # metrics:
+      #   enabled: true
+      #   serviceMonitor:
+      #     enabled: true
+      #     namespace: networking
+      #     namespaceSelector:
+      #       any: true
       extraArgs:
         default-ssl-certificate: "networking/${SECRET_DOMAIN/./-}-production-tls"
       resources:
