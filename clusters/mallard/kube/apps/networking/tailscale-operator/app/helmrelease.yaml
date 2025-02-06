@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+  namespace: networking
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: tailscale-operator
+      version: 1.78.3
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: tailscale
+        namespace: flux-system
+  values:
+    operatorConfig:
+      image:
+        repository: ghcr.io/tailscale/k8s-operator
+      hostname: "tailscale-operator-mallard"
+    apiServerProxyConfig:
+      mode: "true"
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         - target:
+  #             version: apps/v1
+  #             kind: Deployment
+  #             name: operator
+  #           patch: |
+  #             - op: replace
+  #               path: /metadata/name
+  #               value: tailscale-operator
