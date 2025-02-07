@@ -1,0 +1,12 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: ts-machine-cidrs
+  namespace: networking
+spec:
+  hostname: ts-machine-cidrs
+  subnetRouter:
+    advertiseRoutes:
+      - "192.168.1.0/24"
+  exitNode: true
