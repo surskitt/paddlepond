@@ -20,3 +20,4 @@ resources:
   - ./transmission/ks.yaml
   - ./audiobookshelf/ks.yaml
   - ./readarr/ks.yaml
+  - ./cross-seed/ks.yaml
