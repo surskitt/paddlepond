@@ -39,12 +39,13 @@ spec:
               TRANSMISSION__DOWNLOAD_DIR: "/downloads"
               TRANSMISSION__RPC_PORT: &port 9091
               TRANSMISSION__PEER_PORT: &peerport 56836
-              TRANSMISSION__RATIO_LIMIT: 0
-              TRANSMISSION__RATIO_LIMIT_ENABLED: true
+              TRANSMISSION__RATIO_LIMIT_ENABLED: false
               TRANSMISSION__SPEED_LIMIT_UP_ENABLED: true
               TRANSMISSION__SPEED_LIMIT_UP: 43008
               TRANSMISSION__UTP_ENABLED: false
               TRANSMISSION__UMASK: 7
+              TRANSMISSION__SCRIPT_TORRENT_DONE_ENABLED: true
+              TRANSMISSION__SCRIPT_TORRENT_DONE_FILENAME: /scripts/torrent-finished.sh
             envFrom:
               - secretRef:
                   name: transmission-rpc
@@ -134,6 +135,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+      scripts:
+        type: configMap
+        name: transmission-scripts
+        defaultMode: 0775
       downloads:
         enabled: true
         type: hostPath
