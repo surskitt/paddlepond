@@ -31,7 +31,7 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/transmission
+              repository: ghcr.io/surskitt/transmission
               tag: 4.0.5
             env:
               TZ: Europe/London
