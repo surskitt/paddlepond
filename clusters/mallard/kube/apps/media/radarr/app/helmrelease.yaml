@@ -102,6 +102,16 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+        globalMounts:
+          - path: /config
+      logs:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+          - path: /config/logs
       media:
         enabled: true
         type: hostPath
