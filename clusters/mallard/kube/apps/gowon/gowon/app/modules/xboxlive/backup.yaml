@@ -16,3 +16,21 @@ spec:
       daily: 7
     copyMethod: Clone
     storageClassName: local-hostpath
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: xboxlive-r2
+  namespace: gowon
+spec:
+  sourcePVC: xboxlive-data
+  trigger:
+    schedule: "30 5 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: xboxlive-restic-r2
+    retain:
+      daily: 7
+    copyMethod: Clone
+    storageClassName: local-hostpath
