@@ -30,6 +30,10 @@ spec:
       main:
         containers:
           main:
+            command:
+              - sleep
+            args:
+              - infinity
             image:
               repository: jvmilazz0/kavita
               tag: 0.8.4
