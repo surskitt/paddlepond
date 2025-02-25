@@ -4,7 +4,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: tubesync
-  namespace: home
+  namespace: media
 spec:
   sourcePVC: tubesync-config
   trigger:
