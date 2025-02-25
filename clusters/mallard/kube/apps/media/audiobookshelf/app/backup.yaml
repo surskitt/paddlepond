@@ -20,3 +20,25 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: audiobookshelf-r2
+  namespace: media
+spec:
+  sourcePVC: audiobookshelf-config
+  trigger:
+    schedule: "30 5 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: audiobookshelf-restic-r2
+    retain:
+      daily: 7
+    copyMethod: Clone
+    storageClassName: local-hostpath
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
