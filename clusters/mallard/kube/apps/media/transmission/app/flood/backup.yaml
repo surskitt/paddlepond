@@ -3,15 +3,15 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: tubesync
+  name: flood
   namespace: media
 spec:
-  sourcePVC: tubesync-config
+  sourcePVC: flood-data
   trigger:
     schedule: "0 5 * * *"
   restic:
     pruneIntervalDays: 14
-    repository: tubesync-restic
+    repository: flood-restic
     retain:
       daily: 7
     copyMethod: Clone

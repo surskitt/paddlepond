@@ -3,20 +3,16 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: tubesync
-  namespace: media
+  name: soju
+  namespace: gowon
 spec:
-  sourcePVC: tubesync-config
+  sourcePVC: soju-data
   trigger:
     schedule: "0 5 * * *"
   restic:
     pruneIntervalDays: 14
-    repository: tubesync-restic
+    repository: soju-restic
     retain:
       daily: 7
     copyMethod: Clone
     storageClassName: local-hostpath
-    moverSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568

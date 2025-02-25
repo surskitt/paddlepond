@@ -3,20 +3,20 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: tubesync
+  name: audiobookshelf
   namespace: media
 spec:
-  sourcePVC: tubesync-config
+  sourcePVC: audiobookshelf-config
   trigger:
     schedule: "0 5 * * *"
   restic:
     pruneIntervalDays: 14
-    repository: tubesync-restic
+    repository: audiobookshelf-restic
     retain:
       daily: 7
     copyMethod: Clone
     storageClassName: local-hostpath
     moverSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
