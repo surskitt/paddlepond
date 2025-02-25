@@ -4,6 +4,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: gowon
 resources:
+  - secret.sops.yaml
   - pvc.yaml
   - deploy.yaml
+  - backup.yaml
   - configmap.yaml
