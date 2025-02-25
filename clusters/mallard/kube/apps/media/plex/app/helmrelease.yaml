@@ -119,6 +119,80 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 20Gi
+        globalMounts:
+          - path: /config
+      plugindata:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Plug-in Support/Data"
+      plexcache:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Cache"
+      logs:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Logs"
+      mediacache:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Media"
+      scanners:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Scanners"
+      metadata:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Metadata"
+      codecs:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Codecs"
+      crash:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Crash Reports"
+      drivers:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: "/config/Library/Application Support/Plex Media Server/Drivers"
       media:
         enabled: true
         type: hostPath
