@@ -20,9 +20,9 @@ spec:
     spec:
       containers:
         - name: healthchecks-ping
-          image: ghcr.io/onedr0p/alpine:3.19.0
+          image: alpine:3.19.0
           command:
-           - bash
+           - ash
           args:
             - -c
             - |
