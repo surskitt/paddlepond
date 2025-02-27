@@ -99,6 +99,10 @@ spec:
         type: persistentVolumeClaim
         storageClass: local-hostpath
         retain: true
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: home-assistant-restore
       db:
         enabled: true
         type: persistentVolumeClaim

@@ -1,15 +1,20 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationdestination_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: xboxlive-dest
+  name: xboxlive-restore
   namespace: gowon
 spec:
   trigger:
-    manual: restore-once
+    manual: xboxlive-restore
   restic:
     repository: xboxlive-restic
-    copyMethod: Direct
-    destinationPVC: xboxlive-data
+    copyMethod: Snapshot
     storageClassName: local-hostpath
+    volumeSnapshotClassName: local-hostpath
+    cacheStorageClassName: local-hostpath
+    accessModes:
+      - ReadWriteOnce
+    capacity: 1Gi
+    cleanupCachePVC: true
+    cleanupTempPVC: true

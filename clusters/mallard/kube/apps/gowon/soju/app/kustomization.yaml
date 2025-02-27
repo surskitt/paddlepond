@@ -6,4 +6,5 @@ resources:
   - ./secret.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
+  - ./restore.yaml
   - ./backup.yaml

@@ -89,6 +89,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: mylar-restore
       cache:
         enabled: true
         type: persistentVolumeClaim

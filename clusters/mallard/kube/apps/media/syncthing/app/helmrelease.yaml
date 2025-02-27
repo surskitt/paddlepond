@@ -108,6 +108,10 @@ spec:
           main:
             main:
               - path: /var/syncthing
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: syncthing-restore
       data:
         enabled: true
         type: hostPath

@@ -104,6 +104,10 @@ spec:
         size: 1Gi
         globalMounts:
           - path: /config
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: radarr-restore
       logs:
         enabled: true
         type: persistentVolumeClaim

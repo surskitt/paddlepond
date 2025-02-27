@@ -1,14 +1,15 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationdestination_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: steam-restore
-  namespace: gowon
+  name: flood-restore
+  namespace: media
 spec:
   trigger:
-    manual: steam-restore
+    manual: flood-restore
   restic:
-    repository: steam-restic
+    repository: flood-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath

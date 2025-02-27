@@ -95,3 +95,7 @@ spec:
               - path: /app/data
             dbclean:
               - path: /data
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: gotify-restore

@@ -104,6 +104,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: owntone-restore
       db:
         enabled: true
         type: persistentVolumeClaim

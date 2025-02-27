@@ -12,3 +12,7 @@ spec:
     requests:
       storage: 20Mi
   storageClassName: local-hostpath
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: steam-restore

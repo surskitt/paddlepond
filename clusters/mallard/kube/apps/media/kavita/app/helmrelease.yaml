@@ -90,6 +90,10 @@ spec:
           main:
             main:
               - path: /kavita/config
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: kavita-restore
       covers:
         enabled: true
         type: persistentVolumeClaim

@@ -2,13 +2,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: steam-restore
-  namespace: gowon
+  name: mylar-restore
+  namespace: media
 spec:
   trigger:
-    manual: steam-restore
+    manual: mylar-restore
   restic:
-    repository: steam-restic
+    repository: mylar-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath

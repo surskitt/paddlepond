@@ -98,6 +98,10 @@ spec:
         retain: true
         accessMode: ReadWriteOnce
         size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: zigbee2mqtt-restore
       usb:
         enabled: true
         type: hostPath
