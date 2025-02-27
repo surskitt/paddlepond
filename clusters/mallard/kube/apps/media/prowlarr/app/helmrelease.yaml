@@ -106,6 +106,10 @@ spec:
         size: 1Gi
         globalMounts:
           - path: /config
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: prowlarr-restore
       backups:
         enabled: true
         type: persistentVolumeClaim

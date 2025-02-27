@@ -6,5 +6,6 @@ namespace: monitoring
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
+  - ./restore.yaml
   - ./backup.yaml
   - ./gatus.yaml

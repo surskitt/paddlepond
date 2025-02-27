@@ -2,13 +2,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: steam-restore
-  namespace: gowon
+  name: kavita-restore
+  namespace: media
 spec:
   trigger:
-    manual: steam-restore
+    manual: kavita-restore
   restic:
-    repository: steam-restic
+    repository: kavita-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath

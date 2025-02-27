@@ -78,6 +78,10 @@ spec:
         type: persistentVolumeClaim
         storageClass: local-hostpath
         retain: true
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: esphome-restore
       cache:
         enabled: true
         type: emptyDir

@@ -1,15 +1,20 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationdestination_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: lastfm-dest
+  name: lastfm-restore
   namespace: gowon
 spec:
   trigger:
-    manual: restore-once
+    manual: lastfm-restore
   restic:
     repository: lastfm-restic
-    copyMethod: Direct
-    destinationPVC: lastfm-data
+    copyMethod: Snapshot
     storageClassName: local-hostpath
+    volumeSnapshotClassName: local-hostpath
+    cacheStorageClassName: local-hostpath
+    accessModes:
+      - ReadWriteOnce
+    capacity: 1Gi
+    cleanupCachePVC: true
+    cleanupTempPVC: true

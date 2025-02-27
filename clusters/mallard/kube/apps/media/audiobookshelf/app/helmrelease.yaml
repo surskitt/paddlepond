@@ -132,6 +132,10 @@ spec:
           main:
             main:
               - path: /config
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: audiobookshelf-restore
       logs:
         enabled: true
         type: persistentVolumeClaim

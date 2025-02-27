@@ -2,13 +2,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: steam-restore
+  name: soju-restore
   namespace: gowon
 spec:
   trigger:
-    manual: steam-restore
+    manual: soju-restore
   restic:
-    repository: steam-restic
+    repository: soju-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath

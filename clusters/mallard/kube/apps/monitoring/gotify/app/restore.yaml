@@ -2,13 +2,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: steam-restore
-  namespace: gowon
+  name: gotify-restore
+  namespace: monitoring
 spec:
   trigger:
-    manual: steam-restore
+    manual: gotify-restore
   restic:
-    repository: steam-restic
+    repository: gotify-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath

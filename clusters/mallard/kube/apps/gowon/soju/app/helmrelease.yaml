@@ -73,6 +73,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 100Mi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: soju-restore
       tls:
         enabled: true
         type: secret

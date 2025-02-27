@@ -8,5 +8,6 @@ resources:
   - pvc.yaml
   - deploy.yaml
   - service.yaml
+  - restore.yaml
   - backup.yaml
   - configmap.yaml

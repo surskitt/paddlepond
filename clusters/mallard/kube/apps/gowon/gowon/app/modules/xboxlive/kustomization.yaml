@@ -7,5 +7,6 @@ resources:
   - secret.sops.yaml
   - pvc.yaml
   - deploy.yaml
+  - restore.yaml
   - backup.yaml
   - configmap.yaml

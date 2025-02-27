@@ -121,6 +121,10 @@ spec:
         size: 20Gi
         globalMounts:
           - path: /config
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: plex-restore
       plugindata:
         enabled: true
         type: persistentVolumeClaim

@@ -1,14 +1,15 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationdestination_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: steam-restore
-  namespace: gowon
+  name: zigbee2mqtt-restore
+  namespace: home
 spec:
   trigger:
-    manual: steam-restore
+    manual: zigbee2mqtt-restore
   restic:
-    repository: steam-restic
+    repository: zigbee2mqtt-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath
