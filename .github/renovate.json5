@@ -1,68 +1,90 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "docker:enableMajor",
-    ":disableRateLimiting",
-    ":dependencyDashboard",
-    ":semanticCommits",
-    ":automergeDigest",
-    ":automergeBranch",
-    "github>surskitt/paddlepond//.github/renovate/autoMerge.json5",
-    "github>surskitt/paddlepond//.github/renovate/commitMessage.json5",
-    "github>surskitt/paddlepond//.github/renovate/groups.json5",
-    "github>surskitt/paddlepond//.github/renovate/labels.json5",
-    "github>surskitt/paddlepond//.github/renovate/semanticCommits.json5",
-    "helpers:pinGitHubActionDigests"
-  ],
-  "platform": "github",
-  "onboarding": false,
-  "requireConfig": "optional",
-  "suppressNotifications": ["prIgnoreNotification"],
-  "flux": {
-    "fileMatch": ["(^|/)kube/.+\\.ya?ml(\\.j2)?$"]
-  },
-  "helm-values": {
-    "fileMatch": ["(^|/)kube/.+\\.ya?ml(\\.j2)?$"]
-  },
-  "kubernetes": {
-    "fileMatch": [
-      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
-      "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
-      "(^|/)kube/.+\\.ya?ml(\\.j2)?$"
-    ]
-  },
-  "regexManagers": [
-    {
-      "description": "Process custom dependencies",
-      "fileMatch": [
-        "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
-        "(^|/)kube/.+\\.ya?ml(\\.j2)?$"
-      ],
-      "matchStrings": [
-        // Example: `k3s_release_version: "v1.27.3+k3s1"`
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n",
-        // Example: `- https://github.com/rancher/system-upgrade-controller/releases/download/v0.11.0/crd.yaml`
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n",
-        // Example: apiVersion=helm.cattle.io/v1 kind=HelmChart
-        "datasource=(?<datasource>\\S+)\n.*?repo: (?<registryUrl>\\S+)\n.*?chart: (?<depName>\\S+)\n.*?version: (?<currentValue>\\S+)\n"
-      ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-    }
-  ],
-  "packageRules": [
-    {
-      "description": "Loose versioning for non-semver packages",
-      "matchDatasources": ["docker"],
-      "versioning": "loose",
-      "matchPackagePatterns": ["changedetection", "plex", "qbittorrent"]
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base",
+        "docker:enableMajor",
+        ":disableRateLimiting",
+        ":dependencyDashboard",
+        ":semanticCommits",
+        ":automergeDigest",
+        ":automergeBranch",
+        "github>surskitt/paddlepond//.github/renovate/autoMerge.json5",
+        "github>surskitt/paddlepond//.github/renovate/commitMessage.json5",
+        "github>surskitt/paddlepond//.github/renovate/groups.json5",
+        "github>surskitt/paddlepond//.github/renovate/labels.json5",
+        "github>surskitt/paddlepond//.github/renovate/semanticCommits.json5",
+        "helpers:pinGitHubActionDigests"
+    ],
+    "platform": "github",
+    "onboarding": false,
+    "requireConfig": "optional",
+    "suppressNotifications": [
+        "prIgnoreNotification"
+    ],
+    "flux": {
+        "fileMatch": [
+            "(^|/)kube/.+\\.ya?ml(\\.j2)?$"
+        ]
     },
-    {
-      "description": "Use custom versioning for Minio",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
-      "matchPackagePatterns": ["minio"]
-    }
-  ]
+    "helm-values": {
+        "fileMatch": [
+            "(^|/)kube/.+\\.ya?ml(\\.j2)?$"
+        ]
+    },
+    "kubernetes": {
+        "fileMatch": [
+            "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
+            "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
+            "(^|/)kube/.+\\.ya?ml(\\.j2)?$"
+        ]
+    },
+    "regexManagers": [
+        {
+            "description": "Process custom dependencies",
+            "fileMatch": [
+                "(^|/).taskfiles/.+\\.ya?ml$",
+                "(^|/)ansible/.+\\.ya?ml(?:\\.j2)?$",
+                "(^|/)kube/.+\\.ya?ml(?:\\.j2)?$"
+            ],
+            "matchStrings": [
+                // Example: `k3s_release_version: "v1.27.3+k3s1"`
+                "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n",
+                // # renovate: datasource=github-releases depName=k3s-io/k3s
+                // k3s_release_version: &version v1.29.0+k3s1
+                // # renovate: datasource=helm depName=cilium repository=https://helm.cilium.io
+                // version: 1.15.1
+                "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)",
+                // Example: `- https://github.com/rancher/system-upgrade-controller/releases/download/v0.11.0/crd.yaml`
+                "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n",
+                // Example: apiVersion=helm.cattle.io/v1 kind=HelmChart
+                "datasource=(?<datasource>\\S+)\n.*?repo: (?<registryUrl>\\S+)\n.*?chart: (?<depName>\\S+)\n.*?version: (?<currentValue>\\S+)\n"
+            ],
+            "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+        }
+    ],
+    "packageRules": [
+        {
+            "description": "Loose versioning for non-semver packages",
+            "matchDatasources": [
+                "docker"
+            ],
+            "versioning": "loose",
+            "matchPackagePatterns": [
+                "changedetection",
+                "plex",
+                "qbittorrent"
+            ]
+        },
+        {
+            "description": "Use custom versioning for Minio",
+            "matchDatasources": [
+                "docker"
+            ],
+            "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
+            "matchPackagePatterns": [
+                "minio"
+            ]
+        }
+    ]
 }
