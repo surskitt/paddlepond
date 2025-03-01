@@ -36,7 +36,6 @@ spec:
             env:
               TZ: "Europe/London"
               ZIGBEE2MQTT_DATA: /data
-              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://mosquitto:1883
