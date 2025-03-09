@@ -21,3 +21,4 @@ resources:
   - ./audiobookshelf/ks.yaml
   - ./readarr/ks.yaml
   - ./cross-seed/ks.yaml
+  - ./autobrr/ks.yaml
