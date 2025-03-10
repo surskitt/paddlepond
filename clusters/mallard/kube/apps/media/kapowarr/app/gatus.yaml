@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kapowarr-gatus-ep
+  namespace: media
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: kapowarr
+        group: media
+        url: https://kapowarr.${SECRET_DOMAIN}
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: custom
+          - type: telegram

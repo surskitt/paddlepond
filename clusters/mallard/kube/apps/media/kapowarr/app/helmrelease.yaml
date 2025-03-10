@@ -1,0 +1,109 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kapowarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      kapowarr:
+        containers:
+          app:
+            image:
+              repository: mrcas/kapowarr
+              tag: development@sha256:5179333c44619f6938814bceb2cb0d1c65bbe2302077de56e56e2568be06b08f
+            # probes:
+            #   liveness:
+            #     enabled: true
+            #   readiness:
+            #     enabled: true
+            #   startup:
+            #     enabled: true
+            #     spec:
+            #       failureThreshold: 30
+            #       periodSeconds: 5
+            # securityContext:
+            #   runAsUser: 1000
+            #   runAsGroup: 1000
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: true
+            #   capabilities:
+            #     drop:
+            #       - ALL
+    service:
+      app:
+        controller: kapowarr
+        ports:
+          http:
+            port: 5656
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        hosts:
+          - host: &host kapowarr.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+      tailscale:
+        className: nginx-tailscale
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+        hosts:
+          - host: *host
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+          - path: /config
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: kapowarr-restore
+      media:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media
+        advancedMounts:
+          kapowarr:
+            app:
+              - path: /media

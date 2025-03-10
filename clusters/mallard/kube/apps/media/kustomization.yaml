@@ -22,3 +22,4 @@ resources:
   - ./readarr/ks.yaml
   - ./cross-seed/ks.yaml
   - ./autobrr/ks.yaml
+  - ./kapowarr/ks.yaml
