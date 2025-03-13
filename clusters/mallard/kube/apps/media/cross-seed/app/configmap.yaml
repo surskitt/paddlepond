@@ -9,8 +9,8 @@ data:
     prowlarr_api_key = process.env.PROWLARR_API_KEY;
     radarr_api_key = process.env.RADARR_API_KEY;
     sonarr_api_key = process.env.SONARR_API_KEY;
-    transmission_username = process.env.TRANSMISSION_USERNAME;
-    transmission_password = process.env.TRANSMISSION_PASSWORD;
+    qbittorrent_username = process.env.QBITTORRENT_USERNAME;
+    qbittorrent_password = process.env.QBITTORRENT_PASSWORD;
 
     module.exports = {
       action: "inject",
@@ -29,6 +29,7 @@ data:
       matchMode: "partial",
       outputDir: "/config",
       port: Number(process.env.CROSS_SEED_PORT),
+      qbittorrentUrl: `http://$${qbittorrent_username}:$${qbittorrent_password}@qbittorrent.media.svc.cluster.local:8080`,
       radarr: [
         `http://radarr.media.svc.cluster.local:7878/?apikey=$${radarr_api_key}`
       ],
@@ -51,6 +52,5 @@ data:
         44,
         46,
       ].map(i => `http://prowlarr.media.svc.cluster.local:9696/$${i}/api?apikey=$${prowlarr_api_key}`),
-      transmissionRpcUrl: `http://$${transmission_username}:$${transmission_password}@transmission.media.svc.cluster.local:9091/transmission/rpc`,
       useClientTorrents: true
     };
