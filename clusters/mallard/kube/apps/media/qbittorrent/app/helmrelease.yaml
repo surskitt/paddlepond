@@ -62,6 +62,11 @@ spec:
     ingress:
       app:
         className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '<body>' '<body><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/vuetorrent/nord.css">';
+            sub_filter_once on;
         hosts:
           - host: &host "qb.${SECRET_DOMAIN}"
             paths:
@@ -77,6 +82,10 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: "100.72.100.101"
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '<body>' '<body><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/vuetorrent/nord.css">';
+            sub_filter_once on;
         hosts:
           - host: &host "qb.${SECRET_DOMAIN}"
             paths:
