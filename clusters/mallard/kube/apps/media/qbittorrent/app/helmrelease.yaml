@@ -26,14 +26,92 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsUser: 1000
+    #     runAsGroup: 1000
+    #     fsGroup: 1000
+    #     fsGroupChangePolicy: OnRootMismatch
     controllers:
       qbittorrent:
+        initContainers:
+          coredns:
+            image:
+              repository: mirror.gcr.io/coredns/coredns
+              tag: 1.12.0
+            args:
+              - -conf
+              - /etc/coredns/Corefile
+            restartPolicy: Always
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+          gluetun:
+            dependsOn:
+              - coredns
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0
+            env:
+              DOT: "off"
+              DNS_ADDRESS: "127.0.0.2"
+              VPN_SERVICE_PROVIDER: airvpn
+              VPN_TYPE: wireguard
+              VPN_INTERFACE: wg0
+              FIREWALL_INPUT_PORTS: "8080,9999"
+              FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
+              HEALTH_SERVER_ADDRESS: ":9999"
+              FIREWALL_VPN_INPUT_PORTS: &BT-port 2195
+            envFrom:
+              - secretRef:
+                  name: qbittorrent
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  timeoutSeconds: 10
+                  periodSeconds: 30
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  failureThreshold: 5
+            restartPolicy: Always
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+              # allowPrivilegeEscalation: false
+          mamupdate:
+            dependsOn:
+              - coredns
+              - gluetun
+            image:
+              repository: ghcr.io/gellen89/mam-update
+              tag: 0.0.12
+            env:
+              MAM_UPDATE_DIR: /config/mamupdate
+              LOG_LEVEL: debug
+            envFrom:
+              - secretRef:
+                  name: qbittorrent
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
@@ -41,8 +119,22 @@ spec:
               tag: 5.0.4@sha256:3b7e6671b4e6b8ab1366ca8a038776638c77cc8110dc74c257eb14568d43c614
             env:
               TZ: "Europe/London"
-              QBITTORRENT__PORT: &port 8080
-              # QBITTORRENT__BT_PORT: &port-bt 58462
+              UMASK: "022"
+              QBT_WEBUI_PORT: &port 8080
+              QBT_TORRENTING_PORT: *BT-port
+              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
+              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
+                10.42.0.0/16, 10.20.0.0/24
+              QBT_BitTorrent__Session__Interface: wg0
+              QBT_BitTorrent__Session__InterfaceAddress: "0.0.0.0"
+              QBT_BitTorrent__Session__InterfaceName: wg0
+              QBT_Preferences__WebUI__AlternativeUIEnabled: true
+              QBT_Preferences__WebUI__RootFolder: /add-ons/VueTorrent
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
           vuetorrent:
             dependsOn: app
             image:
@@ -53,6 +145,11 @@ spec:
               - --ref=latest-release
               - --period=86400s
               - --root=/add-ons
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: qbittorrent
@@ -103,10 +200,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-        # dataSourceRef:
-        #   kind: ReplicationDestination
-        #   apiGroup: volsync.backube
-        #   name: transmission-restore
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: qbittorrent-restore
       downloads:
         enabled: true
         type: hostPath
@@ -120,3 +217,12 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /add-ons
+      coredns:
+        type: configMap
+        name: qbittorrent-coredns
+        advancedMounts:
+          qbittorrent:
+            coredns:
+              - path: /etc/coredns/Corefile
+                subPath: Corefile
+                readOnly: true
