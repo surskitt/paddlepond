@@ -116,6 +116,14 @@ spec:
         #   kind: ReplicationDestination
         #   apiGroup: volsync.backube
         #   name: autobrr-restore
+      downloads:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/downloads/torrents
+        advancedMounts:
+          autobrr:
+            app:
+              - path: /downloads
       log:
         type: emptyDir
         globalMounts:
