@@ -112,10 +112,10 @@ spec:
         size: 1Gi
         globalMounts:
           - path: /config
-        dataSourceRef:
-          kind: ReplicationDestination
-          apiGroup: volsync.backube
-          name: autobrr-restore
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: autobrr-restore
       log:
         type: emptyDir
         globalMounts:
