@@ -1,0 +1,94 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbtools
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      tagging:
+        type: cronjob
+        cronjob:
+          schedule: 0 * * * *
+          backoffLimit: 0
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          ttlSecondsAfterFinished: 3600
+        containers:
+          tag: &container
+            image:
+              repository: ghcr.io/buroa/qbtools
+              tag: v0.19.15@sha256:4145020bab12b2ed892f548c2812c4979793def80dce5f907e49640329e54933
+            env:
+              QBITTORRENT_HOST: qbittorrent.media.svc.cluster.local
+              QBITTORRENT_PORT: 8080
+            #   SABNZBD_HOST: sabnzbd.media.svc.cluster.local
+            #   SABNZBD_PORT: 80
+            # envFrom:
+            #   - secretRef:
+            #       name: qbtools
+            args:
+              - tagging
+              - --added-on
+              - --duplicates
+              - --expired
+              - --last-activity
+              # - --not-linked # not working atm - https://github.com/buroa/qbtools/issues/99
+              - --sites
+              - --tracker-down
+              - --unregistered
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 25m
+              limits:
+                memory: 256M
+      reannounce:
+        containers:
+          app:
+            <<: *container
+            args:
+              - reannounce
+              - --process-seeding
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    persistence:
+      config:
+        type: secret
+        name: qbtools
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
+      downloads:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/downloads/torrents
