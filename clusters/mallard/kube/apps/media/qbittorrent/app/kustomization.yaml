@@ -12,8 +12,12 @@ resources:
 configMapGenerator:
   - name: qbittorrent-coredns
     files:
-      - ./config/Corefile
+      - ./resources/Corefile
+  - name: qbittorrent-scripts
+    files:
+      - torrent-finished.sh=./resources/torrent-finished.sh
 generatorOptions:
+  disableNameSuffixHash: true
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
 configurations:

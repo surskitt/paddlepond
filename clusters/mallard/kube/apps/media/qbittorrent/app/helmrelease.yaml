@@ -132,6 +132,9 @@ spec:
               QBT_BitTorrent__Session__InterfaceName: wg0
               QBT_Preferences__WebUI__AlternativeUIEnabled: true
               QBT_Preferences__WebUI__RootFolder: /add-ons/VueTorrent
+            envFrom:
+              - secretRef:
+                  name: qbittorrent
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
@@ -206,6 +209,12 @@ spec:
           kind: ReplicationDestination
           apiGroup: volsync.backube
           name: qbittorrent-restore
+      scripts:
+        type: configMap
+        name: qbittorrent-scripts
+        defaultMode: 0775
+        globalMounts:
+          - readOnly: true
       downloads:
         enabled: true
         type: hostPath
