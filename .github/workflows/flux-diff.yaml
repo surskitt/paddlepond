@@ -5,7 +5,7 @@ name: "Flux Diff"
 on:
   pull_request:
     branches: ["main"]
-    paths: ["clusters/**"]
+    paths: ["kube/**"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -35,7 +35,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32 # v46
         with:
-          files: clusters/**
+          files: kube/**
           dir_names: true
           dir_names_max_depth: 2
           json: true
