@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: networking
+resources:
+  - ../../../../../mallard/apps/networking/cloudflared/app/dnsendpoint.yaml
+  - secret.sops.yaml
+  - ../../../../../mallard/apps/networking/cloudflared/app/helmrelease.yaml
+configMapGenerator:
+  - name: cloudflared-configmap
+    files:
+      - ../../../../../mallard/apps/networking/cloudflared/app/configs/config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
