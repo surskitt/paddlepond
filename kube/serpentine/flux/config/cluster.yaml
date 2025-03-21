@@ -13,8 +13,8 @@ spec:
   ignore: |
     # exclude all
     /*
-    # include cluster kube directory
-    !/clusters/serpentine/kube
+    # include kubernetes directory
+    !/kube
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -24,7 +24,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./clusters/serpentine/kube/flux
+  path: ./kube/serpentine/flux
   prune: true
   wait: false
   sourceRef:

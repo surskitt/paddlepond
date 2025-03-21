@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./clusters/serpentine/kube/apps
+  path: ./kube/serpentine/apps
   prune: true
   sourceRef:
     kind: GitRepository
