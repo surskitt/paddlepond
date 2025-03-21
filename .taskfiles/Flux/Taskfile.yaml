@@ -5,8 +5,6 @@ version: "3"
 vars:
   # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
   PROMETHEUS_OPERATOR_VERSION: v0.80.1
-  CLUSTER_SECRET_SOPS_FILE: "kube/flux/vars/cluster-secrets.sops.yaml"
-  CLUSTER_SETTINGS_FILE: "kube/flux/vars/cluster-settings.yaml"
   GITHUB_DEPLOY_KEY_FILE: "bootstrap/flux/github-deploy-key.sops.yaml"
 
 tasks:
@@ -20,7 +18,7 @@ tasks:
       - kubectl apply --kubeconfig {{.ROOT_DIR}}/{{.cluster}}-kubeconfig --server-side --filename https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/{{.PROMETHEUS_OPERATOR_VERSION}}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml/
       - kubectl apply --kubeconfig {{.ROOT_DIR}}/{{.cluster}}-kubeconfig --server-side --kustomize {{.ROOT_DIR}}/kube/{{.cluster}}/bootstrap
       - cat {{.AGE_FILE}} | kubectl -n flux-system create secret generic sops-age --from-file=age.agekey=/dev/stdin
-      - sops --decrypt {{.ROOT_DIR}}/kube/{{.cluster}}/flux/vars/cluster-settings.yaml | kubectl apply --kubeconfig {{.ROOT_DIR}}/{{.cluster}}-kubeconfig --server-side --filename -
+      - sops --decrypt {{.ROOT_DIR}}/kube/{{.cluster}}/flux/vars/cluster-secrets.yaml | kubectl apply --kubeconfig {{.ROOT_DIR}}/{{.cluster}}-kubeconfig --server-side --filename -
       - kubectl apply --kubeconfig {{.ROOT_DIR}}/{{.cluster}}-kubeconfig --server-side --filename {{.ROOT_DIR}}/kube/{{.cluster}}/flux/vars/cluster-settings.yaml
       - kubectl apply --kubeconfig {{.ROOT_DIR}}/{{.cluster}}-kubeconfig --server-side --kustomize {{.ROOT_DIR}}/kube/{{.cluster}}/flux/config
     requires:
