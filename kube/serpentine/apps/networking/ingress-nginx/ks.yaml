@@ -46,4 +46,4 @@ spec:
           value: 192.168.51.4
       target:
         kind: HelmRelease
-        name: cilium
+        name: ingress-nginx
