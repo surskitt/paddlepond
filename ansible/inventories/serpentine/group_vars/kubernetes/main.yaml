@@ -19,7 +19,7 @@ k3s_release_version: "v1.32.2+k3s1"
 # k3s_release_version: v1.27.3+k3s1
 k3s_server_manifests_templates:
   - custom-cilium-helmchart.yaml
-  - custom-kube-vip-ds.yaml
+  - custom-kube-vip-ds-serpentine.yaml
   - custom-kube-vip-rbac.yaml
 k3s_use_unsupported_config: true
 
