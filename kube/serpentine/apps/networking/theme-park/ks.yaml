@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-theme-park
+  namespace: flux-system
+spec:
+  path: ./kube/mallard/apps/networking/theme-park/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false # no flux ks dependents
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  patches:
+    - patch: |
+        - op: remove
+          path: /spec/values/ingress/tailscale
+      target:
+        kind: HelmRelease
+        name: theme-park
