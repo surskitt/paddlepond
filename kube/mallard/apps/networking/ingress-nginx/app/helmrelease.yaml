@@ -79,19 +79,3 @@ spec:
           memory: 250Mi
         limits:
           memory: 500Mi
-    defaultBackend:
-      enabled: true
-      image:
-        repository: ghcr.io/tarampampam/error-pages
-        tag: 3.3.2
-      extraEnvs:
-        - name: TEMPLATE_NAME
-          value: app-down
-        - name: SHOW_DETAILS
-          value: "false"
-      resources:
-        requests:
-          memory: 250Mi
-          cpu: 25m
-        limits:
-          memory: 350Mi
