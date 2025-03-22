@@ -10,6 +10,6 @@ resources:
 configMapGenerator:
   - name: cloudflared-configmap
     files:
-      - ../../../../../mallard/apps/networking/cloudflared/app/configs/config.yaml
+      - configs/config.yaml
 generatorOptions:
   disableNameSuffixHash: true

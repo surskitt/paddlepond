@@ -15,3 +15,17 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  patches:
+    - patch: |
+        - op: replace
+          path: /metadata/annotations/external-dns.alpha.kubernetes.io~1target
+          value: ingress-s.${SECRET_ZONE}
+        - op: replace
+          path: /spec/rules/0/host
+          value: flux-webhook-s.${SECRET_ZONE}
+        - op: replace
+          path: /spec/tls/0/hosts
+          value: [flux-webhook-s.${SECRET_ZONE}]
+      target:
+        kind: Ingress
+        name: flux-webhook
