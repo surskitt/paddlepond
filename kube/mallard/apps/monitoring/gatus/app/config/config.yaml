@@ -39,13 +39,3 @@ connectivity:
   checker:
     target: 1.1.1.1:53
     interval: 1m
-endpoints:
-  - name: healthchecks.io
-    group: external
-    url: "${HEALTHCHECKS_IO_URL}"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-    alerts:
-      - type: custom
-      - type: telegram

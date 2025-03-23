@@ -7,4 +7,4 @@ resources:
   - ./gotify/ks.yaml
   # - ./vpa/ks.yaml
   # - ./goldilocks/ks.yaml
-  # - ./gatus/ks.yaml
+  - ./gatus/ks.yaml
