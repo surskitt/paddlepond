@@ -47,13 +47,13 @@ spec:
               - -c
               - |
                 while : ; do
-                  n="$(date +%s)" td="$(date -d '4:00' +%s)" tm="$(date -d 'tomorrow 4:00' +%s)"
+                  n="$(date +%s)" td="$(date -d '3:55' +%s)" tm="$(date -d 'tomorrow 4:00' +%s)"
                   tdw="$(($td-$n))" tmw="$(($tm-$n))"
                   if [[ "$tdw" -gt 0 ]] ; then
-                    echo "waiting until 4AM ($tdw seconds)"
+                    echo "waiting until 3:55AM ($tdw seconds)"
                     sleep "$tdw"
                   else
-                    echo "waiting until 4AM tomorrow ($tmw seconds)"
+                    echo "waiting until 3:55AM tomorrow ($tmw seconds)"
                     sleep "$tmw"
                   fi
                   echo "clearing messages table"
