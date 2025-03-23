@@ -41,6 +41,7 @@ spec:
             env:
               TZ: "Europe/London"
               CROSS_SEED_PORT: &port 80
+              CROSS_SEED_LINK_DIRS: "/downloads/cross-seed"
             envFrom:
               - secretRef:
                   name: cross-seed

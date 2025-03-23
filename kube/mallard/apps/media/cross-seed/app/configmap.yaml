@@ -6,6 +6,7 @@ metadata:
   namespace: media
 data:
   config.js: |
+    linkDirs = process.env.CROSS_SEED_LINK_DIRS.split(",");
     prowlarr_api_key = process.env.PROWLARR_API_KEY;
     radarr_api_key = process.env.RADARR_API_KEY;
     sonarr_api_key = process.env.SONARR_API_KEY;
@@ -22,9 +23,7 @@ data:
       includeNonVideos: true,
       includeSingleEpisodes: true,
       linkCategory: "cross-seed",
-      linkDirs: [
-        "/downloads/cross-seed"
-      ],
+      linkDirs: linkDirs,
       linkType: "hardlink",
       matchMode: "partial",
       outputDir: "/config",
