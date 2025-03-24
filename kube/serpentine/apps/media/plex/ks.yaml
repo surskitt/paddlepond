@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-plex
+  namespace: flux-system
+spec:
+  path: ./kube/mallard/apps/media/plex/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/controllers/main/containers/main/env/PLEX_ADVERTISE_URL
+          value: "https://192.168.51.5:32400,https://plex.${SECRET_DOMAIN}:443"
+        - op: remove
+          path: /spec/values/controllers/main/containers/main/resources/requests/gpu.intel.com~1i915
+        - op: remove
+          path: /spec/values/controllers/main/containers/main/resources/limits/gpu.intel.com~1i915
+        - op: replace
+          path: /spec/values/service/main/loadBalancerIP
+          value: 192.168.51.5
+        - op: remove
+          path: /spec/values/ingress/tailscale
+        - op: replace
+          path: /spec/values/persistence/media/hostPath
+          value: /mnt/16tb/media
+      target:
+        kind: HelmRelease
+        name: plex
+    - patch: |
+        - op: replace
+          path: /spec/trigger/schedule
+          value: "0 4 * * *"
+      target: 
+        kind: ReplicationSource
+        name: plex
+    - patch: |
+        - op: replace
+          path: /spec/trigger/schedule
+          value: "30 4 * * *"
+      target: 
+        kind: ReplicationSource
+        name: plex-r2
