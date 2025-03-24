@@ -20,10 +20,6 @@ spec:
         - op: replace
           path: /spec/values/controllers/main/containers/main/env/PLEX_ADVERTISE_URL
           value: "https://192.168.51.5:32400,https://plex.${SECRET_DOMAIN}:443"
-        - op: remove
-          path: /spec/values/controllers/main/containers/main/resources/requests/gpu.intel.com~1i915
-        - op: remove
-          path: /spec/values/controllers/main/containers/main/resources/limits/gpu.intel.com~1i915
         - op: replace
           path: /spec/values/service/main/loadBalancerIP
           value: 192.168.51.5
