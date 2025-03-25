@@ -13,4 +13,4 @@ resources:
   - ./radarr/ks.yaml
   - ./cross-seed/ks.yaml
   - ./plex/ks.yaml
-  # - ./syncthing/ks.yaml
+  - ./syncthing/ks.yaml

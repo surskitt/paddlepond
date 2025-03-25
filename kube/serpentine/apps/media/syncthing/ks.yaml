@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-syncthing
+  namespace: flux-system
+spec:
+  path: ./kube/mallard/apps/media/syncthing/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false # no flux ks dependents
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/service/listdisc/loadBalancerIP
+          value: 192.168.51.9
+        - op: remove
+          path: /spec/values/ingress/tailscale
+        - op: replace
+          path: /spec/values/persistence/data/hostPath
+          value: /mnt/12tb
+        - op: add
+          path: /spec/values/persistence/data2
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/16tb
+            advancedMounts:
+              main:
+                main:
+                  - path: /data2
+      target:
+        kind: HelmRelease
+        name: syncthing
+    - patch: |
+        - op: replace
+          path: /spec/trigger/schedule
+          value: "0 4 * * *"
+      target: 
+        kind: ReplicationSource
+        name: syncthing
+    - patch: |
+        - op: replace
+          path: /spec/trigger/schedule
+          value: "30 4 * * *"
+      target: 
+        kind: ReplicationSource
+        name: syncthing
