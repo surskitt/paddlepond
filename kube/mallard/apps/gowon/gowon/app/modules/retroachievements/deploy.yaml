@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: retroachievements
-          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-16
+          image: ghcr.io/gowon-irc/gowon-retroachievements:0.1.0-20
           env:
             - name: GOWON_RA_API_KEY
               valueFrom:
