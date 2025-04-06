@@ -14,3 +14,4 @@ resources:
   - ./cross-seed/ks.yaml
   - ./plex/ks.yaml
   - ./syncthing/ks.yaml
+  - ./hass-nfs-mount-status/ks.yaml
