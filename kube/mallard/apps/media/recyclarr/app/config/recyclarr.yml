@@ -9,22 +9,62 @@ sonarr:
     replace_existing_custom_formats: true
     include:
       - template: sonarr-quality-definition-series
-      - template: sonarr-v4-quality-profile-web-1080p
+      - template: sonarr-v4-quality-profile-web-1080p-alternative
       - template: sonarr-v4-custom-formats-web-1080p
+      - template: sonarr-v4-quality-profile-web-2160p-alternative
+      - template: sonarr-v4-custom-formats-web-2160p
+      - template: sonarr-quality-definition-anime
+      - template: sonarr-v4-quality-profile-anime
+      - template: sonarr-v4-custom-formats-anime
     quality_profiles:
-      - name: WEB-1080p
+      - name: WEB-1080p-NoRlsGroup
+        reset_unmatched_scores:
+          enabled: true
+        min_format_score: 50
+        quality_sort: top
+        qualities:
+          - name: WEB 1080p
+            qualities:
+              - WEBDL-1080p
+              - WEBRip-1080p
+          - name: HDTV-1080p
+        upgrade:
+          allowed: true
+          until_quality: WEB 1080p
     custom_formats:
       - trash_ids:
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
           - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
           - 06d66ab109d4d2eddb2794d21526d140 # Retags
+          - d7c747094a7c65f4c2de083c24899e8b # FreeLeech
         assign_scores_to:
           - name: WEB-1080p
+          - name: WEB-2160p
+
       - trash_ids:
           - 1b3994c551cbb92a2c781af061f4ab44 # Scene
         assign_scores_to:
           - name: WEB-1080p
             score: 0
+          - name: WEB-2160p
+            score: 0
+
+      - trash_ids:
+          - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
+        assign_scores_to:
+          - name: WEB-2160p
+
+      - trash_ids:
+          - cddfb4e32db826151d97352b8e37c648 # x264
+        assign_scores_to:
+          - name: WEB-1080p-NoRlsGroup
+            score: 50
+
+      - trash_ids:
+          - 4aee45b0868229c4fbd8bad3e315f1d0 # MPEG2
+        assign_scores_to:
+          - name: WEB-1080p-NoRlsGroup
+            score: -10000
 
 radarr:
   radarr:
@@ -44,6 +84,7 @@ radarr:
         assign_scores_to:
           - name: SQP-1 (2160p)
             score: 0
+
       - trash_ids:
           - 7a0d1ad358fee9f5b074af3ef3f9d9ef # hallowed
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
