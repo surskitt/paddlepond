@@ -16,7 +16,7 @@ data:
     module.exports = {
       action: "inject",
       apiKey: process.env.CROSS_SEED_API_KEY,
-      blockList: ["tag:nocross"],
+      blockList: ["tag:nocross", "tag: nocross"],
       delay: 30,
       duplicateCategories: false,
       flatLinking: false,
