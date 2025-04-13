@@ -19,3 +19,13 @@ data:
         alerts:
           - type: custom
           - type: telegram
+
+      - name: qbittorrent open port
+        group: media
+        url: tcp://${SECRET_WIREGUARD_DDNS}
+        interval: 5m
+        conditions:
+          - "[CONNECTED] == true"
+        alerts:
+          - type: custom
+          - type: telegram

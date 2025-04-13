@@ -66,6 +66,9 @@ spec:
               FIREWALL_VPN_INPUT_PORTS: &BT-port 2195
               # SERVER_COUNTRIES: United Kingdom,Netherlands,Germany,Switzerland
               SERVER_NAMES: Dalim,Menkent,Piautos,Alpherg,Xuange
+              WIREGUARD_PRIVATE_KEY: "${SECRET_WIREGUARD_PRIVATE_KEY}"
+              WIREGUARD_PRESHARED_KEY: "${SECRET_WIREGUARD_PRESHARED_KEY}"
+              WIREGUARD_ADDRESSES: "${SECRET_WIREGUARD_ADDRESSES}"
             envFrom:
               - secretRef:
                   name: qbittorrent
