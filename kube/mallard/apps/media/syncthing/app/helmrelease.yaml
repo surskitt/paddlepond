@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: syncthing/syncthing
-              tag: 1.29.3
+              tag: 1.29.5
             env:
               PUID: "1000"
               PGID: "1000"
