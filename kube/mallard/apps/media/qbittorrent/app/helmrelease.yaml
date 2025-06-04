@@ -99,24 +99,24 @@ spec:
                 add:
                   - NET_ADMIN
               # allowPrivilegeEscalation: false
-          mamupdate:
-            dependsOn:
-              - coredns
-              - gluetun
-            image:
-              repository: ghcr.io/gellen89/mam-update
-              tag: 0.0.12
-            env:
-              MAM_UPDATE_DIR: /config/mamupdate
-              LOG_LEVEL: debug
-            envFrom:
-              - secretRef:
-                  name: qbittorrent
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
-              fsGroup: 1000
-              fsGroupChangePolicy: OnRootMismatch
+          # mamupdate:
+          #   dependsOn:
+          #     - coredns
+          #     - gluetun
+          #   image:
+          #     repository: ghcr.io/gellen89/mam-update
+          #     tag: 0.0.12
+          #   env:
+          #     MAM_UPDATE_DIR: /config/mamupdate
+          #     LOG_LEVEL: debug
+          #   envFrom:
+          #     - secretRef:
+          #         name: qbittorrent
+          #   securityContext:
+          #     runAsUser: 1000
+          #     runAsGroup: 1000
+          #     fsGroup: 1000
+          #     fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
