@@ -17,8 +17,6 @@ spec:
   timeout: 5m
   patches:
     - patch: |
-        - op: remove
-          path: /spec/values/controllers/qbittorrent/initContainers/mamupdate
         - op: replace
           path: /spec/values/controllers/qbittorrent/initContainers/gluetun/env/FIREWALL_VPN_INPUT_PORTS
           value: &BT-port 29359
@@ -40,6 +38,8 @@ spec:
               qbittorrent:
                 app:
                   - path: /pdl
+      # - op: remove
+      #   path: /spec/values/controllers/qbittorrent/initContainers/mamupdate
       target:
         kind: HelmRelease
         name: qbittorrent
