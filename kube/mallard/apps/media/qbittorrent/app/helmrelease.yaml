@@ -60,7 +60,7 @@ spec:
               VPN_SERVICE_PROVIDER: airvpn
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "8080,9999"
+              FIREWALL_INPUT_PORTS: "5010,8080,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
               FIREWALL_VPN_INPUT_PORTS: &BT-port 2195
@@ -158,12 +158,27 @@ spec:
               runAsGroup: 1000
               fsGroup: 1000
               fsGroupChangePolicy: OnRootMismatch
+          mousehole:
+            image:
+              repository: docker.io/tmmrtn/mousehole
+              tag: 0.1.11
+            env:
+              TZ: "Europe/London"
+              MOUSEHOLE_STATE_DIR_PATH: /config
+              MOUSEHOLE_PORT: &mamport 5010
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: qbittorrent
         ports:
           http:
             port: *port
+          mousehole:
+            port: *mamport
     ingress:
       app:
         className: nginx
@@ -182,6 +197,32 @@ spec:
         tls:
           - hosts:
               - *host
+      mousehole:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+          nginx.ingress.kubernetes.io/server-snippets: |
+            location / {
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_http_version 1.1;
+              proxy_set_header X-Forwarded-Host $http_host;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_set_header X-Forwarded-For $remote_addr;
+              proxy_set_header Host $host;
+              proxy_set_header Connection "upgrade";
+              proxy_cache_bypass $http_upgrade;
+            }
+        hosts:
+          - host: &mamhost "mam.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: mousehole
+        tls:
+          - hosts:
+              - *mamhost
       tailscale:
         className: nginx-tailscale
         annotations:
