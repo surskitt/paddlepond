@@ -16,21 +16,6 @@ sonarr:
       - template: sonarr-quality-definition-anime
       - template: sonarr-v4-quality-profile-anime
       - template: sonarr-v4-custom-formats-anime
-    quality_profiles:
-      - name: WEB-1080p-NoRlsGroup
-        reset_unmatched_scores:
-          enabled: true
-        min_format_score: 50
-        quality_sort: top
-        qualities:
-          - name: WEB 1080p
-            qualities:
-              - WEBDL-1080p
-              - WEBRip-1080p
-          - name: HDTV-1080p
-        upgrade:
-          allowed: true
-          until_quality: WEB 1080p
     custom_formats:
       - trash_ids:
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
@@ -52,18 +37,6 @@ sonarr:
           - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
         assign_scores_to:
           - name: WEB-2160p
-
-      - trash_ids:
-          - cddfb4e32db826151d97352b8e37c648 # x264
-        assign_scores_to:
-          - name: WEB-1080p-NoRlsGroup
-            score: 50
-
-      - trash_ids:
-          - 4aee45b0868229c4fbd8bad3e315f1d0 # MPEG2
-        assign_scores_to:
-          - name: WEB-1080p-NoRlsGroup
-            score: -10000
 
 radarr:
   radarr:
@@ -87,7 +60,6 @@ radarr:
       - trash_ids:
           - 7a0d1ad358fee9f5b074af3ef3f9d9ef # hallowed
           - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
-          - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
           - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
           - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated
           - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
