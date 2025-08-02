@@ -9,13 +9,16 @@ sonarr:
     replace_existing_custom_formats: true
     include:
       - template: sonarr-quality-definition-series
-      - template: sonarr-v4-quality-profile-web-1080p-alternative
-      - template: sonarr-v4-custom-formats-web-1080p
-      - template: sonarr-v4-quality-profile-web-2160p-alternative
-      - template: sonarr-v4-custom-formats-web-2160p
       - template: sonarr-quality-definition-anime
-      - template: sonarr-v4-quality-profile-anime
+
+      - template: sonarr-v4-custom-formats-web-1080p
+      - template: sonarr-v4-custom-formats-web-2160p
       - template: sonarr-v4-custom-formats-anime
+
+      - template: sonarr-v4-quality-profile-web-1080p-alternative
+      - template: sonarr-v4-quality-profile-web-2160p-alternative
+      - template: sonarr-v4-quality-profile-anime
+
     custom_formats:
       - trash_ids:
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
@@ -49,7 +52,22 @@ radarr:
     include:
       - template: radarr-quality-definition-sqp-streaming
       - template: radarr-quality-profile-sqp-1-2160p-default
+      - template: radarr-quality-definition-anime
+      - template: radarr-quality-definition-movie
+
       - template: radarr-custom-formats-sqp-1-2160p
+      - template: radarr-custom-formats-anime
+      - template: radarr-custom-formats-hd-bluray-web
+      - template: radarr-custom-formats-remux-web-1080p
+      - template: radarr-custom-formats-remux-web-2160p
+      - template: radarr-custom-formats-uhd-bluray-web
+
+      - template: radarr-quality-profile-anime
+      - template: radarr-quality-profile-hd-bluray-web
+      - template: radarr-quality-profile-remux-web-1080p
+      - template: radarr-quality-profile-remux-web-2160p
+      - template: radarr-quality-profile-uhd-bluray-web
+
     custom_formats:
       - trash_ids:
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
