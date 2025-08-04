@@ -31,8 +31,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/codebam/soju-docker
-              tag: nightly@sha256:4c69493573bb7aef0fffa8735d28b79e7a4ef6b0da3a67cfaad3414fda0649c1
+              repository: codeberg.org/emersion/soju
+              tag: v0.9.0
     service:
       main:
         type: LoadBalancer
@@ -65,7 +65,7 @@ spec:
         advancedMounts:
           main:
             main:
-              - path: /config
+              - path: /soju-config
                 subPath: config
       data:
         enabled: true
