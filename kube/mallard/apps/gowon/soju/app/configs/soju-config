@@ -1,0 +1,6 @@
+listen ircs://
+listen ws://localhost:3030
+hostname soju.${SECRET_DOMAIN}
+tls /tls/tls.crt /tls/tls.key
+db sqlite3 /data/soju.db
+message-store db

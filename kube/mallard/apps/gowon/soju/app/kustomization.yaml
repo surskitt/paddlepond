@@ -2,9 +2,19 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: gowon
 resources:
   - ./secret.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./restore.yaml
   - ./backup.yaml
+configMapGenerator:
+  - name: soju
+    files:
+      - ./configs/soju-config
+  - name: gamja
+    files:
+      - ./configs/gamja-config.json
+generatorOptions:
+  disableNameSuffixHash: true

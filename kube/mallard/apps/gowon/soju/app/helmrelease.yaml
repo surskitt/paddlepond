@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,43 +30,56 @@ spec:
       main:
         containers:
           main:
-            image:
+            image: 
               repository: codeberg.org/emersion/soju
               tag: v0.9.0
+      # gamja:
+      #   containers:
+          gamja:
+            image: 
+              repository: codeberg.org/emersion/gamja
+              tag: v1.0.0-beta.11
     service:
       main:
+        controller: main
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        ports:
+          irc:
+            port: 6697
+            protocol: TCP
         loadBalancerIP: 192.168.50.104
         annotations:
           "coredns.io/hostname": "soju.${SECRET_DOMAIN}"
+      ws:
+        controller: main
+        ports:
+          ws:
+            port: 3030
+            protocol: TCP
+      gamja:
+        controller: main
         ports:
           http:
-            enabled: false
-          irc:
-            enabled: true
-            primary: true
-            port: 6697
-    configMaps:
-      config:
-        enabled: true
-        data:
-          config: |
-            listen ircs://
-            hostname soju.${SECRET_HOSTNAME}
-            tls /tls/tls.crt /tls/tls.key
-            db sqlite3 /data/soju.db
-            message-store db
+            port: 80
     persistence:
-      config:
+      soju-config:
         enabled: true
         type: configMap
-        name: soju-config
+        name: soju
         advancedMounts:
           main:
             main:
               - path: /soju-config
-                subPath: config
+                subPath: soju-config
+      gamja-config:
+        enabled: true
+        type: configMap
+        name: gamja
+        advancedMounts:
+          main:
+            gamja:
+              - path: /gamja-config.json
+                subPath: gamja-config.json
       data:
         enabled: true
         type: persistentVolumeClaim
@@ -77,6 +90,10 @@ spec:
           kind: ReplicationDestination
           apiGroup: volsync.backube
           name: soju-restore
+        advancedMounts:
+          main:
+            main:
+              - path: /data
       tls:
         enabled: true
         type: secret
@@ -84,5 +101,4 @@ spec:
         advancedMounts:
           main:
             main:
-              - mountPath: /tls
-                readOnly: true
+              - path: /tls
