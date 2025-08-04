@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,43 +30,30 @@ spec:
       main:
         containers:
           main:
-            image:
+            image: 
               repository: codeberg.org/emersion/soju
               tag: v0.9.0
     service:
       main:
+        controller: main
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        ports:
+          irc:
+            port: 6697
+            protocol: TCP
         loadBalancerIP: 192.168.50.104
         annotations:
           "coredns.io/hostname": "soju.${SECRET_DOMAIN}"
-        ports:
-          http:
-            enabled: false
-          irc:
-            enabled: true
-            primary: true
-            port: 6697
-    configMaps:
-      config:
-        enabled: true
-        data:
-          config: |
-            listen ircs://
-            hostname soju.${SECRET_HOSTNAME}
-            tls /tls/tls.crt /tls/tls.key
-            db sqlite3 /data/soju.db
-            message-store db
     persistence:
-      config:
+      soju-config:
         enabled: true
         type: configMap
-        name: soju-config
+        name: soju
         advancedMounts:
           main:
             main:
               - path: /soju-config
-                subPath: config
+                subPath: soju-config
       data:
         enabled: true
         type: persistentVolumeClaim
@@ -81,8 +68,3 @@ spec:
         enabled: true
         type: secret
         name: "${SECRET_DOMAIN/./-}-production"
-        advancedMounts:
-          main:
-            main:
-              - mountPath: /tls
-                readOnly: true
