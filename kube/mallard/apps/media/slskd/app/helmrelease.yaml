@@ -1,0 +1,440 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: slskd
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      slskd:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/slskd/slskd
+              tag: 0.23.1@sha256:57f87d80b882b882f72cecc0b3aa0f0adb4c7887ed278906c237ff30003ae639
+            env:
+              DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp/.net
+              TZ: Europe/London
+              SLSKD_APP_DIR: /config
+              SLSKD_HTTP_PORT: &port 80
+              # SLSKD_NO_AUTH: true
+              SLSKD_NO_HTTPS: true
+              SLSKD_SLSK_LISTEN_PORT: &soulseekPort 50300
+            envFrom:
+              - secretRef:
+                  name: slskd
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        primary: true
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/server-snippets: |
+            location / {
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "Upgrade";
+              proxy_set_header Host $host;
+              proxy_request_buffering off;
+            }
+            client_max_body_size 0;
+          # nginx.ingress.kubernetes.io/server-snippets: |
+          #   location / {
+          #     proxy_set_header Upgrade $http_upgrade;
+          #     proxy_http_version 1.1;
+          #     proxy_set_header X-Forwarded-Host $http_host;
+          #     proxy_set_header X-Forwarded-Proto $scheme;
+          #     proxy_set_header X-Forwarded-For $remote_addr;
+          #     proxy_set_header Host $host;
+          #     proxy_set_header Connection "upgrade";
+          #     proxy_cache_bypass $http_upgrade;
+          #     proxy_request_buffering off;
+          #   }
+          #   client_max_body_size 0;
+        hosts:
+          - host: &host "slskd.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: slskd-restore
+      config-file:
+        type: configMap
+        name: slskd
+        defaultMode: 0775
+        globalMounts:
+          - path: /config/slskd.yml
+            subPath: slskd.yml
+            readOnly: true
+      media:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media
+        advancedMounts:
+          slskd:
+            app:
+              - path: /media
+      tmp:
+        type: emptyDir
+
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     type: persistentVolumeClaim
+    #     storageClass: local-hostpath
+    #     accessMode: ReadWriteOnce
+    #     size: 1Gi
+    #     dataSourceRef:
+    #       kind: ReplicationDestination
+    #       apiGroup: volsync.backube
+    #       name: qbittorrent-restore
+    #   scripts:
+    #     type: configMap
+    #     name: qbittorrent-scripts
+    #     defaultMode: 0775
+    #     globalMounts:
+    #       - readOnly: true
+    #   downloads:
+    #     enabled: true
+    #     type: hostPath
+    #     hostPath: /mnt/ssd/media/downloads/torrents
+    #     advancedMounts:
+    #       qbittorrent:
+    #         app:
+    #           - path: /downloads
+    #   add-ons:
+    #     enabled: true
+    #     type: emptyDir
+    #     globalMounts:
+    #       - path: /add-ons
+    #   coredns:
+    #     type: configMap
+    #     name: qbittorrent-coredns
+    #     advancedMounts:
+    #       qbittorrent:
+    #         coredns:
+    #           - path: /etc/coredns/Corefile
+    #             subPath: Corefile
+    #             readOnly: true
+        
+
+
+    # controllers:
+    #   qbittorrent:
+    #     initContainers:
+    #       coredns:
+    #         image:
+    #           repository: mirror.gcr.io/coredns/coredns
+    #           tag: 1.12.0
+    #         args:
+    #           - -conf
+    #           - /etc/coredns/Corefile
+    #         restartPolicy: Always
+    #         securityContext:
+    #           runAsUser: 1000
+    #           runAsGroup: 1000
+    #           fsGroup: 1000
+    #           fsGroupChangePolicy: OnRootMismatch
+    #       gluetun:
+    #         dependsOn:
+    #           - coredns
+    #         image:
+    #           repository: ghcr.io/qdm12/gluetun
+    #           tag: v3.40.0
+    #         env:
+    #           DOT: "off"
+    #           DNS_ADDRESS: "127.0.0.2"
+    #           VPN_SERVICE_PROVIDER: airvpn
+    #           VPN_TYPE: wireguard
+    #           VPN_INTERFACE: wg0
+    #           FIREWALL_INPUT_PORTS: "5010,8080,9999"
+    #           FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
+    #           HEALTH_SERVER_ADDRESS: ":9999"
+    #           FIREWALL_VPN_INPUT_PORTS: &BT-port 2195
+    #           # SERVER_COUNTRIES: United Kingdom,Netherlands,Germany,Switzerland
+    #           SERVER_NAMES: Dalim,Menkent,Piautos,Alpherg,Xuange
+    #           WIREGUARD_PRIVATE_KEY: "${SECRET_WIREGUARD_PRIVATE_KEY}"
+    #           WIREGUARD_PRESHARED_KEY: "${SECRET_WIREGUARD_PRESHARED_KEY}"
+    #           WIREGUARD_ADDRESSES: "${SECRET_WIREGUARD_ADDRESSES}"
+    #         envFrom:
+    #           - secretRef:
+    #               name: qbittorrent
+    #         probes:
+    #           liveness:
+    #             enabled: true
+    #             custom: true
+    #             spec:
+    #               httpGet:
+    #                 path: /
+    #                 port: 9999
+    #               timeoutSeconds: 10
+    #               periodSeconds: 30
+    #               failureThreshold: 5
+    #           startup:
+    #             enabled: true
+    #             custom: true
+    #             spec:
+    #               httpGet:
+    #                 path: /
+    #                 port: 9999
+    #               initialDelaySeconds: 10
+    #               periodSeconds: 10
+    #               failureThreshold: 5
+    #         restartPolicy: Always
+    #         securityContext:
+    #           capabilities:
+    #             add:
+    #               - NET_ADMIN
+    #           # allowPrivilegeEscalation: false
+    #       # mamupdate:
+    #       #   dependsOn:
+    #       #     - coredns
+    #       #     - gluetun
+    #       #   image:
+    #       #     repository: ghcr.io/gellen89/mam-update
+    #       #     tag: 0.0.12
+    #       #   env:
+    #       #     MAM_UPDATE_DIR: /config/mamupdate
+    #       #     LOG_LEVEL: debug
+    #       #   envFrom:
+    #       #     - secretRef:
+    #       #         name: qbittorrent
+    #       #   securityContext:
+    #       #     runAsUser: 1000
+    #       #     runAsGroup: 1000
+    #       #     fsGroup: 1000
+    #       #     fsGroupChangePolicy: OnRootMismatch
+    #     containers:
+    #       app:
+    #         image:
+    #           repository: ghcr.io/home-operations/qbittorrent
+    #           tag: 5.1.2@sha256:9dd0164cc23e9c937e0af27fd7c3f627d1df30c182cf62ed34d3f129c55dc0e8 
+    #         env:
+    #           TZ: "Europe/London"
+    #           UMASK: "022"
+    #           QBT_WEBUI_PORT: &port 8080
+    #           QBT_TORRENTING_PORT: *BT-port
+    #           QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
+    #           QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
+    #             10.42.0.0/16, 10.20.0.0/24
+    #           QBT_BitTorrent__Session__Interface: wg0
+    #           QBT_BitTorrent__Session__InterfaceAddress: "0.0.0.0"
+    #           QBT_BitTorrent__Session__InterfaceName: wg0
+    #           QBT_Preferences__WebUI__AlternativeUIEnabled: true
+    #           QBT_Preferences__WebUI__RootFolder: /add-ons/VueTorrent
+    #         envFrom:
+    #           - secretRef:
+    #               name: qbittorrent
+    #         securityContext:
+    #           runAsUser: 1000
+    #           runAsGroup: 1000
+    #           fsGroup: 1000
+    #           fsGroupChangePolicy: OnRootMismatch
+    #       vuetorrent:
+    #         dependsOn: app
+    #         image:
+    #           repository: registry.k8s.io/git-sync/git-sync
+    #           tag: v4.4.2
+    #         args:
+    #           - --repo=https://github.com/WDaan/VueTorrent
+    #           - --ref=latest-release
+    #           - --period=86400s
+    #           - --root=/add-ons
+    #         securityContext:
+    #           runAsUser: 1000
+    #           runAsGroup: 1000
+    #           fsGroup: 1000
+    #           fsGroupChangePolicy: OnRootMismatch
+    #       mousehole:
+    #         image:
+    #           repository: docker.io/tmmrtn/mousehole
+    #           tag: 0.1.11
+    #         env:
+    #           TZ: "Europe/London"
+    #           MOUSEHOLE_STATE_DIR_PATH: /config
+    #           MOUSEHOLE_PORT: &mamport 5010
+    #         securityContext:
+    #           runAsUser: 1000
+    #           runAsGroup: 1000
+    #           fsGroup: 1000
+    #           fsGroupChangePolicy: OnRootMismatch
+    # service:
+    #   app:
+    #     controller: qbittorrent
+    #     ports:
+    #       http:
+    #         port: *port
+    #       mousehole:
+    #         port: *mamport
+    # ingress:
+    #   app:
+    #     className: nginx
+    #     annotations:
+    #       nginx.ingress.kubernetes.io/configuration-snippet: |
+    #         proxy_set_header Accept-Encoding "";
+    #         sub_filter '<body>' '<body><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/vuetorrent/nord.css">';
+    #         sub_filter_once on;
+    #     hosts:
+    #       - host: &host "qb.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #   mousehole:
+    #     className: nginx
+    #     annotations:
+    #       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    #       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    #       nginx.ingress.kubernetes.io/server-snippets: |
+    #         location / {
+    #           proxy_set_header Upgrade $http_upgrade;
+    #           proxy_http_version 1.1;
+    #           proxy_set_header X-Forwarded-Host $http_host;
+    #           proxy_set_header X-Forwarded-Proto $scheme;
+    #           proxy_set_header X-Forwarded-For $remote_addr;
+    #           proxy_set_header Host $host;
+    #           proxy_set_header Connection "upgrade";
+    #           proxy_cache_bypass $http_upgrade;
+    #         }
+    #     hosts:
+    #       - host: &mamhost "mam.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: mousehole
+    #     tls:
+    #       - hosts:
+    #           - *mamhost
+    #   tailscale:
+    #     className: nginx-tailscale
+    #     annotations:
+    #       external-dns.alpha.kubernetes.io/target: "100.72.100.101"
+    #       external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    #       nginx.ingress.kubernetes.io/configuration-snippet: |
+    #         proxy_set_header Accept-Encoding "";
+    #         sub_filter '<body>' '<body><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/vuetorrent/nord.css">';
+    #         sub_filter_once on;
+    #     hosts:
+    #       - host: &host "qb.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    # persistence:
+    #   config:
+    #     enabled: true
+    #     type: persistentVolumeClaim
+    #     storageClass: local-hostpath
+    #     accessMode: ReadWriteOnce
+    #     size: 1Gi
+    #     dataSourceRef:
+    #       kind: ReplicationDestination
+    #       apiGroup: volsync.backube
+    #       name: qbittorrent-restore
+    #   scripts:
+    #     type: configMap
+    #     name: qbittorrent-scripts
+    #     defaultMode: 0775
+    #     globalMounts:
+    #       - readOnly: true
+    #   downloads:
+    #     enabled: true
+    #     type: hostPath
+    #     hostPath: /mnt/ssd/media/downloads/torrents
+    #     advancedMounts:
+    #       qbittorrent:
+    #         app:
+    #           - path: /downloads
+    #   add-ons:
+    #     enabled: true
+    #     type: emptyDir
+    #     globalMounts:
+    #       - path: /add-ons
+    #   coredns:
+    #     type: configMap
+    #     name: qbittorrent-coredns
+    #     advancedMounts:
+    #       qbittorrent:
+    #         coredns:
+    #           - path: /etc/coredns/Corefile
+    #             subPath: Corefile
+    #             readOnly: true
