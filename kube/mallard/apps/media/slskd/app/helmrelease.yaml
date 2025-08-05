@@ -1,0 +1,134 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: slskd
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      slskd:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/slskd/slskd
+              tag: 0.23.1@sha256:57f87d80b882b882f72cecc0b3aa0f0adb4c7887ed278906c237ff30003ae639
+            env:
+              DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp/.net
+              TZ: Europe/London
+              SLSKD_APP_DIR: /config
+              SLSKD_HTTP_PORT: &port 80
+              SLSKD_NO_HTTPS: true
+              SLSKD_SLSK_LISTEN_PORT: &soulseekPort 50300
+            envFrom:
+              - secretRef:
+                  name: slskd
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        primary: true
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/server-snippets: |
+            location / {
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "Upgrade";
+              proxy_set_header Host $host;
+              proxy_request_buffering off;
+            }
+            client_max_body_size 0;
+        hosts:
+          - host: &host "slskd.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: slskd-restore
+      config-file:
+        type: configMap
+        name: slskd
+        defaultMode: 0775
+        globalMounts:
+          - path: /config/slskd.yml
+            subPath: slskd.yml
+            readOnly: true
+      media:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media
+        advancedMounts:
+          slskd:
+            app:
+              - path: /media
+      tmp:
+        type: emptyDir
