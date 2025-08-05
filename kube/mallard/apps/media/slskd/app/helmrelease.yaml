@@ -26,17 +26,78 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 1000
+    #     runAsGroup: 1000
+    #     fsGroup: 1000
+    #     fsGroupChangePolicy: OnRootMismatch
     controllers:
       slskd:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          coredns:
+            image:
+              repository: mirror.gcr.io/coredns/coredns
+              tag: 1.12.0
+            args:
+              - -conf
+              - /etc/coredns/Corefile
+            restartPolicy: Always
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+          gluetun:
+            dependsOn:
+              - coredns
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0
+            env:
+              DOT: "off"
+              DNS_ADDRESS: "127.0.0.2"
+              VPN_SERVICE_PROVIDER: airvpn
+              VPN_TYPE: wireguard
+              VPN_INTERFACE: wg0
+              FIREWALL_INPUT_PORTS: "80,9999"
+              FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
+              HEALTH_SERVER_ADDRESS: ":9999"
+              FIREWALL_VPN_INPUT_PORTS: &soulseekPort 49375
+              # SERVER_COUNTRIES: United Kingdom,Netherlands,Germany,Switzerland
+              SERVER_NAMES: Dalim,Menkent,Piautos,Alpherg,Xuange
+            envFrom:
+              - secretRef:
+                  name: slskd
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  timeoutSeconds: 10
+                  periodSeconds: 30
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  failureThreshold: 5
+            restartPolicy: Always
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
         containers:
           app:
             image: 
@@ -48,7 +109,7 @@ spec:
               SLSKD_APP_DIR: /config
               SLSKD_HTTP_PORT: &port 80
               SLSKD_NO_HTTPS: true
-              SLSKD_SLSK_LISTEN_PORT: &soulseekPort 50300
+              SLSKD_SLSK_LISTEN_PORT: *soulseekPort
             envFrom:
               - secretRef:
                   name: slskd
@@ -66,6 +127,10 @@ spec:
                   failureThreshold: 3
               readiness: *probes
             securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
@@ -132,3 +197,12 @@ spec:
               - path: /media
       tmp:
         type: emptyDir
+      coredns:
+        type: configMap
+        name: slskd-coredns
+        advancedMounts:
+          slskd:
+            coredns:
+              - path: /etc/coredns/Corefile
+                subPath: Corefile
+                readOnly: true
