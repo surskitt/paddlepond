@@ -24,3 +24,4 @@ resources:
   - ./autobrr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./slskd/ks.yaml
+  - ./lidarr/ks.yaml

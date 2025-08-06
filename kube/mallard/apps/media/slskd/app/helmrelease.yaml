@@ -111,6 +111,13 @@ spec:
               SLSKD_NO_HTTPS: true
               SLSKD_NO_AUTH: true
               SLSKD_SLSK_LISTEN_PORT: *soulseekPort
+              SLSKD_DOWNLOADS_DIR: /media/downloads/soulseek/complete
+              SLSKD_INCOMPLETE_DIR: /media/downloads/soulseek/incomplete
+              SLSKD_SHARED_DIR: /media/downloads/soulseek/shared
+              SLSKD_SHARE_FILTER: '\.ini$;Thumbs.db$;\.DS_Store$'
+              SLSKD_REMOTE_CONFIGURATION: false
+              SLSKD_FILE_PERMISSION_MODE: 750
+              SLSKD_NO_VERSION_CHECK: true
             envFrom:
               - secretRef:
                   name: slskd
@@ -181,8 +188,8 @@ spec:
           apiGroup: volsync.backube
           name: slskd-restore
       config-file:
-        type: configMap
-        name: slskd
+        type: secret
+        name: slskd-yaml
         defaultMode: 0775
         globalMounts:
           - path: /config/slskd.yml
