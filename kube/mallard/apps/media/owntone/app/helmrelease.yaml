@@ -34,8 +34,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/linuxserver/daapd
-              tag: 28.10.20250118
+              repository: owntone/owntone:28.12
+              tag: 28.12
           scrobbler:
             image:
               repository: giof71/mpd-scrobbler
