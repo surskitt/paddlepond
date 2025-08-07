@@ -34,7 +34,7 @@ spec:
         containers:
           main:
             image:
-              repository: owntone/owntone:28.12
+              repository: owntone/owntone
               tag: 28.12
           scrobbler:
             image:
