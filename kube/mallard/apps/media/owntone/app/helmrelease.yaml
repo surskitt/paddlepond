@@ -34,8 +34,13 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/linuxserver/daapd
-              tag: 28.10.20250118
+              repository: docker.io/owntone/owntone
+              tag: 28.12
+            env:
+              UID: 1000
+              GID: 1000
+            securityContext:
+              privileged: true
           scrobbler:
             image:
               repository: giof71/mpd-scrobbler
@@ -104,6 +109,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+        advancedMounts:
+          main:
+            main:
+              - path: /etc/owntone
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube
@@ -118,6 +127,16 @@ spec:
           main:
             main:
               - path: /config/dbase_and_logs
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          main:
+            main:
+              - path: /var/cache/owntone
       music:
         enabled: true
         type: hostPath
