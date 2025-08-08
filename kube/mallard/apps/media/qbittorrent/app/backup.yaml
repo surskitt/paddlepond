@@ -34,7 +34,7 @@ metadata:
   name: qbittorrent
   namespace: media
 spec:
-  sourcePVC: qbittorrent-config
+  sourcePVC: qbittorrent
   trigger:
     schedule: "0 5 * * *"
   restic:
@@ -56,7 +56,7 @@ metadata:
   name: qbittorrent-r2
   namespace: media
 spec:
-  sourcePVC: qbittorrent-config
+  sourcePVC: qbittorrent
   trigger:
     schedule: "30 5 * * *"
   restic:
