@@ -26,3 +26,4 @@ resources:
   - ./slskd/ks.yaml
   - ./lidarr/ks.yaml
   - ./iplayarr/ks.yaml
+  - ./tqm/ks.yaml
