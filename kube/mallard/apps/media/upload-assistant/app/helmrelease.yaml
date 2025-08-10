@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: upload-assistant
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      upload:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/audionut/upload-assistant
+              tag: v5.3.1
+            command:
+              - sleep
+            args:
+              - infinity
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      downloads:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/downloads/torrents
+        globalMounts:
+          - path: /downloads
+      config-file:
+        enabled: true
+        type: secret
+        name: upload-assistant
+        globalMounts:
+          - path: /Upload-Assistant/data/config.py
+            subPath: config.py
+            readOnly: true
+      tmp:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /Upload-Assistant/tmp
