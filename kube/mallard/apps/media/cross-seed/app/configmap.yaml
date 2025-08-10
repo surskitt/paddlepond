@@ -33,6 +33,7 @@ data:
       radarr: [
         `http://radarr.media.svc.cluster.local:7878/?apikey=$${radarr_api_key}`
       ],
+      rssCadence: "20 minutes",
       seasonFromEpisodes: 0.8,
       skipRecheck: true,
       sonarr: [
