@@ -263,10 +263,8 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /mnt/ssd/media/downloads/torrents
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /downloads
+        globalMounts:
+          - path: /downloads
       add-ons:
         enabled: true
         type: emptyDir
