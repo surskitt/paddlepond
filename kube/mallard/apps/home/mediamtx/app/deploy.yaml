@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mediamtx
-          image: bluenviron/mediamtx:1.13.1
+          image: bluenviron/mediamtx:1.14.0
           env:
             - name: RTSP_PROTOCOLS
               value: tcp
