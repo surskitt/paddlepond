@@ -49,17 +49,20 @@ spec:
               liveness: &probes
                 enabled: true
                 custom: true
-                spec:
+                spec: &probespec
                   httpGet:
                     path: /api/ping
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  timeoutSeconds: 10
                   failureThreshold: 3
               readiness: *probes
               startup:
-                enabled: false
+                <<: *probes
+                spec:
+                  <<: *probespec
+                  failureThreshold: 6
             securityContext:
               runAsNonRoot: true
               runAsUser: 1000
