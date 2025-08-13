@@ -38,8 +38,8 @@ spec:
               qbittorrent:
                 app:
                   - path: /pdl
-      # - op: remove
-      #   path: /spec/values/controllers/qbittorrent/initContainers/mamupdate
+        - op: remove
+          path: /spec/values/controllers/qbittorrent/containers/mousehole
       target:
         kind: HelmRelease
         name: qbittorrent
