@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-tqm
+  namespace: flux-system
+spec:
+  path: ./kube/mallard/apps/media/tqm/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/persistence/downloads/hostPath
+          value: /mnt/16tb/media/downloads/torrents
+        - op: add
+          path: /spec/values/persistence/p
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/20tb/p/.torrents
+            advancedMounts:
+              qbittorrent:
+                app:
+                  - path: /pdl
+      target:
+        kind: HelmRelease
+        name: qbittorrent

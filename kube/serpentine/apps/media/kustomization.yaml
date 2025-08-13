@@ -15,3 +15,4 @@ resources:
   - ./plex/ks.yaml
   - ./syncthing/ks.yaml
   - ./hass-nfs-mount-status/ks.yaml
+  - ./tqm/ks.yaml
