@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: navidrome
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      navidrome:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/navidrome/navidrome
+              tag: 0.58.0
+            env:
+              TZ: Europe/London
+              ND_DATAFOLDER: /config
+              ND_MUSICFOLDER: /music
+              ND_PORT: &port 80
+              ND_SCANNER_SCHEDULE: 0 * * * *
+              ND_SCANNER_PURGEMISSING: always
+              ND_ENABLEDOWNLOADS: "true"
+              ND_ENABLEEXTERNALSERVICES: "true"
+              ND_ENABLESHARING: "false"
+              ND_ENABLETRANSCODINGCONFIG: "true"
+              ND_LOGLEVEL: info
+              ND_AUTHREQUESTLIMIT: 0
+              ND_ENABLEINSIGHTSCOLLECTOR: "false"
+            # envFrom:
+            #   - secretRef:
+            #       name: navidrome
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+              limits:
+                memory: 300Mi
+    service:
+      app:
+        primary: true
+        controller: navidrome
+        ports:
+          http:
+            port: *port
+    ingress:
+      main:
+        className: nginx
+        hosts:
+          - host: &host "navidrome.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: navidrome-restore
+      music:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/music
+        advancedMounts:
+          navidrome:
+            app:
+              - path: /music
