@@ -3,13 +3,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: iplayarr-restore
+  name: navidrome-restore
   namespace: media
 spec:
   trigger:
-    manual: iplayarr-restore
+    manual: navidrome-restore
   restic:
-    repository: iplayarr-restic
+    repository: navidrome-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath

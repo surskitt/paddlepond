@@ -56,9 +56,6 @@ spec:
               ND_LOGLEVEL: info
               ND_AUTHREQUESTLIMIT: 0
               ND_ENABLEINSIGHTSCOLLECTOR: "false"
-            # envFrom:
-            #   - secretRef:
-            #       name: navidrome
             probes:
               liveness: &probes
                 enabled: true
@@ -101,10 +98,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
-        # dataSourceRef:
-        #   kind: ReplicationDestination
-        #   apiGroup: volsync.backube
-        #   name: navidrome-restore
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: navidrome-restore
       music:
         enabled: true
         type: hostPath

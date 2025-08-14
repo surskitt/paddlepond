@@ -4,8 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: media
 resources:
-  # - ./secret.sops.yaml
   - ./helmrelease.yaml
-  # - ./restore.yaml
-  # - ./backup.yaml
+  - ./restore.yaml
+  - ./backup.yaml
   - ./gatus.yaml
