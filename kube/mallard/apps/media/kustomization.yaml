@@ -28,3 +28,4 @@ resources:
   - ./tqm/ks.yaml
   - ./upload-assistant/ks.yaml
   - ./navidrome/ks.yaml
+  - ./calibre-web-automated/ks.yaml
