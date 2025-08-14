@@ -91,6 +91,21 @@ spec:
         tls:
           - hosts:
               - *host
+      tailscale:
+        className: nginx-tailscale
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+        hosts:
+          - host: &host "navidrome.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
     persistence:
       config:
         enabled: true
