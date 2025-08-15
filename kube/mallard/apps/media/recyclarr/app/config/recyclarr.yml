@@ -15,8 +15,8 @@ sonarr:
       - template: sonarr-v4-custom-formats-web-2160p
       - template: sonarr-v4-custom-formats-anime
 
-      - template: sonarr-v4-quality-profile-web-1080p-alternative
-      - template: sonarr-v4-quality-profile-web-2160p-alternative
+      - template: sonarr-v4-quality-profile-web-1080p
+      - template: sonarr-v4-quality-profile-web-2160p
       - template: sonarr-v4-quality-profile-anime
 
     custom_formats:
