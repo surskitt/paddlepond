@@ -60,7 +60,7 @@ spec:
               VPN_SERVICE_PROVIDER: airvpn
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "5010,8080,9999"
+              FIREWALL_INPUT_PORTS: "80,5010,8080,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
               FIREWALL_VPN_INPUT_PORTS: &BT-port 2195
@@ -98,25 +98,6 @@ spec:
               capabilities:
                 add:
                   - NET_ADMIN
-              # allowPrivilegeEscalation: false
-          # mamupdate:
-          #   dependsOn:
-          #     - coredns
-          #     - gluetun
-          #   image:
-          #     repository: ghcr.io/gellen89/mam-update
-          #     tag: 0.0.12
-          #   env:
-          #     MAM_UPDATE_DIR: /config/mamupdate
-          #     LOG_LEVEL: debug
-          #   envFrom:
-          #     - secretRef:
-          #         name: qbittorrent
-          #   securityContext:
-          #     runAsUser: 1000
-          #     runAsGroup: 1000
-          #     fsGroup: 1000
-          #     fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
@@ -171,6 +152,24 @@ spec:
               runAsGroup: 1000
               fsGroup: 1000
               fsGroupChangePolicy: OnRootMismatch
+          speedtest:
+            image:
+              repository: lscr.io/linuxserver/speedtest-tracker
+              tag: 1.6.6
+            env:
+              PUID: 1000
+              PGID: 1000
+              APP_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: qbittorrent
+                    key: SPEEDTEST_APP_KEY
+              APP_URL: &speedtesturl "https://qbspeed.${SECRET_DOMAIN}"
+              ASSET_URL: *speedtesturl
+              DISPLAY_TIMEZONE: "Europe/London"
+              DB_CONNECTION: sqlite
+              SPEEDTEST_SCHEDULE: "0,30 * * * *"
+              SPEEDTEST_INTERFACE: wg0
     service:
       app:
         controller: qbittorrent
@@ -179,6 +178,8 @@ spec:
             port: *port
           mousehole:
             port: *mamport
+          speedtest:
+            port: 80
     ingress:
       app:
         className: nginx
@@ -223,6 +224,18 @@ spec:
         tls:
           - hosts:
               - *mamhost
+      speedtest:
+        className: nginx
+        hosts:
+          - host: &speedtesthost "qbspeed.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: speedtest
+        tls:
+          - hosts:
+              - *speedtesthost
       tailscale:
         className: nginx-tailscale
         annotations:
