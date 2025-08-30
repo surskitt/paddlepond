@@ -1,0 +1,8 @@
+---
+- id: overseer2ntfy
+  execute-command: /config/overseer2ntfy.sh
+  command-working-directory: /config
+  pass-arguments-to-command:
+    - source: string
+      name: '{{ getenv "NTFY_TOKEN" }}'
+    - source: entire-payload

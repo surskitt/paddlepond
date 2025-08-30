@@ -9,3 +9,4 @@ resources:
   - ./goldilocks/ks.yaml
   - ./gatus/ks.yaml
   - ./healthchecks-ping/ks.yaml
+  - ./webhook/ks.yaml

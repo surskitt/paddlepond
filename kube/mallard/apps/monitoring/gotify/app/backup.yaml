@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
     name: gotify-restic
-    namespace: media
+    namespace: monitoring
 labels:
     app.kubernetes.io/part-of: restic
 type: Opaque
@@ -17,7 +17,7 @@ apiVersion: v1
 kind: Secret
 metadata:
     name: gotify-restic-r2
-    namespace: media
+    namespace: monitoring
 labels:
     app.kubernetes.io/part-of: restic
 type: Opaque
