@@ -36,7 +36,7 @@ spec:
           main:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
-              tag: 2.27.0
+              tag: 2.29.0
             env:
               TZ: "Europe/London"
               PORT: &port 13378
