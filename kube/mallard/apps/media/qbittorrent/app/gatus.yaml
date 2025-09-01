@@ -17,8 +17,7 @@ data:
         conditions:
           - "[STATUS] == 200"
         alerts:
-          - type: custom
-          - type: telegram
+          - type: ntfy
 
       - name: qbittorrent open port
         group: media
@@ -27,5 +26,4 @@ data:
         conditions:
           - "[CONNECTED] == true"
         alerts:
-          - type: custom
-          - type: telegram
+          - type: ntfy

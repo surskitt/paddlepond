@@ -17,8 +17,7 @@ data:
         conditions:
           - "[STATUS] == 200"
         alerts:
-          - type: custom
-          - type: telegram
+          - type: ntfy
       - name: minio-s3
         group: storage
         url: https://s3.${SECRET_DOMAIN}/minio/health/live
@@ -26,5 +25,4 @@ data:
         conditions:
           - "[STATUS] == 200"
         alerts:
-          - type: custom
-          - type: telegram
+          - type: ntfy

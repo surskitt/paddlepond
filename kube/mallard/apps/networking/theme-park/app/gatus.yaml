@@ -16,5 +16,4 @@ data:
         conditions:
           - "[STATUS] == 200"
         alerts:
-          - type: custom
-          - type: telegram
+          - type: ntfy

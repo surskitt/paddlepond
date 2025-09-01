@@ -11,25 +11,9 @@ ui:
   title: Status | Gatus
   header: Status
 alerting:
-  telegram:
-    token: "${TELEGRAM_TOKEN}"
-    id: "${TELEGRAM_USER_ID}"
-    default-alert:
-      description: health-check failed
-      send-on-resolved: true
-      failure-threshold: 5
-      success-threshold: 2
-  custom:
-    url: "http://gotify.monitoring.svc.cluster.local/message?token=${GOTIFY_TOKEN}"
-    method: POST
-    headers:
-      Content-Type: "application/json"
-    body: |
-      {
-        "title": "[ENDPOINT_NAME]",
-        "message": "[ALERT_TRIGGERED_OR_RESOLVED]: [ALERT_DESCRIPTION]",
-        "priority": 5
-      }
+  ntfy:
+    topic: "${CLUSTER_NAME}-gatus-${NTFY_TOKEN}"
+    click: "https://status.${SECRET_DOMAIN}"
     default-alert:
       description: health-check failed
       send-on-resolved: true

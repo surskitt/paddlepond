@@ -7,3 +7,4 @@ metadata:
   namespace: flux-system
 data:
   TIMEZONE: "Europe/London"
+  CLUSTER_NAME: serpentine

@@ -60,6 +60,8 @@ spec:
               GATUS_CONFIG_PATH: /config
               CUSTOM_WEB_PORT: &port 80
               SECRET_DOMAIN: "${SECRET_DOMAIN}"
+              CLUSTER_NAME: "${CLUSTER_NAME}"
+              NTFY_TOKEN: "${SECRET_NTFY_TOKEN}"
             envFrom:
               - secretRef:
                   name: gatus-secrets
