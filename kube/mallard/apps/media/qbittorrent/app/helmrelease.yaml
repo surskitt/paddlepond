@@ -292,3 +292,8 @@ spec:
               - path: /etc/coredns/Corefile
                 subPath: Corefile
                 readOnly: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: qbittorrent-values
+      valuesKey: values
+      optional: true
