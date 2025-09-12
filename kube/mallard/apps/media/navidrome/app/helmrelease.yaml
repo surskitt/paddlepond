@@ -56,6 +56,9 @@ spec:
               ND_LOGLEVEL: info
               ND_AUTHREQUESTLIMIT: 0
               ND_ENABLEINSIGHTSCOLLECTOR: "false"
+            envFrom:
+              - secretRef:
+                  name: navidrome
             probes:
               liveness: &probes
                 enabled: true
