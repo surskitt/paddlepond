@@ -63,7 +63,7 @@ spec:
               VPN_SERVICE_PROVIDER: airvpn
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "80,9999"
+              FIREWALL_INPUT_PORTS: "80,8200,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
               FIREWALL_VPN_INPUT_PORTS: &soulseekPort 49375
@@ -147,12 +147,22 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 1Gi
+          netronome:
+            image:
+              repository: ghcr.io/autobrr/netronome
+              tag: v0.6.0@sha256:57036ce116cefe1307fbab19d8d1d36f3f48f5f8554fc29b842587ec48d3dbf5
+            args:
+              - agent
+            env:
+              TZ: "Europe/London"
     service:
       app:
         primary: true
         ports:
           http:
             port: *port
+          netronome:
+            port: 8200
     ingress:
       app:
         className: nginx

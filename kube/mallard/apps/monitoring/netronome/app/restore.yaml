@@ -1,0 +1,20 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: netronome-restore
+  namespace: monitoring
+spec:
+  trigger:
+    manual: netronome-restore
+  restic:
+    repository: netronome-restic
+    copyMethod: Snapshot
+    storageClassName: local-hostpath
+    volumeSnapshotClassName: local-hostpath
+    cacheStorageClassName: local-hostpath
+    accessModes:
+      - ReadWriteOnce
+    capacity: 1Gi
+    cleanupCachePVC: true
+    cleanupTempPVC: true

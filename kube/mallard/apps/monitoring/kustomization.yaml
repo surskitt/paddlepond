@@ -10,3 +10,4 @@ resources:
   - ./gatus/ks.yaml
   - ./healthchecks-ping/ks.yaml
   - ./webhook/ks.yaml
+  - ./netronome/ks.yaml
