@@ -155,7 +155,7 @@ spec:
           speedtest:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
-              tag: 1.6.6
+              tag: 1.6.7
             env:
               PUID: 1000
               PGID: 1000
