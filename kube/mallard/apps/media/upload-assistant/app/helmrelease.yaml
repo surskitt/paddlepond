@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: ghcr.io/audionut/upload-assistant
-              tag: v5.3.3
+              tag: v6.1.0
             command:
               - sleep
             args:
