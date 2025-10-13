@@ -23,7 +23,7 @@ spec:
       serviceAccountName: gowon
       initContainers:
         - name: init-config-sync
-          image: ghcr.io/kiwigrid/k8s-sidecar:1.30.7
+          image: ghcr.io/kiwigrid/k8s-sidecar:1.30.11
           env:
             - name: FOLDER
               value: /config
@@ -76,7 +76,7 @@ spec:
             - containerPort: 8080
               name: http
         - name: config-sync
-          image: ghcr.io/kiwigrid/k8s-sidecar:1.30.7
+          image: ghcr.io/kiwigrid/k8s-sidecar:1.30.11
           env:
             - name: FOLDER
               value: /config
