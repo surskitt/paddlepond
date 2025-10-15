@@ -18,7 +18,7 @@ data:
       apiKey: process.env.CROSS_SEED_API_KEY,
       blockList: ["tag:nocross", "tag: nocross"],
       delay: 30,
-      duplicateCategories: false,
+      duplicateCategories: true,
       flatLinking: false,
       includeEpisodes: true,
       includeNonVideos: true,
