@@ -19,18 +19,41 @@ spec:
     - patch: |
         - op: replace
           path: /spec/values/controllers/cross-seed/containers/app/env/CROSS_SEED_LINK_DIRS
-          value: "/downloads/cross-seed,/pdl/cross-seed"
-        - op: replace
-          path: /spec/values/persistence/media/hostPath
-          value: /mnt/16tb/media/downloads/torrents
+          value: "/downloads/12tb/cross-seed,/downloads/16tb/cross-seed,/downloads/20tb/cross-seed,/downloads/28tb/cross-seed"
+        - op: remove
+          path: /spec/values/persistence/media
         - op: add
-          path: /spec/values/persistence/p
+          path: /spec/values/persistence/12tb
           value:
             enabled: true
             type: hostPath
-            hostPath: /mnt/20tb/p/.torrents
+            hostPath: /mnt/12tb/media/downloads/torrents
             globalMounts:
-              - path: /pdl
+              - path: /downloads/12tb
+        - op: add
+          path: /spec/values/persistence/16tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/16tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/16tb
+        - op: add
+          path: /spec/values/persistence/20tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/20tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/20tb
+        - op: add
+          path: /spec/values/persistence/28tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/28tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/28tb
       target:
         kind: HelmRelease
         name: cross-seed

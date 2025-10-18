@@ -28,19 +28,48 @@ spec:
           value: "15,45 * * * *"
         - op: remove
           path: /spec/values/ingress/tailscale
-        - op: replace
-          path: /spec/values/persistence/downloads/hostPath
-          value: /mnt/16tb/media/downloads/torrents
+        - op: remove
+          path: /spec/values/persistence/downloads
         - op: add
-          path: /spec/values/persistence/p
+          path: /spec/values/persistence/12tb
           value:
             enabled: true
             type: hostPath
-            hostPath: /mnt/20tb/p/.torrents
+            hostPath: /mnt/12tb/media/downloads/torrents
             advancedMounts:
               qbittorrent:
                 app:
-                  - path: /pdl
+                  - path: /downloads/12tb
+        - op: add
+          path: /spec/values/persistence/16tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/16tb/media/downloads/torrents
+            advancedMounts:
+              qbittorrent:
+                app:
+                  - path: /downloads/16tb
+        - op: add
+          path: /spec/values/persistence/20tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/20tb/media/downloads/torrents
+            advancedMounts:
+              qbittorrent:
+                app:
+                  - path: /downloads/20tb
+        - op: add
+          path: /spec/values/persistence/28tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/28tb/media/downloads/torrents
+            advancedMounts:
+              qbittorrent:
+                app:
+                  - path: /downloads/28tb
         - op: remove
           path: /spec/values/controllers/qbittorrent/containers/mousehole
       target:
