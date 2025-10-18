@@ -17,19 +17,44 @@ spec:
   timeout: 5m
   patches:
     - patch: |
-        - op: replace
-          path: /spec/values/persistence/downloads/hostPath
-          value: /mnt/16tb/media/downloads/torrents
+        - op: remove
+          path: /spec/values/persistence/downloads
         - op: add
-          path: /spec/values/persistence/p
+          path: /spec/values/persistence/12tb
           value:
             enabled: true
             type: hostPath
-            hostPath: /mnt/20tb/p/.torrents
-            advancedMounts:
-              qbittorrent:
-                app:
-                  - path: /pdl
+            hostPath: /mnt/12tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/12tb
+                readOnly: true
+        - op: add
+          path: /spec/values/persistence/16tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/16tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/16tb
+                readOnly: true
+        - op: add
+          path: /spec/values/persistence/20tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/20tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/20tb
+                readOnly: true
+        - op: add
+          path: /spec/values/persistence/28tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/28tb/media/downloads/torrents
+            globalMounts:
+              - path: /downloads/28tb
+                readOnly: true
       target:
         kind: HelmRelease
-        name: qbittorrent
+        name: tqm
