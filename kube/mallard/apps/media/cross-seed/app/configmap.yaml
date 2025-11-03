@@ -19,6 +19,8 @@ data:
       blockList: ["tag:nocross", "tag: nocross"],
       delay: 30,
       duplicateCategories: true,
+      excludeOlder: "18d",
+      excludeRecentSearch: "9d",
       flatLinking: false,
       includeEpisodes: true,
       includeNonVideos: true,
@@ -29,12 +31,13 @@ data:
       matchMode: "partial",
       outputDir: "/config",
       port: Number(process.env.CROSS_SEED_PORT),
-      rssCadence: "15 minutes",
       qbittorrentUrl: `http://$${qbittorrent_username}:$${qbittorrent_password}@qbittorrent.media.svc.cluster.local:8080`,
       radarr: [
         `http://radarr.media.svc.cluster.local:7878/?apikey=$${radarr_api_key}`
       ],
+      rssCadence: "15 minutes",
       seasonFromEpisodes: 0.8,
+      searchCadence: "3d",
       skipRecheck: true,
       sonarr: [
         `http://sonarr.media.svc.cluster.local:8989/?apikey=$${sonarr_api_key}`
