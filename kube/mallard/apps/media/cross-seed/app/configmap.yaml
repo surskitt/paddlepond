@@ -19,8 +19,8 @@ data:
       blockList: ["tag:nocross", "tag: nocross"],
       delay: 30,
       duplicateCategories: true,
-      excludeOlder: "18d",
-      excludeRecentSearch: "9d",
+      excludeOlder: "6w",
+      excludeRecentSearch: "3w",
       flatLinking: false,
       includeEpisodes: true,
       includeNonVideos: true,
@@ -37,7 +37,7 @@ data:
       ],
       rssCadence: "15 minutes",
       seasonFromEpisodes: 0.8,
-      searchCadence: "3d",
+      searchCadence: "1w",
       skipRecheck: true,
       sonarr: [
         `http://sonarr.media.svc.cluster.local:8989/?apikey=$${sonarr_api_key}`
