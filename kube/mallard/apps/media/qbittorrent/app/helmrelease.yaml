@@ -55,23 +55,20 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
-              DOT: "off"
               DNS_ADDRESS: "127.0.0.2"
-              VPN_SERVICE_PROVIDER: airvpn
+              DOT: "off"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "80,5010,8080,9999"
+              FIREWALL_INPUT_PORTS: "80,5010,8000,8080,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
-              FIREWALL_VPN_INPUT_PORTS: &BT-port 2195
-              SERVER_COUNTRIES: United Kingdom
-              # SERVER_NAMES: Dalim,Menkent,Piautos,Alpherg,Xuange
-              WIREGUARD_PRIVATE_KEY: "${SECRET_WIREGUARD_PRIVATE_KEY}"
-              WIREGUARD_PRESHARED_KEY: "${SECRET_WIREGUARD_PRESHARED_KEY}"
-              WIREGUARD_ADDRESSES: "${SECRET_WIREGUARD_ADDRESSES}"
-            envFrom:
-              - secretRef:
-                  name: qbittorrent
+              VPN_SERVICE_PROVIDER: protonvpn
+              SERVER_COUNTRIES: Ireland
+              PORT_FORWARD_ONLY: on
+              VPN_PORT_FORWARDING: on
+              VPN_PORT_FORWARDING_PROVIDER: protonvpn
+              WIREGUARD_PRIVATE_KEY: "${SECRET_WIREGUARD_PROTON_PRIVATE_KEY}"
+              VPN_PORT_FORWARDING_UP_COMMAND: "/scripts/gluetun-up.sh {{` {{PORTS}} `}}"
             probes:
               liveness:
                 enabled: true
@@ -107,7 +104,6 @@ spec:
               TZ: "Europe/London"
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
-              QBT_TORRENTING_PORT: *BT-port
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
                 10.42.0.0/16, 10.20.0.0/24
@@ -168,7 +164,7 @@ spec:
               ASSET_URL: *speedtesturl
               DISPLAY_TIMEZONE: "Europe/London"
               DB_CONNECTION: sqlite
-              SPEEDTEST_SCHEDULE: "0,30 * * * *"
+              SPEEDTEST_SCHEDULE: "0,10,20,30,40,50 * * * *"
               SPEEDTEST_INTERFACE: wg0
     service:
       app:
@@ -180,6 +176,8 @@ spec:
             port: *mamport
           speedtest:
             port: 80
+          gluetun:
+            port: 8000
     ingress:
       app:
         className: nginx

@@ -45,13 +45,11 @@ spec:
             env:
               TZ: Europe/London
               WEBHOOK__PORT: &port 80
+              NTFY_TOKEN: "${SECRET_NTFY_TOKEN}"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-            envFrom:
-              - secretRef:
-                  name: webhook
             resources:
               requests:
                 cpu: 100m

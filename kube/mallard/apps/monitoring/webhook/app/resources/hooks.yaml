@@ -6,3 +6,8 @@
     - source: string
       name: '{{ getenv "NTFY_TOKEN" }}'
     - source: entire-payload
+
+- id: qb_test_open_port
+  execute-command: /config/qb_test_open_port.sh
+  command-working-directory: /config
+  include-command-output-in-response: true

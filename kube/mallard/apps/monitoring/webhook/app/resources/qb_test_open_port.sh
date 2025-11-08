@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+public_ip="$(curl -s http://qbittorrent.media.svc.cluster.local:8000/v1/publicip/ip | jq -r .public_ip)"
+listen_port="$(curl -s http://qbittorrent.media.svc.cluster.local:8000/v1/openvpn/portforwarded | jq .port)"
+
+nc -w 5 -vz "${public_ip}" "${listen_port}"

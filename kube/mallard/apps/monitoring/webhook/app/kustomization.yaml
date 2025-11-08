@@ -4,7 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
-  - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./gatus.yaml
 configMapGenerator:
@@ -12,6 +11,7 @@ configMapGenerator:
     files:
       - hooks.yaml=./resources/hooks.yaml
       - overseer2ntfy.sh=./resources/overseer2ntfy.sh
+      - qb_test_open_port.sh=./resources/qb_test_open_port.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

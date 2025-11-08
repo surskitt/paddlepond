@@ -18,12 +18,6 @@ spec:
   patches:
     - patch: |
         - op: replace
-          path: /spec/values/controllers/qbittorrent/initContainers/gluetun/env/FIREWALL_VPN_INPUT_PORTS
-          value: &BT-port 29359
-        - op: replace
-          path: /spec/values/controllers/qbittorrent/containers/app/env/QBT_TORRENTING_PORT
-          value: *BT-port
-        - op: replace
           path: /spec/values/controllers/qbittorrent/containers/speedtest/env/SPEEDTEST_SCHEDULE
           value: "15,45 * * * *"
         - op: remove
