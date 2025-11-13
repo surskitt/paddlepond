@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: docker.io/owntone/owntone
-              tag: 28.12
+              tag: "29.0"
             env:
               UID: 1000
               GID: 1000
