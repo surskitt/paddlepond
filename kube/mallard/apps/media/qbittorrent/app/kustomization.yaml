@@ -16,6 +16,7 @@ configMapGenerator:
   - name: qbittorrent-scripts
     files:
       - gluetun-up.sh=./resources/gluetun-up.sh
+      - torrent-added.sh=./resources/torrent-added.sh
       - torrent-finished.sh=./resources/torrent-finished.sh
 generatorOptions:
   disableNameSuffixHash: true

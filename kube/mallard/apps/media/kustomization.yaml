@@ -30,3 +30,4 @@ resources:
   - ./navidrome/ks.yaml
   - ./calibre-web-automated/ks.yaml
   - ./overseerr/ks.yaml
+  - ./qbtagarr/ks.yaml

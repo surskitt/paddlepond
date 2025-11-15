@@ -16,3 +16,4 @@ resources:
   - ./syncthing/ks.yaml
   - ./hass-nfs-mount-status/ks.yaml
   - ./tqm/ks.yaml
+  - ./qbtagarr/ks.yaml

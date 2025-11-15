@@ -1,0 +1,82 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbtagarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      qbtagarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/surskitt/qbtagarr
+              tag: 0.1.0-11
+            env:
+              QBTAGARR_CONFIG_FILE: /config/qbtagarr.yaml
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+              limits:
+                memory: 300Mi
+    service:
+      app:
+        primary: true
+        controller: qbtagarr
+        ports:
+          http:
+            port: 8080
+    ingress:
+      main:
+        className: nginx
+        hosts:
+          - host: &host "qbtagarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        type: emptyDir
+      config-file:
+        type: secret
+        name: qbtagarr
+        globalMounts:
+          - path: /config/qbtagarr.yaml
+            subPath: qbtagarr.yaml
+            readOnly: true
