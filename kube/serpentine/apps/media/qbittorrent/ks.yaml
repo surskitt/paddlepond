@@ -17,6 +17,9 @@ spec:
   timeout: 5m
   patches:
     - patch: |
+        - op: add
+          path: /spec/values/controllers/qbittorrent/containers/app/env/NEMOROSA_ENABLE
+          value: false
         - op: replace
           path: /spec/values/controllers/qbittorrent/containers/speedtest/env/SPEEDTEST_SCHEDULE
           value: "15,45 * * * *"

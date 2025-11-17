@@ -17,3 +17,17 @@ status_code="$(
 )"
 
 echo "$(date) - cross-seed - ${status_code} - ${TORRENT_NAME}"
+
+if "${NEMOROSA_ENABLE:-true}" ; then
+    status_code="$(
+        curl \
+            --silent \
+            --output /dev/null \
+            --write-out "%{http_code}" \
+            --request POST \
+            --header "Authorization: Bearer ${NEMOROSA_API_KEY}" \
+           "http://nemorosa.media.svc.cluster.local:8256/api/webhook?infohash=${INFO_HASH}"
+    )"
+
+    echo "$(date) - nemorosa - ${status_code} - ${TORRENT_NAME}"
+fi
