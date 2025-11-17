@@ -31,3 +31,4 @@ resources:
   - ./calibre-web-automated/ks.yaml
   - ./overseerr/ks.yaml
   - ./qbtagarr/ks.yaml
+  - ./nemorosa/ks.yaml
