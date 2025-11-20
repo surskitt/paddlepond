@@ -12,6 +12,7 @@ configMapGenerator:
       - hooks.yaml=./resources/hooks.yaml
       - overseer2ntfy.sh=./resources/overseer2ntfy.sh
       - qb_test_open_port.sh=./resources/qb_test_open_port.sh
+      - slskd_test_open_port.sh=./resources/slskd_test_open_port.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
