@@ -58,16 +58,19 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
-              DOT: "off"
               DNS_ADDRESS: "127.0.0.2"
-              VPN_SERVICE_PROVIDER: airvpn
+              DOT: "off"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "80,9999"
+              FIREWALL_INPUT_PORTS: "80,8000,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
-              FIREWALL_VPN_INPUT_PORTS: &soulseekPort 49375
+              VPN_SERVICE_PROVIDER: protonvpn
               SERVER_COUNTRIES: United Kingdom
+              PORT_FORWARD_ONLY: on
+              VPN_PORT_FORWARDING: on
+              VPN_PORT_FORWARDING_PROVIDER: protonvpn
+              WIREGUARD_PRIVATE_KEY: "${SECRET_WIREGUARD_SLSKD_PROTON_PRIVATE_KEY}"
             envFrom:
               - secretRef:
                   name: slskd
@@ -102,6 +105,8 @@ spec:
             image: 
               repository: ghcr.io/slskd/slskd
               tag: 0.23.2@sha256:28df5325f301537ea8669b2ef90112a30cc9f2efd3eb714c9a778460b5dc6288
+            command:
+              - /scripts/startup.sh
             env:
               DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp/.net
               TZ: Europe/London
@@ -109,7 +114,6 @@ spec:
               SLSKD_HTTP_PORT: &port 80
               SLSKD_NO_HTTPS: true
               SLSKD_NO_AUTH: true
-              SLSKD_SLSK_LISTEN_PORT: *soulseekPort
               SLSKD_DOWNLOADS_DIR: /media/downloads/soulseek/complete
               SLSKD_INCOMPLETE_DIR: /media/downloads/soulseek/incomplete
               SLSKD_SHARED_DIR: /media/downloads/soulseek/shared
@@ -153,6 +157,8 @@ spec:
         ports:
           http:
             port: *port
+          gluetun:
+            port: 8000
     ingress:
       app:
         className: nginx
@@ -213,6 +219,12 @@ spec:
               - path: /etc/coredns/Corefile
                 subPath: Corefile
                 readOnly: true
+      scripts:
+        type: configMap
+        name: slskd-scripts
+        defaultMode: 0775
+        globalMounts:
+          - readOnly: true
   valuesFrom:
     - kind: ConfigMap
       name: slskd-values

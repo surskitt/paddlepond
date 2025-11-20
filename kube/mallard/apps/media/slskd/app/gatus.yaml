@@ -21,9 +21,9 @@ data:
 
       - name: slskd open port
         group: media
-        url: tcp://${SECRET_SLSKD_WIREGUARD_DDNS}
+        url: http://webhook.monitoring.svc.cluster.local/hooks/slskd_test_open_port
         interval: 5m
         conditions:
-          - "[CONNECTED] == true"
+          - "[STATUS] == 200"
         alerts:
           - type: ntfy
