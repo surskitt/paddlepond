@@ -128,3 +128,11 @@ spec:
           navidrome:
             app:
               - path: /music
+      unsorted:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/downloads/torrents/music/unsorted
+        advancedMounts:
+          navidrome:
+            app:
+              - path: /unsorted
