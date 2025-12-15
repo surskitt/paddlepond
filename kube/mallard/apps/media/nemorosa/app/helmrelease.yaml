@@ -41,7 +41,7 @@ spec:
           app:
             image: 
               repository: ghcr.io/kyokomiki/nemorosa
-              tag: alpha-1ac5b67
+              tag: 0.4.1
             args:
               - --server
             env:
