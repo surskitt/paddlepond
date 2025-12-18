@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: healthchecks-ping
-          image: alpine:3.22.1
+          image: alpine:3.23.2
           command:
            - ash
           args:
