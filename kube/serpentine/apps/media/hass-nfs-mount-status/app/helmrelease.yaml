@@ -32,7 +32,7 @@ spec:
           tag:
             image:
               repository: quay.io/curl/curl
-              tag: 8.14.1
+              tag: 8.17.0
             command:
               - sh
             args:
