@@ -11,7 +11,6 @@ resources:
   - ./theme-park/ks.yaml
   - ./k8s-gateway/ks.yaml
   # - ./wg-access-server/ks.yaml
-  - ./tor-socks-proxy/ks.yaml
   - ./tailscale-operator/ks.yaml
   - ./external-ingress/ks.yaml
   - ./gluetun-proxy/ks.yaml
