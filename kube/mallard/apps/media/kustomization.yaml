@@ -24,7 +24,6 @@ resources:
   - ./qbittorrent/ks.yaml
   - ./slskd/ks.yaml
   - ./lidarr/ks.yaml
-  - ./iplayarr/ks.yaml
   - ./tqm/ks.yaml
   - ./upload-assistant/ks.yaml
   - ./navidrome/ks.yaml
