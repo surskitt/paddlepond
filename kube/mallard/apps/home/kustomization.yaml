@@ -10,6 +10,5 @@ resources:
   - ./mediamtx/ks.yaml
   - ./rtsp-to-web/ks.yaml
   - ./go2rtc/ks.yaml
-  - ./wyze-bridge/ks.yaml
   - ./home-assistant/ks.yaml
   - ./esphome/ks.yaml
