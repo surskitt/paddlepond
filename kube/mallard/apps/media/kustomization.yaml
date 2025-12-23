@@ -26,3 +26,4 @@ resources:
   - ./calibre-web-automated/ks.yaml
   - ./qbtagarr/ks.yaml
   - ./nemorosa/ks.yaml
+  - ./music-assistant/ks.yaml

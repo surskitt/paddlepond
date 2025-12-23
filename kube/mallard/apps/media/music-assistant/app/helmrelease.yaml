@@ -1,0 +1,129 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: music-assistant
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+    controllers:
+      music-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/music-assistant/server
+              tag: 2.7.2@sha256:8fc7f780a0a30594e170d5a71138852b1a1e7ce33d2d460e50bf8cadf9eda74f
+            env:
+              TZ: Europe/London
+              LOG_LEVEL: info
+            # envFrom:
+            #   - secretRef:
+            #       name: music-assistant
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /ping
+            #         port: *port
+            #   readiness: *probes
+            # resources:
+            #   requests:
+            #     cpu: 50m
+            #     memory: 100Mi
+            #   limits:
+            #     memory: 300Mi
+    service:
+      app:
+        primary: true
+        controller: music-assistant
+        ports:
+          http:
+            port: 8095
+          stream:
+            port: 8097
+          vban:
+            port: 6980
+    ingress:
+      main:
+        className: nginx
+        hosts:
+          - host: &host "mass.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+      # tailscale:
+      #   className: nginx-tailscale
+      #   annotations:
+      #     external-dns.alpha.kubernetes.io/target: "100.72.100.101"
+      #     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+      #   hosts:
+      #     - host: &host "mass.${SECRET_DOMAIN}"
+      #       paths:
+      #         - path: /
+      #           service:
+      #             identifier: app
+      #             port: http
+      #   tls:
+      #     - hosts:
+      #         - *host
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: music-assistant-restore
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: music-assistant-restore
+      tmp:
+        type: emptyDir
