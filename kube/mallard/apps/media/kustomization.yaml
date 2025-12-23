@@ -7,7 +7,6 @@ resources:
   - ./aria2/ks.yaml
   - ./kavita/ks.yaml
   - ./metube/ks.yaml
-  - ./mylar/ks.yaml
   - ./owntone/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
