@@ -29,12 +29,6 @@ spec:
     defaultPodOptions:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      # securityContext:
-      #   runAsNonRoot: true
-      #   runAsUser: 1000
-      #   runAsGroup: 1000
-      #   fsGroup: 1000
-      #   fsGroupChangePolicy: OnRootMismatch
     controllers:
       snapserver:
         annotations:
@@ -44,38 +38,6 @@ spec:
             image: 
               repository: sweisgerber/snapcast
               tag: v0.34.0
-            # env:
-            #   TZ: Europe/London
-            #   ND_DATAFOLDER: /config
-            #   ND_MUSICFOLDER: /music
-            #   ND_PORT: &port 80
-            #   ND_SCANNER_SCHEDULE: 0 * * * *
-            #   ND_SCANNER_PURGEMISSING: always
-            #   ND_ENABLEDOWNLOADS: "true"
-            #   ND_ENABLEEXTERNALSERVICES: "true"
-            #   ND_ENABLESHARING: "false"
-            #   ND_ENABLETRANSCODINGCONFIG: "true"
-            #   ND_LOGLEVEL: info
-            #   ND_AUTHREQUESTLIMIT: 0
-            #   ND_ENABLEINSIGHTSCOLLECTOR: "false"
-            # envFrom:
-            #   - secretRef:
-            #       name: navidrome
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /ping
-            #         port: *port
-            #   readiness: *probes
-            # resources:
-            #   requests:
-            #     cpu: 50m
-            #     memory: 100Mi
-            #   limits:
-            #     memory: 300Mi
     service:
       app:
         primary: true
@@ -107,40 +69,6 @@ spec:
         tls:
           - hosts:
               - *host
-      # tailscale:
-      #   className: nginx-tailscale
-      #   annotations:
-      #     external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-      #     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-      #   hosts:
-      #     - host: &host "snap.${SECRET_DOMAIN}"
-      #       paths:
-      #         - path: /
-      #           service:
-      #             identifier: app
-      #             port: http
-      #   tls:
-      #     - hosts:
-      #         - *host
-    # persistence:
-    #   config:
-    #     enabled: true
-    #     type: persistentVolumeClaim
-    #     storageClass: local-hostpath
-    #     accessMode: ReadWriteOnce
-    #     size: 1Gi
-    #     # dataSourceRef:
-    #     #   kind: ReplicationDestination
-    #     #   apiGroup: volsync.backube
-    #     #   name: snapserver-restore
-    #   # music:
-    #   #   enabled: true
-    #   #   type: hostPath
-    #   #   hostPath: /mnt/ssd/media/music
-    #   #   advancedMounts:
-    #   #     snapserver:
-    #   #       app:
-    #   #         - path: /music
     persistence:
       config:
         type: configMap
