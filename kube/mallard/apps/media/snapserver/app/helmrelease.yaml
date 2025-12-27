@@ -38,6 +38,21 @@ spec:
             image: 
               repository: sweisgerber/snapcast
               tag: v0.34.0
+          mpd:
+            image:
+              repository: tobi312/rpi-mpd
+              tag: alphine@sha256:f3dd7073020b0eb86500121871f872b078634f69159f53cdbbf5de1bd983a456
+          scrobbler:
+            image:
+              repository: giof71/mpd-scrobbler
+              tag: alpine-0.24-r3-2023-03-03.1
+            env:
+              MPD_HOST: localhost
+              MPD_PORT: 6601
+              STARTUP_DELAY_SEC: 60
+            envFrom:
+              - secretRef:
+                  name: snapserver
     service:
       app:
         primary: true
@@ -54,6 +69,8 @@ spec:
             port: 1704
           control:
             port: 1705
+          mpd:
+            port: 6601
           wigeon:
             port: 1710
     ingress:
@@ -80,6 +97,16 @@ spec:
               - path: /config/snapserver.conf
                 subPath: snapserver.conf
                 readOnly: true
+      mpd-conf:
+        type: configMap
+        name: mpd-conf
+        defaultMode: 0644
+        advancedMounts:
+          snapserver:
+            mpd:
+              - path: /etc/mpd.conf
+                subPath: mpd.conf
+                readOnly: true
       data:
         type: persistentVolumeClaim
         storageClass: local-hostpath
@@ -89,3 +116,23 @@ spec:
           snapserver:
             app:
               - path: /data
+      mpd-data:
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          snapserver:
+            mpd:
+              - path: /data
+      fifo:
+        enabled: true
+        type: emptyDir
+      music:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/music
+        advancedMounts:
+          snapserver:
+            mpd:
+              - path: /music

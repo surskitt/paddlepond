@@ -4,12 +4,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: media
 resources:
+  - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./gatus.yaml
 configMapGenerator:
   - name: snapserver-conf
     files:
       - ./resources/snapserver.conf
+  - name: mpd-conf
+    files:
+      - ./resources/mpd.conf
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
