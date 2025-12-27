@@ -18,3 +18,11 @@ data:
           - "[STATUS] == 200"
         alerts:
           - type: ntfy
+      - name: iris
+        group: media
+        url: https://iris.${SECRET_DOMAIN}
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: ntfy

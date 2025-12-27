@@ -38,6 +38,12 @@ spec:
             image: 
               repository: sweisgerber/snapcast
               tag: v0.34.0
+          mopidy:
+            image:
+              repository: sweisgerber/mopidy
+              tag: v3.4.2
+            env:
+              INSTALL_PIP_PACKAGES: "Mopidy-Spotify"
     service:
       app:
         primary: true
@@ -56,6 +62,10 @@ spec:
             port: 1705
           wigeon:
             port: 1710
+          mpd:
+            port: 6601
+          iris:
+            port: 6680
     ingress:
       main:
         className: nginx
@@ -69,10 +79,56 @@ spec:
         tls:
           - hosts:
               - *host
+      iris:
+        className: nginx
+        hosts:
+          - host: &host "iris.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: iris
+        tls:
+          - hosts:
+              - *host
     persistence:
       config:
         type: configMap
         name: snapserver-conf
         defaultMode: 0644
-        globalMounts:
-          - readOnly: true
+        advancedMounts:
+          snapserver:
+            app:
+              - path: /config/snapserver.conf
+                subPath: snapserver.conf
+                readOnly: true
+      data:
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          snapserver:
+            app:
+              - path: /data
+      mopidy-conf:
+        type: secret
+        name: mopidy-conf
+        advancedMounts:
+          snapserver:
+            mopidy:
+              - path: /config/mopidy.conf
+                subPath: mopidy.conf
+                readOnly: true
+      mopidy-data:
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          snapserver:
+            mopidy:
+              - path: /data
+      fifo:
+        enabled: true
+        type: emptyDir
