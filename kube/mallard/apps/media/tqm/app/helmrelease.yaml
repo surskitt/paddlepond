@@ -61,10 +61,10 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         containers:
-          relabel:
+          clean:
             <<: *container
             args:
-              - relabel
+              - clean
               - qb
         pod:
           restartPolicy: Never
