@@ -69,10 +69,12 @@ spec:
             port: 1704
           control:
             port: 1705
-          mpd:
-            port: 6601
           wigeon:
             port: 1710
+          raven:
+            port: 4953
+          mpd:
+            port: 6601
     ingress:
       main:
         className: nginx
