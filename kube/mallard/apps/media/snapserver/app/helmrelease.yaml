@@ -71,6 +71,8 @@ spec:
             port: 1705
           wigeon:
             port: 1710
+          teal:
+            port: 1711
           raven:
             port: 4953
           mpd:
