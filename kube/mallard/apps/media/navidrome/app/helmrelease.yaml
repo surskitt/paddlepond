@@ -56,6 +56,7 @@ spec:
               ND_LOGLEVEL: info
               ND_AUTHREQUESTLIMIT: 0
               ND_ENABLEINSIGHTSCOLLECTOR: "false"
+              ND_LASTFM_SCROBBLEFIRSTARTISTONLY: "true"
             envFrom:
               - secretRef:
                   name: navidrome
