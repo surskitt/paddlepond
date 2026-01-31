@@ -2,11 +2,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: monitoring
 resources:
-  - ./namespace.yaml
-  - ./gotify/ks.yaml
-  - ./vpa/ks.yaml
-  - ./goldilocks/ks.yaml
-  - ./gatus/ks.yaml
-  - ./webhook/ks.yaml
-  - ./apprise/ks.yaml
+  - ./helmrelease.yaml
