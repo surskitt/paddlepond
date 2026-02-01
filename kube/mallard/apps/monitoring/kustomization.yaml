@@ -9,4 +9,3 @@ resources:
   - ./gatus/ks.yaml
   - ./healthchecks-ping/ks.yaml
   - ./webhook/ks.yaml
-  - ./apprise/ks.yaml
