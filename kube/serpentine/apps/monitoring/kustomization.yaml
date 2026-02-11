@@ -4,9 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./namespace.yaml
-  - ./gotify/ks.yaml
   - ./vpa/ks.yaml
   - ./goldilocks/ks.yaml
   - ./gatus/ks.yaml
   - ./webhook/ks.yaml
-  - ./apprise/ks.yaml
