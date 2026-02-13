@@ -47,7 +47,7 @@ spec:
           script:
             image:
               repository: ghcr.io/pascaliske/alpine-curl-jq
-              tag: master@sha256:3e652076fa5148485eb9860a07dc7224e09958b6a7aa03f2320f35eafdf4a9fd
+              tag: master@sha256:453e77a0717b430490e192e1520ee69442036284fd003c87fb72e41eb2bde7cd
             command:
               - /collect.sh
             envFrom:
