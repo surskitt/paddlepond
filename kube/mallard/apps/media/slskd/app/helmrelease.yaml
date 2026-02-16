@@ -104,7 +104,7 @@ spec:
           app:
             image: 
               repository: ghcr.io/slskd/slskd
-              tag: 0.24.1@sha256:e3635858d9614a2fb811601afca706dbf97a6838b849905c27294cbce71be268
+              tag: 0.24.4@sha256:4031fc99b824ed2eec3bdbd92914fe6071539f3f71f0742052276afc2c69353d
             command:
               - /scripts/startup.sh
             env:
