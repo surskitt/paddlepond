@@ -19,7 +19,6 @@ resources:
   - ./autobrr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./slskd/ks.yaml
-  - ./lidarr/ks.yaml
   - ./tqm/ks.yaml
   - ./upload-assistant/ks.yaml
   - ./navidrome/ks.yaml
