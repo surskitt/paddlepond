@@ -27,3 +27,4 @@ resources:
   - ./nemorosa/ks.yaml
   - ./snapserver/ks.yaml
   - ./pt-stats/ks.yaml
+  - ./qui/ks.yaml
