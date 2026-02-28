@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-qui
+  namespace: flux-system
+spec:
+  path: ./kube/mallard/apps/media/qui/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  patches:
+    - patch: |
+        - op: remove
+          path: /spec/values/persistence/downloads
+        - op: add
+          path: /spec/values/persistence/12tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/12tb/media/downloads/torrents
+            advancedMounts:
+              qui:
+                app:
+                  - path: /downloads/12tb
+        - op: add
+          path: /spec/values/persistence/16tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/16tb/media/downloads/torrents
+            advancedMounts:
+              qui:
+                app:
+                  - path: /downloads/16tb
+        - op: add
+          path: /spec/values/persistence/20tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/20tb/media/downloads/torrents
+            advancedMounts:
+              qui:
+                app:
+                  - path: /downloads/20tb
+        - op: add
+          path: /spec/values/persistence/28tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/28tb/media/downloads/torrents
+            advancedMounts:
+              qui:
+                app:
+                  - path: /downloads/28tb
+      target:
+        kind: HelmRelease
+        name: qui
+    # - patch: |
+    #     - op: replace
+    #       path: /spec/trigger/schedule
+    #       value: "0 4 * * *"
+    #   target: 
+    #     kind: ReplicationSource
+    #     name: qui
+    # - patch: |
+    #     - op: replace
+    #       path: /spec/trigger/schedule
+    #       value: "30 4 * * *"
+    #   target: 
+    #     kind: ReplicationSource
+    #     name: qui-r2

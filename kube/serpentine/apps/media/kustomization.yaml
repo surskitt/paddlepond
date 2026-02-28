@@ -16,3 +16,4 @@ resources:
   - ./hass-nfs-mount-status/ks.yaml
   - ./tqm/ks.yaml
   - ./qbtagarr/ks.yaml
+  - ./qui/ks.yaml
