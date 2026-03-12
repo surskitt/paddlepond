@@ -19,8 +19,8 @@ data:
       blockList: ["tag:nocross", "tag: nocross"],
       delay: 30,
       duplicateCategories: true,
-      excludeOlder: "6w",
-      excludeRecentSearch: "3w",
+      excludeOlder: "6d",
+      excludeRecentSearch: "3d",
       flatLinking: false,
       includeEpisodes: true,
       includeNonVideos: true,
@@ -37,7 +37,7 @@ data:
       ],
       rssCadence: "15 minutes",
       seasonFromEpisodes: 0.8,
-      searchCadence: "1w",
+      searchCadence: "1d",
       skipRecheck: true,
       sonarr: [
         `http://sonarr.media.svc.cluster.local:8989/?apikey=$${sonarr_api_key}`
@@ -85,6 +85,7 @@ data:
         85,
         86,
         88,
+        89,
       ].map(i => `http://prowlarr.media.svc.cluster.local:9696/$${i}/api?apikey=$${prowlarr_api_key}`),
       useClientTorrents: true
     };
