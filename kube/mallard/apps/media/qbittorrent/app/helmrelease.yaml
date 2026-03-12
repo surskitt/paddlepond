@@ -120,6 +120,12 @@ spec:
               runAsGroup: 1000
               fsGroup: 1000
               fsGroupChangePolicy: OnRootMismatch
+            resources:
+              requests:
+                cpu: 500m
+                requests: 1Gi
+              limits:
+                memory: 2Gi
           vuetorrent:
             dependsOn: app
             image:
