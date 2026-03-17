@@ -26,7 +26,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    # defaultPodOptions:
+    defaultPodOptions:
+      terminationGracePeriodSeconds: 300
     #   securityContext:
     #     runAsUser: 1000
     #     runAsGroup: 1000
@@ -122,8 +123,8 @@ spec:
               fsGroupChangePolicy: OnRootMismatch
             resources:
               requests:
-                cpu: 500m
-                requests: 1Gi
+                cpu: 300m
+                requests: 2Gi
               limits:
                 memory: 2Gi
           vuetorrent:
