@@ -124,7 +124,7 @@ spec:
             resources:
               requests:
                 cpu: 300m
-                requests: 2Gi
+                memory: 1Gi
               limits:
                 memory: 2Gi
           vuetorrent:
