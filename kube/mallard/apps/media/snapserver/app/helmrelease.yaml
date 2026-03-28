@@ -37,7 +37,7 @@ spec:
           app:
             image: 
               repository: sweisgerber/snapcast
-              tag: v0.34.0
+              tag: v0.35.0
           mpd:
             image:
               repository: tobi312/rpi-mpd
