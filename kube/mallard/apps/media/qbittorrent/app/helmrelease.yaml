@@ -171,7 +171,7 @@ spec:
               ASSET_URL: *speedtesturl
               DISPLAY_TIMEZONE: "Europe/London"
               DB_CONNECTION: sqlite
-              SPEEDTEST_SCHEDULE: "0,10,20,30,40,50 * * * *"
+              SPEEDTEST_SCHEDULE: "30 * * * *"
               SPEEDTEST_INTERFACE: wg0
     service:
       app:

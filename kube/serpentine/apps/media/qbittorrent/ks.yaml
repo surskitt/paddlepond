@@ -24,7 +24,7 @@ spec:
           path: /spec/values/controllers/qbittorrent/containers/app/resources
         - op: replace
           path: /spec/values/controllers/qbittorrent/containers/speedtest/env/SPEEDTEST_SCHEDULE
-          value: "15,45 * * * *"
+          value: "15 * * * *"
         - op: remove
           path: /spec/values/ingress/tailscale
         - op: remove
