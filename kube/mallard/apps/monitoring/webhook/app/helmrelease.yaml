@@ -46,6 +46,11 @@ spec:
               TZ: Europe/London
               WEBHOOK__PORT: &port 80
               NTFY_TOKEN: "${SECRET_NTFY_TOKEN}"
+              GLUETUN_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: webhook
+                    key: GLUETUN_API_KEY
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

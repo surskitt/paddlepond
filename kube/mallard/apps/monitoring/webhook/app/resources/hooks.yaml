@@ -19,8 +19,14 @@
   execute-command: /config/qb_test_open_port.sh
   command-working-directory: /config
   include-command-output-in-response: true
+  pass-arguments-to-command:
+    - source: string
+      name: '{{ getenv "GLUETUN_API_KEY" }}'
 
 - id: slskd_test_open_port
   execute-command: /config/slskd_test_open_port.sh
   command-working-directory: /config
   include-command-output-in-response: true
+  pass-arguments-to-command:
+    - source: string
+      name: '{{ getenv "GLUETUN_API_KEY" }}'

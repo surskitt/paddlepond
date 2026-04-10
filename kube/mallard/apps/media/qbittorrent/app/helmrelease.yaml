@@ -297,6 +297,15 @@ spec:
               - path: /etc/coredns/Corefile
                 subPath: Corefile
                 readOnly: true
+      gluetun-config:
+        type: secret
+        name: gluetun-config
+        advancedMounts:
+          qbittorrent:
+            gluetun:
+              - path: /gluetun/auth/config.toml
+                subPath: config.toml
+                readOnly: true
   valuesFrom:
     - kind: ConfigMap
       name: qbittorrent-values

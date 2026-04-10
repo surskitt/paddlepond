@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-public_ip="$(curl -L -s http://qbittorrent.media.svc.cluster.local:8000/v1/publicip/ip | jq -r .public_ip)"
-listen_port="$(curl -L -s http://qbittorrent.media.svc.cluster.local:8000/v1/openvpn/portforwarded | jq .port)"
+GLUETUN_API_KEY="${1}"
+
+public_ip="$(curl -H "X-API-Key: ${GLUETUN_API_KEY}" -L -s "http://qbittorrent.media.svc.cluster.local:8000/v1/publicip/ip" | jq -r .public_ip)"
+listen_port="$(curl -H "X-API-Key: ${GLUETUN_API_KEY}" -L -s "http://qbittorrent.media.svc.cluster.local:8000/v1/portforward" | jq .port)"
 
 nc -w 5 -vz "${public_ip}" "${listen_port}"
