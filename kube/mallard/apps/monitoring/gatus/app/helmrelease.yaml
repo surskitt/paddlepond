@@ -32,7 +32,7 @@ spec:
           init-config-sync:
             image: 
               repository: ghcr.io/kiwigrid/k8s-sidecar
-              tag: 1.30.7
+              tag: 2.6.0
             imagePullPolicy: IfNotPresent
             env:
               - name: FOLDER
@@ -54,7 +54,7 @@ spec:
           main:
             image:
               repository: ghcr.io/twin/gatus
-              tag: v5.33.1
+              tag: v5.35.0
             env:
               TZ: Europe/London
               GATUS_CONFIG_PATH: /config
@@ -79,7 +79,7 @@ spec:
           config-sync:
             image:
               repository: ghcr.io/kiwigrid/k8s-sidecar
-              tag: 1.30.7
+              tag: 2.6.0
             imagePullPolicy: IfNotPresent
             env:
               - name: FOLDER
