@@ -126,7 +126,7 @@ spec:
                 cpu: 300m
                 memory: 1Gi
               limits:
-                memory: 2Gi
+                memory: 3Gi
           vuetorrent:
             dependsOn: app
             image:
