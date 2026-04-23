@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/esphome/esphome
-              tag: 2026.3.3
+              tag: 2026.4.2
     service:
       main:
         ports:
