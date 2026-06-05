@@ -12,7 +12,7 @@ data:
     endpoints:
       - name: qbittorrent
         group: media
-        url: https://qbittorrent.${SECRET_DOMAIN}/healthz
+        url: https://qb.${SECRET_DOMAIN}/api/v2/app/version
         interval: 1m
         conditions:
           - "[STATUS] == 200"
