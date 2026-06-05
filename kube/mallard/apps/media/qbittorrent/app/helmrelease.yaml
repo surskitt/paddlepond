@@ -145,7 +145,7 @@ spec:
           mousehole:
             image:
               repository: docker.io/tmmrtn/mousehole
-              tag: 0.2.0
+              tag: 0.4.0
             env:
               TZ: "Europe/London"
               MOUSEHOLE_STATE_DIR_PATH: /config
