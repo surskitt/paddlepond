@@ -1,0 +1,33 @@
+Tags.releasedate.Aliases = [
+    "tdrl",
+    "releasedate",
+    "©day",
+    "tdor",
+    "originaldate",
+    "----:com.apple.itunes:originaldate",
+    "wm/originalreleasetime",
+    "wm/year",
+    "year",
+    "tory",
+    "originalyear",
+    "----:com.apple.itunes:originalyear",
+    "wm/originalreleaseyear",
+    "origyear",
+    "----:com.apple.itunes:origyear"
+]
+
+Tags.originaldate.Aliases = [
+    "tdor",
+    "originaldate",
+    "----:com.apple.itunes:originaldate",
+    "wm/originalreleasetime",
+    "tory",
+    "originalyear",
+    "----:com.apple.itunes:originalyear",
+    "wm/originalreleaseyear",
+    "origyear",
+    "----:com.apple.itunes:origyear",
+    "tdrl",
+    "releasedate",
+    "©day"
+]

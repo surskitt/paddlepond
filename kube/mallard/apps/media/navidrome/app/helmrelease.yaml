@@ -46,6 +46,7 @@ spec:
               TZ: Europe/London
               ND_DATAFOLDER: /config
               ND_MUSICFOLDER: /music
+              ND_CONFIGFILE: /config/navidrome.toml
               ND_PORT: &port 80
               ND_SCANNER_SCHEDULE: 0 * * * *
               ND_SCANNER_PURGEMISSING: always
@@ -145,3 +146,12 @@ spec:
           navidrome:
             app:
               - path: /uploads
+      navidrome-toml:
+        type: configMap
+        name: navidrome
+        advancedMounts:
+          navidrome:
+            app:
+              - path: /config/navidrome.toml
+                subPath: navidrome.toml
+                readOnly: true

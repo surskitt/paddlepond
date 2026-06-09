@@ -9,3 +9,9 @@ resources:
   - ./restore.yaml
   - ./backup.yaml
   - ./gatus.yaml
+configMapGenerator:
+  - name: navidrome
+    files:
+      - navidrome.toml=./resources/navidrome.toml
+generatorOptions:
+  disableNameSuffixHash: true
