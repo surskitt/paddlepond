@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/benwalio/theme-park
-              tag: 1.22.0@sha256:c2313164caddc788a598d8e5d144c13679392bcb3940d379a50eb8d28396b908 
+              tag: 1.22.1@sha256:a340cc3958bd6c610de1a3f1bf5556549bdce877e13586735bffdddc93b1bab6 
             resources:
               requests:
                 cpu: 5m
