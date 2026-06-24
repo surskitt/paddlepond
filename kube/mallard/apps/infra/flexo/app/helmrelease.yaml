@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: docker.io/nroi/flexo
-              tag: 1.6.10
+              tag: 1.6.12
     service:
       main:
         controller: main
