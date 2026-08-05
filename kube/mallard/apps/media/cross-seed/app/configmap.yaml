@@ -77,6 +77,7 @@ data:
         90,
         91,
         93,
+        94,
       ].map(i => `http://prowlarr.media.svc.cluster.local:9696/$${i}/api?apikey=$${prowlarr_api_key}`),
       useClientTorrents: true
     };
