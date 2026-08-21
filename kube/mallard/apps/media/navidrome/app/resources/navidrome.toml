@@ -1,3 +1,10 @@
+Tags.artist.Aliases = [
+    "tpe1",
+    "artist",
+    "©art",
+    "iart"
+]
+
 Tags.releasedate.Aliases = [
     "tdrl",
     "releasedate",
