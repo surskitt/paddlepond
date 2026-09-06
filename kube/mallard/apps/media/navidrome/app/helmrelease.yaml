@@ -76,6 +76,19 @@ spec:
                 memory: 100Mi
               limits:
                 memory: 1Gi
+          playlist-sync:
+            image:
+              repository: docker.io/python
+              tag: 3.14.7
+            command:
+              - /navidrome_queue_to_playlist.py
+            env:
+              URL: "http://localhost"
+              PLAYLIST: "queue/current"
+              FREQUENCY: 300
+            envFrom:
+              - secretRef:
+                  name: navidrome
     service:
       app:
         primary: true
@@ -154,4 +167,14 @@ spec:
             app:
               - path: /config/navidrome.toml
                 subPath: navidrome.toml
+                readOnly: true
+      playlist-sync:
+        type: configMap
+        name: navidrome
+        defaultMode: 0775
+        advancedMounts:
+          navidrome:
+            playlist-sync:
+              - path: /navidrome_queue_to_playlist.py
+                subPath: navidrome_queue_to_playlist.py
                 readOnly: true

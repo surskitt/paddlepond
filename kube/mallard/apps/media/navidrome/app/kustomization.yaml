@@ -13,5 +13,6 @@ configMapGenerator:
   - name: navidrome
     files:
       - navidrome.toml=./resources/navidrome.toml
+      - navidrome_queue_to_playlist.py=./resources/navidrome_queue_to_playlist.py
 generatorOptions:
   disableNameSuffixHash: true
