@@ -103,11 +103,13 @@ def main():
         queue_changed_cache = queue_changed
 
         play_queue_tracks = [i["id"] for i in play_queue["playQueue"]["entry"]]
-        current_play_queue_track = play_queue["playQueue"]["current"]
 
-        play_queue_tracks = play_queue_tracks[
-            play_queue_tracks.index(current_play_queue_track) :
-        ]
+        if "current" in play_queue["playQueue"]:
+            current_play_queue_track = play_queue["playQueue"]["current"]
+
+            play_queue_tracks = play_queue_tracks[
+                play_queue_tracks.index(current_play_queue_track) :
+            ]
 
         logging.info("Getting playlists")
         r = navidrome_request(args.url, "getPlaylists", args.username, args.password)
