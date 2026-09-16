@@ -143,6 +143,14 @@ spec:
           navidrome:
             app:
               - path: /music
+      singles:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd/media/music/#Singles
+        advancedMounts:
+          navidrome:
+            app:
+              - path: /singles
       unsorted:
         enabled: true
         type: hostPath
