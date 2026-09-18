@@ -38,3 +38,5 @@ Tags.originaldate.Aliases = [
     "releasedate",
     "©day"
 ]
+
+Tags.Artist.Split = [" / ", " feat. ", " feat ", " ft. ", " ft ", "; ", " & "]
