@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 import argparse
+import datetime
 import itertools
 import json
 import logging
 import math
 import os
 import socket
+import sys
 import time
 import urllib.parse
 import urllib.request
@@ -35,7 +37,7 @@ def parse_args():
     parser.add_argument("-p", "--password", action=EnvDefault, envvar="PASSWORD")
     parser.add_argument("-P", "--playlist", action=EnvDefault, envvar="PLAYLIST")
     parser.add_argument(
-        "-f", "--frequency", default=0, type=int, action=EnvDefault, envvar="FREQUENCY"
+        "-t", "--cache-time", action=EnvDefault, envvar="CACHE_TIME", type=int
     )
 
     return parser.parse_args()
@@ -64,104 +66,74 @@ def main():
 
     args = parse_args()
 
-    queue_changed_cache = ""
+    logging.info("Getting play queue")
+    play_queue = navidrome_request(
+        args.url, "getPlayQueue", args.username, args.password
+    )
 
-    logging.info("Waiting 30 seconds before starting")
-    time.sleep(30)
+    queue_changed = play_queue["playQueue"]["changed"]
+    cache_backoff_dt = (
+        datetime.datetime.now() - datetime.timedelta(minutes=args.cache_time)
+    ).isoformat()
 
-    urlsplit = urllib.parse.urlsplit(args.url)
-    host = urlsplit.netloc
-    port = urlsplit.port or (443 if urlsplit.netloc == "https" else 80)
+    if queue_changed < cache_backoff_dt:
+        logging.info(f"Queue not updated in last {args.cache_time} minutes, exiting")
+        sys.exit()
 
-    logging.info(f"Waiting for connection to {host}:{port}")
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    navidrome_open = sock.connect_ex((host, port))
-    while navidrome_open != 0:
-        navidrome_open = sock.connect_ex((host, port))
+    play_queue_tracks = [i["id"] for i in play_queue["playQueue"]["entry"]]
 
-    logging.info("Waiting for navidrome to be ready")
-    navidrome_status = navidrome_request(args.url, "ping", args.username, args.password)
-    while navidrome_status["status"] != "ok":
-        time.sleep(10)
-        navidrome_status = navidrome_request(
-            args.url, "ping", args.username, args.password
+    if "current" in play_queue["playQueue"]:
+        current_play_queue_track = play_queue["playQueue"]["current"]
+
+        play_queue_tracks = play_queue_tracks[
+            play_queue_tracks.index(current_play_queue_track) :
+        ]
+
+    logging.info("Getting playlists")
+    r = navidrome_request(args.url, "getPlaylists", args.username, args.password)
+    playlists = r["playlists"]["playlist"]
+
+    playlist_search = [i["id"] for i in playlists if i["name"] == args.playlist]
+
+    if playlist_search:
+        logging.info(f"{args.playlist} playlist found")
+        playlist_id = playlist_search[0]
+    else:
+        logging.info(f"{args.playlist} playlist not found, creating new")
+        playlist_new = navidrome_request(
+            args.url,
+            "createPlaylist",
+            args.username,
+            args.password,
+            name=args.playlist,
         )
+        playlist_id = playlist_new["playlist"]["id"]
 
-    while True:
-        logging.info("Getting play queue")
-        play_queue = navidrome_request(
-            args.url, "getPlayQueue", args.username, args.password
-        )
-
-        queue_changed = play_queue["playQueue"]["changed"]
-        if queue_changed_cache != "" and queue_changed_cache == queue_changed:
-            logging.info("No change to queue since last run")
-            logging.info(f"Waiting {args.frequency} seconds until next run")
-            time.sleep(args.frequency)
-            continue
-
-        queue_changed_cache = queue_changed
-
-        play_queue_tracks = [i["id"] for i in play_queue["playQueue"]["entry"]]
-
-        if "current" in play_queue["playQueue"]:
-            current_play_queue_track = play_queue["playQueue"]["current"]
-
-            play_queue_tracks = play_queue_tracks[
-                play_queue_tracks.index(current_play_queue_track) :
-            ]
-
-        logging.info("Getting playlists")
-        r = navidrome_request(args.url, "getPlaylists", args.username, args.password)
-        playlists = r["playlists"]["playlist"]
-
-        playlist_search = [i["id"] for i in playlists if i["name"] == args.playlist]
-
-        if playlist_search:
-            logging.info(f"{args.playlist} playlist found")
-            playlist_id = playlist_search[0]
-        else:
-            logging.info(f"{args.playlist} playlist not found, creating new")
-            playlist_new = navidrome_request(
-                args.url,
-                "createPlaylist",
-                args.username,
-                args.password,
-                name=args.playlist,
-            )
-            playlist_id = playlist_new["playlist"]["id"]
-
-        playlist = navidrome_request(
-            args.url, "getPlaylist", args.username, args.password, id=playlist_id
-        )
-        if "entry" in playlist["playlist"]:
-            logging.info("Clearing playlist")
-            for i in range(math.ceil(len(playlist["playlist"]["entry"]) / 200)):
-                navidrome_request(
-                    args.url,
-                    "updatePlaylist",
-                    args.username,
-                    args.password,
-                    playlistId=playlist_id,
-                    songIndexToRemove=range(0, 200),
-                )
-
-        logging.info("Adding queue tracks to playlist")
-        for batch in itertools.batched(play_queue_tracks, n=200):
+    playlist = navidrome_request(
+        args.url, "getPlaylist", args.username, args.password, id=playlist_id
+    )
+    if "entry" in playlist["playlist"]:
+        logging.info("Clearing playlist")
+        for i in range(math.ceil(len(playlist["playlist"]["entry"]) / 200)):
             navidrome_request(
                 args.url,
                 "updatePlaylist",
                 args.username,
                 args.password,
                 playlistId=playlist_id,
-                songIdToAdd=batch,
+                songIndexToRemove=range(0, 200),
             )
 
-        if args.frequency == 0:
-            break
-
-        logging.info(f"Waiting {args.frequency} seconds until next run")
-        time.sleep(args.frequency)
+    logging.info("Adding queue tracks to playlist")
+    for batch in itertools.batched(play_queue_tracks, n=200):
+        navidrome_request(
+            args.url,
+            "updatePlaylist",
+            args.username,
+            args.password,
+            playlistId=playlist_id,
+            songIdToAdd=batch,
+        )
 
 
 if __name__ == "__main__":

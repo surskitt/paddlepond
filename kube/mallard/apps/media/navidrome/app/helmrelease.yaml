@@ -76,16 +76,18 @@ spec:
                 memory: 100Mi
               limits:
                 memory: 1Gi
-          playlist-sync:
+          scripts:
             image:
               repository: docker.io/python
               tag: 3.14.7
             command:
-              - /navidrome_queue_to_playlist.py
+              - /scripts/run_scripts.sh
             env:
               URL: "http://localhost"
               PLAYLIST: "queue/current"
               FREQUENCY: 300
+              CACHE_TIME: 5
+              CACHE_FILE: /music/navidrome_cache.json
             envFrom:
               - secretRef:
                   name: navidrome
@@ -143,6 +145,8 @@ spec:
           navidrome:
             app:
               - path: /music
+            scripts:
+              - path: /music
       singles:
         enabled: true
         type: hostPath
@@ -176,13 +180,22 @@ spec:
               - path: /config/navidrome.toml
                 subPath: navidrome.toml
                 readOnly: true
-      playlist-sync:
+      scripts:
         type: configMap
         name: navidrome
         defaultMode: 0775
         advancedMounts:
           navidrome:
-            playlist-sync:
-              - path: /navidrome_queue_to_playlist.py
+            scripts:
+              - path: /scripts/run_scripts.sh
+                subPath: run_scripts.sh
+                readOnly: true
+              - path: /scripts/navidrome_cache_sorted.py
+                subPath: navidrome_cache_sorted.py
+                readOnly: true
+              - path: /scripts/navidrome_queue_to_playlist.py
                 subPath: navidrome_queue_to_playlist.py
+                readOnly: true
+              - path: /scripts/navidrome_wait.py
+                subPath: navidrome_wait.py
                 readOnly: true
