@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: wikipedia
-          image: ghcr.io/gowon-irc/gowon-wikipedia:0.1.0-1
+          image: ghcr.io/gowon-irc/gowon-wikipedia:0.1.0-18
           env:
             - name: GOWON_BROKER
               value: mosquitto:1883
