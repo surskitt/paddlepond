@@ -39,5 +39,5 @@ Tags.originaldate.Aliases = [
     "©day"
 ]
 
-Tags.Artist.Split = [" / ", " feat. ", " feat ", " ft. ", " ft ", "; ", " & "]
+Tags.Artist.Split = [" / ", " feat. ", " feat ", " ft. ", " ft ", "; ", " & ", "(feat. "]
 Tags.AlbumArtist.Split = [" / ", " feat. ", " feat ", " ft. ", " ft ", "; ", " & "]
