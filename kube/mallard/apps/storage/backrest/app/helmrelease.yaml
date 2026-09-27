@@ -1,0 +1,116 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: backrest
+  namespace: storage
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      backrest:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        # initContainers:
+        #   init-config:
+        #     image:
+        #       repository: docker.io/mikefarah/yq
+        #       tag: 4.53.6
+        #     command: ["/bin/sh", "-c"]
+        #     args:
+        #       - yq -o json /config/config.yaml > /app/config/config.json
+        #     securityContext:
+        #       privileged: true
+        #       runAsUser: 0
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/garethgeorge/backrest
+              tag: v1.14.1@sha256:b852979754281026230cc69fb11428e6d57c9a97784ab4a444ffc7934c53a215
+            env:
+              BACKREST_DATA: /app/data
+              BACKREST_CONFIG: /app/config/config.json
+              XDG_CACHE_HOME: /app/cache
+            envFrom:
+              - secretRef:
+                  name: backrest
+            securityContext:
+              privileged: true
+              runAsUser: 0
+            resources:
+              requests:
+                cpu: 5m
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        controller: backrest
+        ports:
+          http:
+            port: &port 9898
+    ingress:
+      app:
+        className: nginx
+        hosts:
+          - host: &host "backrest.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      app:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          backrest:
+            app:
+              - path: /app
+      cache:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /app/cache
+      # config:
+      #   type: emptyDir
+      #   globalMounts:
+      #     - path: /app/config
+      processlogs:
+        type: emptyDir
+        advancedMounts:
+          backrest:
+            app:
+              - path: /app/data/processlogs
+      ssd:
+        enabled: true
+        type: hostPath
+        hostPath: /mnt/ssd
+        advancedMounts:
+          backrest:
+            app:
+              - path: /mnt/ssd

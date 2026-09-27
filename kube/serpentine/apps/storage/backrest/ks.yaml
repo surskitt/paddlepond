@@ -1,0 +1,74 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-storage-backrest
+  namespace: flux-system
+spec:
+  path: ./kube/mallard/apps/storage/backrest/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false # no flux ks dependents
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  patches:
+    - patch: |
+        - op: remove
+          path: /spec/values/persistence/ssd
+        - op: add
+          path: /spec/values/persistence/12tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/12tb
+            advancedMounts:
+              backrest:
+                app:
+                  - path: /mnt/12tb
+        - op: add
+          path: /spec/values/persistence/16tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/16tb
+            advancedMounts:
+              backrest:
+                app:
+                  - path: /mnt/16tb
+        - op: add
+          path: /spec/values/persistence/20tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/20tb
+            advancedMounts:
+              backrest:
+                app:
+                  - path: /mnt/20tb
+        - op: add
+          path: /spec/values/persistence/28tb
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/28tb
+            advancedMounts:
+              backrest:
+                app:
+                  - path: /mnt/28tb
+        - op: add
+          path: /spec/values/persistence/mallard
+          value:
+            enabled: true
+            type: hostPath
+            hostPath: /mnt/nfs/mallard
+            advancedMounts:
+              backrest:
+                app:
+                  - path: /mnt/nfs/mallard
+      target:
+        kind: HelmRelease
+        name: backrest
