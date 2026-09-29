@@ -72,3 +72,17 @@ spec:
       target:
         kind: HelmRelease
         name: backrest
+    - patch: |
+        - op: replace
+          path: /spec/trigger/schedule
+          value: "0 4 * * *"
+      target: 
+        kind: ReplicationSource
+        name: backrest
+    - patch: |
+        - op: replace
+          path: /spec/trigger/schedule
+          value: "30 4 * * *"
+      target: 
+        kind: ReplicationSource
+        name: backrest-r2

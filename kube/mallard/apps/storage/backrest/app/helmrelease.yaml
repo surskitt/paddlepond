@@ -91,6 +91,10 @@ spec:
           backrest:
             app:
               - path: /app
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: backrest-restore
       cache:
         enabled: true
         type: emptyDir
