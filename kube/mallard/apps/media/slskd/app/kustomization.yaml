@@ -13,9 +13,6 @@ configMapGenerator:
   - name: slskd-coredns
     files:
       - ./resources/Corefile
-  - name: slskd-scripts
-    files:
-      - startup.sh=./resources/startup.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
