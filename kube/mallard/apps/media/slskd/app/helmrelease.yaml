@@ -105,8 +105,6 @@ spec:
             image: 
               repository: ghcr.io/slskd/slskd
               tag: 0.26.0@sha256:ecd4026d4f8fb504e2cc55323efa2c1f5b56d20d3686b018249cc36b48ea17a6
-            command:
-              - /scripts/startup.sh
             env:
               DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp/.net
               TZ: Europe/London
@@ -121,6 +119,9 @@ spec:
               SLSKD_REMOTE_CONFIGURATION: false
               SLSKD_FILE_PERMISSION_MODE: 750
               SLSKD_NO_VERSION_CHECK: true
+              SLSKD_VPN: true
+              SLSKD_VPN_PORT_FORWARDING: true
+              SLSKD_VPN_GLUETUN_URL: http://localhost:8000
             envFrom:
               - secretRef:
                   name: slskd
@@ -219,12 +220,15 @@ spec:
               - path: /etc/coredns/Corefile
                 subPath: Corefile
                 readOnly: true
-      scripts:
-        type: configMap
-        name: slskd-scripts
-        defaultMode: 0775
-        globalMounts:
-          - readOnly: true
+      gluetun-config:
+        type: secret
+        name: slskd-gluetun-config
+        advancedMounts:
+          slskd:
+            gluetun:
+              - path: /gluetun/auth/config.toml
+                subPath: config.toml
+                readOnly: true
   valuesFrom:
     - kind: ConfigMap
       name: slskd-values
