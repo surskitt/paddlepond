@@ -79,7 +79,7 @@ spec:
           scripts:
             image:
               repository: docker.io/python
-              tag: 3.14.7
+              tag: 3.14.8
             command:
               - /scripts/run_scripts.sh
             env:
