@@ -22,7 +22,7 @@ spec:
       sync:
         kind: GitRepository
         url: "https://github.com/surskitt/paddlepond.git"
-        ref: "refs/heads/talos-migration"
+        ref: "refs/heads/main"
         path: kube/mallard/flux/cluster
       commonMetadata:
         labels:
