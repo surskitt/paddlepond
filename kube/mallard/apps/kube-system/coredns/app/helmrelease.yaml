@@ -1,42 +1,25 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: coredns
-  namespace: kube-system
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: coredns
-      version: 1.37.0
-      sourceRef:
-        kind: HelmRepository
-        name: coredns
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: coredns
+  interval: 1h
   values:
     fullnameOverride: coredns
-    replicaCount: 1
+    image:
+      repository: mirror.gcr.io/coredns/coredns
     k8sAppLabelOverride: kube-dns
+    serviceAccount:
+      create: true
     service:
       name: kube-dns
       clusterIP: "10.43.0.10"
-    serviceAccount:
-      create: true
-    deployment:
-      annotations:
-        reloader.stakater.com/auto: "true"
+    replicaCount: 1
+    priorityClassName: system-cluster-critical
     servers:
       - zones:
           - zone: .
@@ -44,7 +27,6 @@ spec:
             use_tcp: true
         port: 53
         plugins:
-          - name: log
           - name: errors
           - name: health
             configBlock: |-
@@ -53,18 +35,25 @@ spec:
           - name: kubernetes
             parameters: cluster.local in-addr.arpa ip6.arpa
             configBlock: |-
-              pods insecure
+              pods verified
               fallthrough in-addr.arpa ip6.arpa
-              ttl 30
-          - name: prometheus
-            parameters: 0.0.0.0:9153
+          - name: autopath
+            parameters: "@kubernetes"
           - name: forward
             parameters: . /etc/resolv.conf
           - name: cache
-            parameters: 30
+            configBlock: |-
+              prefetch 20
+              serve_stale
+              servfail 0
           - name: loop
           - name: reload
           - name: loadbalance
+          - name: prometheus
+            parameters: 0.0.0.0:9153
+          - name: log
+            configBlock: |-
+              class error
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -78,13 +67,3 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         operator: Exists
         effect: NoSchedule
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/instance: coredns

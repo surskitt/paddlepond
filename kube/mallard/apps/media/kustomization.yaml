@@ -1,30 +1,34 @@
 ---
-# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: media
+
+components:
+  - ../../components/sops
+
 resources:
   - ./namespace.yaml
-  - ./aria2/ks.yaml
-  - ./metube/ks.yaml
-  - ./owntone/ks.yaml
-  - ./plex/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./radarr/ks.yaml
-  - ./recyclarr/ks.yaml
-  - ./sabnzbd/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./syncthing/ks.yaml
-  - ./audiobookshelf/ks.yaml
-  - ./cross-seed/ks.yaml
-  - ./autobrr/ks.yaml
-  - ./qbittorrent/ks.yaml
-  - ./slskd/ks.yaml
-  - ./upload-assistant/ks.yaml
-  - ./navidrome/ks.yaml
-  - ./calibre-web-automated/ks.yaml
-  - ./qbtagarr/ks.yaml
-  - ./nemorosa/ks.yaml
-  - ./snapserver/ks.yaml
-  - ./pt-stats/ks.yaml
-  - ./qui/ks.yaml
-  - ./seasonpackarr/ks.yaml
+  # - ./aria2/ks.yaml
+  # - ./metube/ks.yaml
+  # - ./owntone/ks.yaml
+  # - ./plex/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./recyclarr/ks.yaml
+  # - ./sabnzbd/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./syncthing/ks.yaml
+  # - ./audiobookshelf/ks.yaml
+  # - ./cross-seed/ks.yaml
+  # - ./autobrr/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./slskd/ks.yaml
+  # - ./upload-assistant/ks.yaml
+  # - ./navidrome/ks.yaml
+  # - ./calibre-web-automated/ks.yaml
+  # - ./qbtagarr/ks.yaml
+  # - ./nemorosa/ks.yaml
+  # - ./snapserver/ks.yaml
+  # - ./pt-stats/ks.yaml
+  # - ./qui/ks.yaml
+  # - ./seasonpackarr/ks.yaml

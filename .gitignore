@@ -24,3 +24,23 @@ Brewfile.lock.json
 wiki
 # Bootstrap
 /config.yaml
+
+# Secrets
+/age.key
+/cloudflare-tunnel.json
+/deploy.key
+/deploy.key.pub
+/flux-webhook-token.txt
+# Template config files
+/cluster.toml
+# Kubernetes
+talosconfig
+# Python
+__pycache__/
+*.py[cod]
+# Misc.
+.claude/
+/talos/output/
+/talos/rendered/
+
+*.bak

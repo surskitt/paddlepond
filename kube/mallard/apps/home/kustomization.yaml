@@ -1,14 +1,18 @@
 ---
-# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: home
+
+components:
+  - ../../components/sops
+
 resources:
   - ./namespace.yaml
-  - ./mosquitto/ks.yaml
-  - ./zigbee2mqtt/ks.yaml
-  - ./eufy-security-ws/ks.yaml
-  - ./mediamtx/ks.yaml
-  - ./rtsp-to-web/ks.yaml
-  - ./go2rtc/ks.yaml
-  - ./home-assistant/ks.yaml
-  - ./esphome/ks.yaml
+  # - ./mosquitto/ks.yaml
+  # - ./zigbee2mqtt/ks.yaml
+  # - ./eufy-security-ws/ks.yaml
+  # - ./mediamtx/ks.yaml
+  # - ./rtsp-to-web/ks.yaml
+  # - ./go2rtc/ks.yaml
+  # - ./home-assistant/ks.yaml
+  # - ./esphome/ks.yaml
