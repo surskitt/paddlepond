@@ -3,7 +3,6 @@
 Thumbs.db
 # k8s
 *kubeconfig
-talosconfig
 .decrypted~*.yaml
 .config.env
 *.agekey
@@ -40,7 +39,7 @@ __pycache__/
 *.py[cod]
 # Misc.
 .claude/
-/talos/output/
-/talos/rendered/
+/talos/mallard/output/
+/talos/mallard/rendered/
 
 *.bak
