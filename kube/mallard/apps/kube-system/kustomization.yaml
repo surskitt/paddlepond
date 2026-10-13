@@ -12,7 +12,7 @@ resources:
   - ./coredns/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
-  # - ./reflector/ks.yaml
+  - ./reflector/ks.yaml
   - ./snapshot-controller/ks.yaml
   # - ./node-feature-discovery/ks.yaml
   # - ./intel-device-plugin/ks.yaml

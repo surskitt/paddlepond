@@ -10,4 +10,4 @@ resources:
   - ./namespace.yaml
   - ./mosquitto/ks.yaml
   - ./gowon/ks.yaml
-  # - ./soju/ks.yaml
+  - ./soju/ks.yaml

@@ -1,30 +1,13 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: soju
-  namespace: gowon
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 4.2.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: soju
+  interval: 1h
   values:
     controllers:
       main:
@@ -43,7 +26,8 @@ spec:
             protocol: TCP
         loadBalancerIP: 192.168.50.104
         annotations:
-          "coredns.io/hostname": "soju.${SECRET_DOMAIN}"
+          coredns.io/hostname: "soju.${SECRET_DOMAIN}"
+          lbipam.cilium.io/ips: "192.168.50.104"
     persistence:
       soju-config:
         enabled: true
