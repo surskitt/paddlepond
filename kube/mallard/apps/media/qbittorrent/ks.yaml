@@ -6,7 +6,13 @@ metadata:
 spec:
   interval: 1h
   path: ./kube/mallard/apps/media/qbittorrent/app
+  components:
+    - ../../../../components/theme-park
   postBuild:
+    substitute:
+      APP: qbittorrent
+      APP_ROUTE: qbittorrent-app
+      THEME_PARK_APP: vuetorrent
     substituteFrom:
       - name: cluster-secrets
         kind: Secret

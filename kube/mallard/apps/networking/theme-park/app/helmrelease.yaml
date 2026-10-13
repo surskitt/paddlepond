@@ -3,32 +3,16 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: theme-park
-  namespace: networking
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 5
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: theme-park
+  interval: 1h
   values:
     controllers:
-      main:
+      theme-park:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/benwalio/theme-park
               tag: 1.22.1@sha256:156cb48781cddcc8d6a418051cdc20535889f3f0d3fafd3a52805d1d89e3324d 
@@ -39,39 +23,21 @@ spec:
               limits:
                 memory: 100Mi
     service:
-      main:
+      app:
         ports:
           http:
-            port: 8080
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+            port: &port 8080
+    route:
+      app:
         annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host "theme-park.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-        tls:
-          - hosts:
-              - *host
-      tailscale:
-        enabled: true
-        className: nginx-tailscale
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-        hosts:
-          - host: *host
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-        tls:
-          - hosts:
-              - *host
+          gatus.home-operations.com/endpoint: |
+            group: networking
+        hostnames:
+          - "theme-park.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
