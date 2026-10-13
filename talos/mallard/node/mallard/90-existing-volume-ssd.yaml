@@ -1,0 +1,7 @@
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: ssd
+discovery:
+    volumeSelector:
+        match: volume.uuid == "f13f161f-bbc7-4364-8d3b-cc23916b5403"
