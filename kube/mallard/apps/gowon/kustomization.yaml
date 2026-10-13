@@ -8,6 +8,6 @@ components:
 
 resources:
   - ./namespace.yaml
-  # - ./mosquitto/ks.yaml
-  # - ./gowon/ks.yaml
+  - ./mosquitto/ks.yaml
+  - ./gowon/ks.yaml
   # - ./soju/ks.yaml

@@ -1,0 +1,27 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: gowon
+  namespace: gowon
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      group: gowon
+spec:
+  hostnames: 
+    - "gowon.${SECRET_DOMAIN}"
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-internal
+      namespace: networking
+  rules:
+    - backendRefs:
+        - kind: Service
+          name: gowon
+          namespace: gowon
+          port: 8080
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
