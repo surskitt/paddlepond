@@ -11,7 +11,7 @@ resources:
   # - ./aria2/ks.yaml
   # - ./metube/ks.yaml
   # - ./owntone/ks.yaml
-  # - ./plex/ks.yaml
+  - ./plex/ks.yaml
   # - ./prowlarr/ks.yaml
   # - ./radarr/ks.yaml
   # - ./recyclarr/ks.yaml
