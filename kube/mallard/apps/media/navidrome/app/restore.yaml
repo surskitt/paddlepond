@@ -16,6 +16,6 @@ spec:
     cacheStorageClassName: local-hostpath
     accessModes:
       - ReadWriteOnce
-    capacity: 1Gi
+    capacity: 2Gi
     cleanupCachePVC: true
     cleanupTempPVC: true

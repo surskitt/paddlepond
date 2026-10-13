@@ -1,30 +1,13 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: navidrome
-  namespace: media
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 4.2.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: navidrome
+  interval: 1h
   values:
     defaultPodOptions:
       securityContext:
@@ -98,41 +81,52 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        className: nginx
-        hosts:
-          - host: &host "navidrome.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-      tailscale:
-        className: nginx-tailscale
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-        hosts:
-          - host: &host "navidrome.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
+    route:
+      app:
+        hostnames:
+          - "navidrome.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    # ingress:
+    #   main:
+    #     className: nginx
+    #     hosts:
+    #       - host: &host "navidrome.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #   tailscale:
+    #     className: nginx-tailscale
+    #     annotations:
+    #       external-dns.alpha.kubernetes.io/target: "100.72.100.101"
+    #       external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    #     hosts:
+    #       - host: &host "navidrome.${SECRET_DOMAIN}"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
     persistence:
       config:
         enabled: true
         type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 2Gi
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube
@@ -140,7 +134,7 @@ spec:
       music:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media/music
+        hostPath: /var/mnt/ssd/media/music
         advancedMounts:
           navidrome:
             app:
@@ -150,7 +144,7 @@ spec:
       singles:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media/music/#Singles
+        hostPath: /var/mnt/ssd/media/music/#Singles
         advancedMounts:
           navidrome:
             app:
@@ -158,7 +152,7 @@ spec:
       unsorted:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media/downloads/torrents/music/unsorted
+        hostPath: /var/mnt/ssd/media/downloads/torrents/music/unsorted
         advancedMounts:
           navidrome:
             app:
@@ -166,7 +160,7 @@ spec:
       uploads:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media/downloads/torrents/uploads/music
+        hostPath: /var/mnt/ssd/media/downloads/torrents/uploads/music
         advancedMounts:
           navidrome:
             app:
