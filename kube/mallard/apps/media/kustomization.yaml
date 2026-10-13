@@ -21,7 +21,7 @@ resources:
   # - ./audiobookshelf/ks.yaml
   # - ./cross-seed/ks.yaml
   # - ./autobrr/ks.yaml
-  # - ./qbittorrent/ks.yaml
+  - ./qbittorrent/ks.yaml
   # - ./slskd/ks.yaml
   # - ./upload-assistant/ks.yaml
   - ./navidrome/ks.yaml
