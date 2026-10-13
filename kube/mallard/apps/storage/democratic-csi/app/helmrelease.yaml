@@ -1,30 +1,13 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: democratic-csi-local-hostpath
-  namespace: storage
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: democratic-csi
-      version: 0.14.7
-      sourceRef:
-        name: democratic-csi
-        kind: HelmRepository
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: &name democratic-csi
+  interval: 1h
   values:
     csiDriver:
       name: "org.democratic-csi.local-hostpath"
@@ -44,6 +27,7 @@ spec:
           dummy: {}
     controller:
       enabled: true
+      fullNameOverride: *name
       strategy: node
       externalAttacher:
         enabled: false
@@ -69,20 +53,20 @@ spec:
       driver:
         extraVolumeMounts:
           - name: local-hostpath
-            mountPath: /var/mnt/sata/demo-csi-local-path
+            mountPath: /var/mnt/local-hostpath/sata/demo-csi-local-path
             mountPropagation: Bidirectional
       extraVolumes:
         - name: local-hostpath
           hostPath:
-            path: /var/mnt/sata/demo-csi-local-path
+            path: /var/mnt/local-hostpath/sata/demo-csi-local-path
             type: DirectoryOrCreate
     driver:
       config:
         driver: local-hostpath
         instance_id: k8s-local-hostpath
         local-hostpath:
-          shareBasePath: "/var/mnt/sata/demo-csi-local-path"
-          controllerBasePath: "/var/mnt/sata/demo-csi-local-path"
+          shareBasePath: "/var/mnt/local-hostpath/sata/demo-csi-local-path"
+          controllerBasePath: "/var/mnt/local-hostpath/sata/demo-csi-local-path"
           dirPermissionsMode: "0777"
           dirPermissionsUser: 0
           dirPermissionsGroup: 0
