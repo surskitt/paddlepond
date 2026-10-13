@@ -1,38 +1,21 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: minio
-  namespace: storage
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: minio
+  interval: 1h
   values:
     controllers:
-      main:
+      minio:
         containers:
-          main:
+          app:
             image:
-              repository: quay.io/minio/minio
-              tag: RELEASE.2025-09-07T16-13-09Z
+              repository: ghcr.io/coollabsio/minio
+              tag: 2025-10-15T17-29-55Z 
             env:
               TZ: "Europe/London"
               MINIO_UPDATE: "off"
@@ -43,12 +26,6 @@ spec:
               - secretRef:
                   name: minio
             args: ["server", "/data", "--console-address", ":9001"]
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 100
-              fsGroup: 100
-              fsGroupChangePolicy: "OnRootMismatch"
-              supplementalGroups: [100]
             # resources:
             #   requests:
             #     memory: 750Mi
@@ -57,61 +34,50 @@ spec:
             #     memory: 750Mi
         annotations:
           secret.reloader.stakater.com/reload: minio
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 100
+        fsGroup: 100
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups: [100]
     service:
-      main:
-        enabled: true
+      app:
         ports:
           http:
             port: &port-console 9001
           api:
             enabled: true
             port: &port-api 9000
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host-console "minio.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: *port-console
-        tls:
-          - hosts:
-              - *host-console
+    route:
+      app:
+        hostnames:
+          - "minio.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port-console
       s3:
-        enabled: true
-        className: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-          nginx.ingress.kubernetes.io/proxy-body-size: 5000m
-          nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            chunked_transfer_encoding off;
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host-api "s3.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: *port-api
-        tls:
-          - hosts:
-              - *host-api
+        hostnames:
+          - "s3.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port-api
     persistence:
       data:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/k3s_storage/minio
+        hostPath: /var/mnt/ssd/k3s_storage/minio
         hostPathType: Directory
         advancedMounts:
-          main:
-            main:
+          minio:
+            app:
               - path: /data
                 readOnly: false
