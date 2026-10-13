@@ -1,38 +1,21 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: home-assistant
-  namespace: home
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: home-assistant
+  interval: 1h
   values:
     defaultPodOptions:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
     controllers:
-      main:
+      home-assistant:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-operations/home-assistant
               tag:  2025.12.5@sha256:6be0843b06ad82233639e56f261b2377f78df140e3d16d2d08b2c29c8889b697 
@@ -41,8 +24,6 @@ spec:
             securityContext:
               runAsUser: 568
               runAsGroup: 568
-              fsGroup: 568
-              fsGroupChangePolicy: "OnRootMismatch"
             probes:
               liveness:
                 enabled: false
@@ -57,79 +38,52 @@ spec:
             #   limits:
             #     memory: 709M
     service:
-      main:
+      app:
         ports:
           http:
-            port: 8123
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+            port: &port 8123
+    route:
+      app:
         annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host "hass.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-        tls:
-          - hosts:
-              - *host
-      tailscale:
-        enabled: true
-        className: nginx-tailscale
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-        hosts:
-          - host: *host
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-        tls:
-          - hosts:
-              - *host
+          gatus.home-operations.com/endpoint: |
+            group: home
+        hostnames:
+          - "home-assistant.${SECRET_DOMAIN}"
+          - "hass.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       config:
         enabled: true
         type: persistentVolumeClaim
         storageClass: local-hostpath
-        retain: true
+        accessMode: ReadWriteOnce
+        size: 1Gi
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube
           name: home-assistant-restore
       db:
-        enabled: true
         type: persistentVolumeClaim
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 5Gi
         advancedMounts:
-          main:
-            main:
+          home-assistant:
+            app:
               - path: /config/db
-      dbus:
-        enabled: true
-        type: hostPath
-        hostPath: /run/dbus
-        advancedMounts:
-          main:
-            main:
-              - path: /run/dbus
-                readOnly: true
       passwd:
-        enabled: true
         type: secret
         name: home-assistant-secrets
         defaultMode: 420
         advancedMounts:
-          main:
-            main:
+          home-assistant:
+            app:
             - path: /etc/passwd
               readOnly: true
               subPath: passwd_file
