@@ -9,4 +9,3 @@ resources:
   - ./helmrelease.yaml
   - ./restore.yaml
   - ./backup.yaml
-  # - ./gatus.yaml

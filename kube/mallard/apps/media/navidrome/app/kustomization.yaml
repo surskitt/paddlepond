@@ -9,7 +9,6 @@ resources:
   - ./helmrelease.yaml
   - ./restore.yaml
   - ./backup.yaml
-  # - ./gatus.yaml
 configMapGenerator:
   - name: navidrome
     files:

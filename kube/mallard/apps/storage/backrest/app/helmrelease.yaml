@@ -52,6 +52,9 @@ spec:
             port: &port 9898
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            group: storage
         hostnames:
           - "backrest.${SECRET_DOMAIN}"
         parentRefs:

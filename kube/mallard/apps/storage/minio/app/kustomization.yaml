@@ -7,4 +7,3 @@ resources:
   - ./ocirepository.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-  # - ./gatus.yaml

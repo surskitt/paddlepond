@@ -1,62 +1,49 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: gatus
-  namespace: monitoring
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 2.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: gatus
+  interval: 1h
   values:
+    defaultPodOptions:
+      automountServiceAccountToken: true
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
     controllers:
-      main:
+      gatus:
         initContainers:
-          init-config-sync:
-            image: 
-              repository: ghcr.io/kiwigrid/k8s-sidecar
-              tag: 2.6.0
-            imagePullPolicy: IfNotPresent
-            env:
-              - name: FOLDER
-                value: /config
-              - name: LABEL
-                value: gatus.io/enabled
-              - name: NAMESPACE
-                value: ALL
-              - name: RESOURCE
-                value: both
-              - name: UNIQUE_FILENAMES
-                value: "true"
-              - name: METHOD
-                value: LIST
-            volumeMounts:
-              - name: config
-                mountPath: /config
+          gatus-sidecar:
+            image:
+              repository: ghcr.io/home-operations/gatus-sidecar
+              tag: 0.5.3@sha256:b52ae9161639c7453308096aa8f5095d540196d097f5e3c681465737f22e8e76
+            args:
+              - --auto-httproute
+              - --enable-httproute
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 128Mi
+            restartPolicy: Always
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/twin/gatus
-              tag: v5.37.0
+              tag: v5.37.0@sha256:094eb186e55235db367e90e9d56140e5897b7044c41de23cde4cc18e6da1242e
             env:
               TZ: Europe/London
+              GATUS_DELAY_START_SECONDS: 5
               GATUS_CONFIG_PATH: /config
               CUSTOM_WEB_PORT: &port 80
               SECRET_DOMAIN: "${SECRET_DOMAIN}"
@@ -65,22 +52,34 @@ spec:
             envFrom:
               - secretRef:
                   name: gatus-secrets
-            securityContext:
-              runAsUser: 568
-              runAsGroup: 568
-              fsGroup: 568
-              fsGroupChangePolicy: OnRootMismatch
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
-                cpu: 100m
-                memory: 100Mi
+                cpu: 10m
               limits:
-                memory: 500Mi
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
+        serviceAccount:
+          identifier: gatus
           config-sync:
             image:
               repository: ghcr.io/kiwigrid/k8s-sidecar
               tag: 2.6.0
-            imagePullPolicy: IfNotPresent
             env:
               - name: FOLDER
                 value: /config
@@ -97,45 +96,24 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
     service:
-      main:
+      app:
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+    route:
+      app:
+        hostnames:
+          - "status.${SECRET_DOMAIN}"
+          - "gatus.${SECRET_DOMAIN}"
         annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host status.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-        tls:
-          - hosts:
-              - *host
-      tailscale:
-        enabled: true
-        className: nginx-tailscale
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-        hosts:
-          - host: *host
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-        tls:
-          - hosts:
-              - *host
-    serviceAccount:
-      create: true
-      name: gatus
+          gatus.home-operations.com/enabled: "false"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       config:
         enabled: true
@@ -145,8 +123,8 @@ spec:
         type: configMap
         name: gatus-configmap
         advancedMounts:
-          main:
-            main:
+          gatus:
+            app:
               - path: /config/config.yaml
                 subPath: config.yaml
                 readOnly: true
@@ -157,6 +135,23 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         advancedMounts:
-          main:
-            main:
+          gatus:
+            app:
               - path: /data
+    serviceAccount:
+      gatus: {}
+    rbac:
+      roles:
+        gatus:
+          type: ClusterRole
+          rules:
+            - apiGroups: ["gateway.networking.k8s.io"]
+              resources: ["gateways", "httproutes"]
+              verbs: ["get", "watch", "list"]
+      bindings:
+        gatus:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: gatus
+          subjects:
+            - identifier: gatus

@@ -13,7 +13,7 @@ talos: talos-secret talos-apply talos-talosconfig talos-kubeconfig
 
 [doc('Bootstrap apps into the Talos cluster')]
 [group('bootstrap')]
-apps: apps-ready apps-namespaces apps-secrets apps-crds apps-helm
+apps: apps-ready apps-namespaces apps-secrets apps-vars apps-crds apps-helm
     just log info "Cluster is bootstrapped — Flux will start syncing the Git repository"
 
 # No sops call or existence guard is needed: the bundle is stored already
@@ -86,6 +86,20 @@ apps-secrets:
             just log info "Secret applied" resource "$name"
         else
             just log fatal "Failed to apply secret" resource "$name"
+        fi
+    done
+
+[private]
+apps-vars:
+    just log info "Applying secrets for apps" stage "{{ recipe_name() }}"
+    for configmap in \
+        "{{ kubernetes_dir }}/components/vars/cluster-vars.yaml"
+    do
+        name="$(basename "$configmap" .yaml)"
+        if kubectl --namespace flux-system apply --server-side --filename "$configmap" &>/dev/null; then
+            just log info "configmap applied" resource "$name"
+        else
+            just log fatal "Failed to apply configmap" resource "$name"
         fi
     done
 
