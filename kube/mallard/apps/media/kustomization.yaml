@@ -20,7 +20,7 @@ resources:
   # - ./syncthing/ks.yaml
   # - ./audiobookshelf/ks.yaml
   - ./cross-seed/ks.yaml
-  # - ./autobrr/ks.yaml
+  - ./autobrr/ks.yaml
   - ./qbittorrent/ks.yaml
   # - ./slskd/ks.yaml
   # - ./upload-assistant/ks.yaml

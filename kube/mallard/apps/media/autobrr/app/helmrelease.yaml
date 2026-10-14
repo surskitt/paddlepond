@@ -1,30 +1,13 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: autobrr
-  namespace: media
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: autobrr
+  interval: 1h
   values:
     controllers:
       autobrr:
@@ -73,37 +56,20 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        className: nginx
         annotations:
-          nginx.ingress.kubernetes.io/custom-http-errors: "400,403,500,502,504"
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host autobrr.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-      tailscale:
-        className: nginx-tailscale
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-        hosts:
-          - host: *host
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
+          gatus.home-operations.com/endpoint: |
+            group: media
+        hostnames:
+          - "autobrr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       config:
         type: persistentVolumeClaim
@@ -112,14 +78,14 @@ spec:
         size: 1Gi
         globalMounts:
           - path: /config
-        # dataSourceRef:
-        #   kind: ReplicationDestination
-        #   apiGroup: volsync.backube
-        #   name: autobrr-restore
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: autobrr-restore
       downloads:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media/downloads/torrents
+        hostPath: /var/mnt/ssd/media/downloads/torrents
         advancedMounts:
           autobrr:
             app:
