@@ -15,4 +15,4 @@ resources:
   - ./theme-park/ks.yaml
   # # - ./wg-access-server/ks.yaml
   # - ./tailscale-operator/ks.yaml
-  # - ./gluetun-proxy/ks.yaml
+  - ./gluetun-proxy/ks.yaml
