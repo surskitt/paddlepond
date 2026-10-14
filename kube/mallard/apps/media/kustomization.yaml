@@ -19,7 +19,7 @@ resources:
   # - ./sonarr/ks.yaml
   # - ./syncthing/ks.yaml
   # - ./audiobookshelf/ks.yaml
-  # - ./cross-seed/ks.yaml
+  - ./cross-seed/ks.yaml
   # - ./autobrr/ks.yaml
   - ./qbittorrent/ks.yaml
   # - ./slskd/ks.yaml
