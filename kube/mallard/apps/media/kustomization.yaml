@@ -26,7 +26,7 @@ resources:
   # - ./upload-assistant/ks.yaml
   - ./navidrome/ks.yaml
   # - ./calibre-web-automated/ks.yaml
-  # - ./qbtagarr/ks.yaml
+  - ./qbtagarr/ks.yaml
   # - ./nemorosa/ks.yaml
   # - ./snapserver/ks.yaml
   # - ./pt-stats/ks.yaml
