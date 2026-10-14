@@ -1,17 +1,25 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-prowlarr
-  namespace: flux-system
+  name: prowlarr
 spec:
+  interval: 1h
   path: ./kube/mallard/apps/media/prowlarr/app
+  components:
+    - ../../../../components/theme-park
+  postBuild:
+    substitute:
+      APP: prowlarr
+      APP_ROUTE: prowlarr
+      THEME_PARK_APP: prowlarr
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: media
   wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
