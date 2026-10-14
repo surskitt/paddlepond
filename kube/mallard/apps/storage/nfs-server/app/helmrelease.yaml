@@ -1,0 +1,98 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nfs-server
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: nfs-server
+  interval: 1h
+  values:
+    controllers:
+      nfs-server:
+        strategy: RollingUpdate
+        pod:
+          priorityClassName: nfs-critical
+          terminationGracePeriodSeconds: 150
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            runAsNonRoot: false
+            seccompProfile: {type: Unconfined}
+        containers:
+          nfs:
+            image:
+              # Only latest tag is published and digest is overwritten each update so don't pin digest
+              # e.g. node boots after update, latest@sha no longer exists, new update not merged == no nfs
+              repository: quay.io/aminvakil/alpine-nfs-server
+              tag: latest
+            env:
+              EXPORTS_MOUNTED: true
+              NFS_THREADS: 128
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - sh
+                      - -c
+                      - "showmount -e localhost | grep -q /srv"
+              readiness: &probes
+                enabled: true
+                type: TCP
+                port: 2049
+                spec:
+                  periodSeconds: 3
+                  timeoutSeconds: 1
+                  failureThreshold: 2
+                  successThreshold: 1
+              liveness: *probes
+            lifecycle:
+              # Keep serving while nfsGate HPAs scale consumers to zero
+              preStop:
+                sleep:
+                  seconds: 120
+            securityContext:
+              allowPrivilegeEscalation: true
+              readOnlyRootFilesystem: false
+              privileged: true
+    service:
+      nfs-server:
+        controller: nfs-server
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          lbipam.cilium.io/ips: 192.168.50.107
+          coredns.io/hostname: "mallard-nfs.${SECRET_DOMAIN}"
+        ports:
+          rpc:
+            port: 111
+          nfs:
+            port: 2049
+    configMaps:
+      nfs-server:
+        data:
+          exports: |
+            /srv            *(rw,async,fsid=0,crossmnt,no_subtree_check)
+            /srv/ssd        *(rw,async,fsid=f13f161f-bbc7-4364-8d3b-cc23916b5403,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+    persistence:
+      exports:
+        type: configMap
+        name: nfs-server
+        globalMounts:
+          - path: /etc/exports
+            subPath: exports
+      fake-export:
+        type: emptyDir
+        globalMounts:
+          - path: /srv
+      ssd:
+        type: hostPath
+        hostPath: /var/mnt/ssd
+        globalMounts:
+          - path: /srv/ssd

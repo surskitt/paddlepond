@@ -13,11 +13,12 @@ nodes:
   - host: "mallard"
     ip: "192.168.2.5"
     role: control-plane
-    schematicId: "039535a70c3bd1667c355eca78571267704e55c8a24785033d183b8f26e39d82"
+    schematicId: "b52b4e8f251ea50c031a041d2bb8b46fb88ca69ae74481db01561709ba02ab28"
     data:
       installDisk: "/dev/nvme0n1"
       installDiskSerial: ""
       macAddr: "f4:4d:30:6b:5a:51"
       mtu: 1500
       encryptDisk: false
-      kernelModules: []
+      kernelModules:
+        - nfsd
