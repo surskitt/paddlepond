@@ -16,7 +16,7 @@ resources:
   # - ./radarr/ks.yaml
   # - ./recyclarr/ks.yaml
   # - ./sabnzbd/ks.yaml
-  # - ./sonarr/ks.yaml
+  - ./sonarr/ks.yaml
   # - ./syncthing/ks.yaml
   # - ./audiobookshelf/ks.yaml
   - ./cross-seed/ks.yaml
