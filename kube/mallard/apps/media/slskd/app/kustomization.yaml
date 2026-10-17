@@ -4,11 +4,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: media
 resources:
+  - ./ocirepository.yaml
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./restore.yaml
   - ./backup.yaml
-  - ./gatus.yaml
 configMapGenerator:
   - name: slskd-coredns
     files:

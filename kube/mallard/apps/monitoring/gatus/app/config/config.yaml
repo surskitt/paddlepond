@@ -41,3 +41,12 @@ endpoints:
       - "[STATUS] == 200"
     alerts:
       - type: ntfy
+
+  - name: slskd open port
+    group: media
+    url: http://webhook.monitoring.svc.cluster.local/hooks/slskd_test_open_port
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: ntfy
