@@ -15,7 +15,7 @@ spec:
           gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.41.1
+              tag: v3.41.3
             env:
               DOT: "off"
               BLOCK_MALICIOUS: "off"
