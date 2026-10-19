@@ -1,39 +1,22 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: audiobookshelf
-  namespace: media
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.6.1
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+  chartRef:
+    kind: OCIRepository
+    name: audiobookshelf
+  interval: 1h
   values:
     controllers:
-      main:
+      audiobookshelf:
         pod:
           securityContext:
             runAsUser: &uid 1000
             runAsGroup: &gid 1000
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
               tag: 2.33.1
@@ -54,73 +37,26 @@ spec:
                     port: *port
               readiness: *probes
     service:
-      main:
-        controller: main
+      app:
+        controller: audiobookshelf
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        enabled: true
-        className: nginx
+    route:
+      app:
         annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Accept-Encoding "";
-            sub_filter '<body>' '<body><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/audiobookshelf/nord.css">';
-            sub_filter_once on;
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-          nginx.ingress.kubernetes.io/server-snippets: |
-            location / {
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_http_version 1.1;
-              proxy_set_header X-Forwarded-Host $http_host;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_set_header X-Forwarded-For $remote_addr;
-              proxy_set_header Host $host;
-              proxy_set_header Connection "upgrade";
-              proxy_cache_bypass $http_upgrade;
-            }
-        hosts:
-          - host: &host audiobookshelf.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-      tailscale:
-        enabled: true
-        className: nginx-tailscale
-        annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Accept-Encoding "";
-            sub_filter '<body>' '<body><link rel="stylesheet" type="text/css" href="https://theme-park.${SECRET_DOMAIN}/css/base/audiobookshelf/nord.css">';
-            sub_filter_once on;
-          nginx.ingress.kubernetes.io/server-snippets: |
-            location / {
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_http_version 1.1;
-              proxy_set_header X-Forwarded-Host $http_host;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_set_header X-Forwarded-For $remote_addr;
-              proxy_set_header Host $host;
-              proxy_set_header Connection "upgrade";
-              proxy_cache_bypass $http_upgrade;
-            }
-          external-dns.alpha.kubernetes.io/target: "100.72.100.101"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-        hosts:
-          - host: &host audiobookshelf.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+          gatus.home-operations.com/endpoint: |
+            group: media
+        hostnames:
+          - "audiobookshelf.${SECRET_DOMAIN}"
+          - "abs.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       config:
         enabled: true
@@ -129,8 +65,8 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         advancedMounts:
-          main:
-            main:
+          audiobookshelf:
+            app:
               - path: /config
         dataSourceRef:
           kind: ReplicationDestination
@@ -143,8 +79,8 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         advancedMounts:
-          main:
-            main:
+          audiobookshelf:
+            app:
               - path: /config/metadata/logs
       streams:
         enabled: true
@@ -153,14 +89,14 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         advancedMounts:
-          main:
-            main:
+          audiobookshelf:
+            app:
               - path: /config/metadata/streams
       media:
         enabled: true
         type: hostPath
-        hostPath: /mnt/ssd/media
+        hostPath: /var/mnt/ssd/media
         advancedMounts:
-          main:
-            main:
+          audiobookshelf:
+            app:
               - path: /media

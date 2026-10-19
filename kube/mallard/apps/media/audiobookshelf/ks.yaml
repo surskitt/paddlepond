@@ -1,17 +1,19 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-audiobookshelf
-  namespace: flux-system
+  name: audiobookshelf
 spec:
+  interval: 1h
   path: ./kube/mallard/apps/media/audiobookshelf/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: media
   wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
