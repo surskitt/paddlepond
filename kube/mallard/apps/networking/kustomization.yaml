@@ -13,6 +13,5 @@ resources:
   - ./envoy-gateway/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./theme-park/ks.yaml
-  # # - ./wg-access-server/ks.yaml
   # - ./tailscale-operator/ks.yaml
   - ./gluetun-proxy/ks.yaml

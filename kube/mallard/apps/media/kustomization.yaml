@@ -10,7 +10,6 @@ resources:
   - ./namespace.yaml
   - ./aria2/ks.yaml
   - ./metube/ks.yaml
-  # - ./owntone/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
@@ -23,12 +22,9 @@ resources:
   - ./autobrr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./slskd/ks.yaml
-  # - ./upload-assistant/ks.yaml
   - ./navidrome/ks.yaml
   # - ./calibre-web-automated/ks.yaml
   - ./qbtagarr/ks.yaml
   - ./nemorosa/ks.yaml
   # - ./snapserver/ks.yaml
-  # - ./pt-stats/ks.yaml
   - ./qui/ks.yaml
-  # - ./seasonpackarr/ks.yaml

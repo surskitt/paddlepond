@@ -11,8 +11,5 @@ resources:
   - ./mosquitto/ks.yaml
   - ./zigbee2mqtt/ks.yaml
   - ./eufy-security-ws/ks.yaml
-  # - ./mediamtx/ks.yaml
-  # - ./rtsp-to-web/ks.yaml
-  # - ./go2rtc/ks.yaml
   - ./home-assistant/ks.yaml
   - ./esphome/ks.yaml
