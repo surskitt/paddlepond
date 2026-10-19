@@ -6,6 +6,7 @@ namespace: media
 metadata:
   namespace: media
 resources:
+  - ./ocirepository.yaml
   - ./helmrelease.yaml
 configMapGenerator:
   - name: recyclarr
