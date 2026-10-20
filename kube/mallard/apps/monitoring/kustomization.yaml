@@ -8,8 +8,8 @@ components:
 
 resources:
   - ./namespace.yaml
-  # - ./vpa/ks.yaml
-  # - ./goldilocks/ks.yaml
+  - ./vpa/ks.yaml
+  - ./goldilocks/ks.yaml
   - ./gatus/ks.yaml
   - ./healthchecks-ping/ks.yaml
   - ./webhook/ks.yaml

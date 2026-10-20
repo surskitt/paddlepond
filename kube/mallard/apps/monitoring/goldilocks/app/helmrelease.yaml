@@ -4,27 +4,16 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: goldilocks
-  namespace: monitoring
 spec:
   interval: 30m
   chart:
     spec:
       chart: goldilocks
-      version: 9.2.0
+      version: 11.2.0
       sourceRef:
         kind: HelmRepository
         name: fairwinds
         namespace: flux-system
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-    cleanupOnFail: true
-  uninstall:
-    keepHistory: false
   values:
     controller:
       resources:
@@ -41,16 +30,26 @@ spec:
           memory: 64Mi
         limits:
           memory: 105M
-      ingress:
+      httpRoute:
         enabled: true
-        ingressClassName: "nginx"
         annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-        hosts:
-          - host: &host "goldilocks.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                type: Prefix
-        tls:
-          - hosts:
-              - *host
+          gatus.home-operations.com/endpoint: |
+            group: monitoring
+        hostnames:
+          - "goldilocks.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+      # ingress:
+      #   enabled: true
+      #   ingressClassName: "nginx"
+      #   annotations:
+      #     nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      #   hosts:
+      #     - host: &host "goldilocks.${SECRET_DOMAIN}"
+      #       paths:
+      #         - path: /
+      #           type: Prefix
+      #   tls:
+      #     - hosts:
+      #         - *host
