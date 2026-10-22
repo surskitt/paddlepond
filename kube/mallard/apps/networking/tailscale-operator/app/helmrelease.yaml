@@ -1,35 +1,20 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: tailscale-operator
   namespace: networking
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: tailscale-operator
-      version: 1.84.3
-      interval: 30m
-      sourceRef:
-        kind: HelmRepository
-        name: tailscale
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: tailscale-operator
+  interval: 1h
   values:
+    fullnameOverride: tailscale-operator
     operatorConfig:
-      image:
-        repository: ghcr.io/tailscale/k8s-operator
       hostname: "tailscale-operator-mallard"
     apiServerProxyConfig:
       mode: "true"
-  # postRenderers:
-  #   - kustomize:
-  #       patches:
-  #         - target:
-  #             version: apps/v1
-  #             kind: Deployment
-  #             name: operator
-  #           patch: |
-  #             - op: replace
-  #               path: /metadata/name
-  #               value: tailscale-operator
+    ingressClass:
+      create: false
