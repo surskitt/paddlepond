@@ -1,0 +1,44 @@
+# ---
+# apiVersion: tailscale.com/v1alpha1
+# kind: Connector
+# metadata:
+#   name: ts-dns-cidrs
+#   namespace: networking
+# spec:
+#   hostname: ts-dns-cidrs
+#   subnetRouter:
+#     advertiseRoutes:
+#       - "192.168.0.2/32"
+#   exitNode: true
+# ---
+# apiVersion: tailscale.com/v1alpha1
+# kind: Connector
+# metadata:
+#   name: ts-machine-cidrs
+#   namespace: networking
+# spec:
+#   hostname: ts-machine-cidrs
+#   subnetRouter:
+#     advertiseRoutes:
+#       - "192.168.1.0/24"
+#       - "192.168.2.0/24"
+#   exitNode: true
+---
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: connector
+  namespace: kube-system
+spec:
+  # Hostname prefix for connector machines - will be app-connector-0, app-connector-1, etc.
+  hostnamePrefix: "app-connector"
+  # Tag for ACL policy matching
+  # tags:
+  #   - "tag:connector"
+  # Advertise the internal gateway subnet to Tailscale
+  # This allows Tailscale clients to route traffic to 10.0.6.0/24 through this connector
+  appConnector:
+    routes:
+      - 192.168.50.0/24  # Gateway subnet
+  replicas: 2
