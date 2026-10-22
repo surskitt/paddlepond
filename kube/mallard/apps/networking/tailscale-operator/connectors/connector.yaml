@@ -1,0 +1,12 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: app-connector
+  namespace: networking
+spec:
+  hostnamePrefix: "mallard-app-connector"
+  appConnector:
+    routes:
+      - 192.168.50.0/24  # Gateway subnet
+  replicas: 2
