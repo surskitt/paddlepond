@@ -76,23 +76,6 @@ spec:
               readOnlyRootFilesystem: true
         serviceAccount:
           identifier: gatus
-          config-sync:
-            image:
-              repository: ghcr.io/kiwigrid/k8s-sidecar
-              tag: 2.6.0
-            env:
-              - name: FOLDER
-                value: /config
-              - name: LABEL
-                value: gatus.io/enabled
-              - name: NAMESPACE
-                value: ALL
-              - name: RESOURCE
-                value: both
-              - name: UNIQUE_FILENAMES
-                value: "true"
-              - name: METHOD
-                value: WATCH
         annotations:
           reloader.stakater.com/auto: "true"
     service:
