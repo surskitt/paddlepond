@@ -101,19 +101,19 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 3Gi
-          vuetorrent:
-            dependsOn: app
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.6.0
-            args:
-              - --repo=https://github.com/WDaan/VueTorrent
-              - --ref=latest-release
-              - --period=86400s
-              - --root=/add-ons
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
+          # vuetorrent:
+          #   dependsOn: app
+          #   image:
+          #     repository: registry.k8s.io/git-sync/git-sync
+          #     tag: v4.6.0
+          #   args:
+          #     - --repo=https://github.com/WDaan/VueTorrent
+          #     - --ref=latest-release
+          #     - --period=86400s
+          #     - --root=/add-ons
+          #   securityContext:
+          #     runAsUser: 1000
+          #     runAsGroup: 1000
           mousetrap:
             image:
               repository: ghcr.io/sirjmann92/mousetrap
@@ -222,9 +222,11 @@ spec:
           - path: /downloads
       add-ons:
         enabled: true
-        type: emptyDir
-        globalMounts:
-          - path: /add-ons
+        type: image
+        image: ghcr.io/vuetorrent/vuetorrent-lsio-mod:2.36.1
+        # type: emptyDir
+        # globalMounts:
+        #   - path: /add-ons
       coredns:
         type: configMap
         name: qbittorrent-coredns
