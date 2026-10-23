@@ -128,6 +128,17 @@ spec:
               DB_CONNECTION: sqlite
               SPEEDTEST_SCHEDULE: "30 * * * *"
               SPEEDTEST_INTERFACE: wg0
+          watchdog:
+            image:
+              repository: ghcr.io/brunoorsolon/gluetun-qbt-watchdog
+              tag: 2.0.1@sha256:b2e62d3beb95fca49aad0d10d8902c6699ad1f1fc67dea700060526c57bf8ccd
+            command: ["/scripts/gluetun-qbt-watchdog.sh"]
+            envFrom:
+              - secretRef:
+                  name: qbittorrent
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
     service:
       app:
         controller: qbittorrent

@@ -18,6 +18,7 @@ configMapGenerator:
       - gluetun-up.sh=./resources/gluetun-up.sh
       - torrent-added.sh=./resources/torrent-added.sh
       - torrent-finished.sh=./resources/torrent-finished.sh
+      - gluetun-qbt-watchdog.sh=./resources/gluetun-qbt-watchdog.sh
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
