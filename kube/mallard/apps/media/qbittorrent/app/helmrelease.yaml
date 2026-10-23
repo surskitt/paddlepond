@@ -36,7 +36,7 @@ spec:
               DOT: "off"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "80,5010,8000,8080,9999"
+              FIREWALL_INPUT_PORTS: "80,8000,8080,9999,39842"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
               VPN_SERVICE_PROVIDER: protonvpn
@@ -114,17 +114,15 @@ spec:
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
-          mousehole:
+          mousetrap:
             image:
-              repository: docker.io/tmmrtn/mousehole
-              tag: 0.2.0
+              repository: ghcr.io/sirjmann92/mousetrap
+              tag: 2.6.1@sha256:146eaabcd799052d0832942012c0a537ab34f807d3f0a95b7d51e0ca2083241a
             env:
               TZ: "Europe/London"
-              MOUSEHOLE_STATE_DIR_PATH: /config
-              MOUSEHOLE_PORT: &mamport 5010
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
+              PUID: 1000
+              PGID: 1000
+              CONFIG_DIR: /config/mousetrap
           speedtest:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
@@ -149,8 +147,8 @@ spec:
         ports:
           http:
             port: *port
-          mousehole:
-            port: *mamport
+          mousetrap:
+            port: &mamport 39842
           speedtest:
             port: &speedtestport 80
           gluetun:
@@ -171,10 +169,10 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
-      mousehole:
+      mousetrap:
         annotations:
           gatus.home-operations.com/endpoint: |
-            name: qbittorrent mousehole
+            name: mousetrap
             group: media
         hostnames:
           - "mam.${SECRET_DOMAIN}"
