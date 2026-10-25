@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ha-eufy-sdk-bridge
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: ha-eufy-sdk-bridge
+  interval: 1h
+  values:
+    controllers:
+      ha-eufy-sdk-bridge:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mega-yfue/ha-eufy-sdk-bridge
+              tag: 0.6.0@sha256:7053521bbd1e6abc1634d710ff09b2dbfdb03dfabda53a28e10f109339de2c86
+            env:
+              EUFY_COUNTRY: GB
+            envFrom:
+              - secretRef:
+                  name: ha-eufy-sdk-bridge
+    service:
+      app:
+        ports:
+          http:
+            port: 3000
+          rtsp:
+            port: 8554
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        advancedMounts:
+          ha-eufy-sdk-bridge:
+            app:
+              - path: /app/data
