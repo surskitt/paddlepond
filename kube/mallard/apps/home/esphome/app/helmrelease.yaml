@@ -20,7 +20,7 @@ spec:
               repository: ghcr.io/esphome/esphome
               tag: 2026.10.0
     service:
-      main:
+      app:
         ports:
           http:
             port: &port 6052
