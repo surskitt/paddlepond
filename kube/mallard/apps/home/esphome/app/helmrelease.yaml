@@ -33,7 +33,7 @@ spec:
           - "esphome.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
-            namespace: home
+            namespace: networking
         rules:
           - backendRefs:
               - identifier: app
