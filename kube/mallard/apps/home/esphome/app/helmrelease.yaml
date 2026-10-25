@@ -43,7 +43,8 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         storageClass: local-hostpath
-        retain: true
+        accessMode: ReadWriteOnce
+        size: 1Gi
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube
