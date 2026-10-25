@@ -28,7 +28,7 @@ spec:
       app:
         annotations:
           gatus.home-operations.com/endpoint: |
-            group: media
+            group: home
         hostnames:
           - "esphome.${SECRET_DOMAIN}"
         parentRefs:
