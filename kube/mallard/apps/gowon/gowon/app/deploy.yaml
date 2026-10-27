@@ -40,7 +40,7 @@ spec:
               mountPath: /config
       containers:
         - name: gowon
-          image: ghcr.io/gowon-irc/gowon:0.1.0-128
+          image: ghcr.io/gowon-irc/gowon:0.1.0-132
           env:
             - name: GOWON_SERVER
               valueFrom:

@@ -34,8 +34,7 @@ spec:
     route:
       app:
         annotations:
-          gatus.home-operations.com/endpoint: |
-            group: media
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - "aria2.${SECRET_DOMAIN}"
         parentRefs:

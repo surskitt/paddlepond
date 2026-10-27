@@ -7,6 +7,7 @@ metadata:
   annotations:
     gatus.home-operations.com/endpoint: |
       group: gowon
+      url: https://gowon.${SECRET_DOMAIN}/health
 spec:
   hostnames: 
     - "gowon.${SECRET_DOMAIN}"

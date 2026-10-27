@@ -57,6 +57,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             group: media
+            url: https://plex.${SECRET_DOMAIN}/identity
         hostnames:
           - "plex.${SECRET_DOMAIN}"
         parentRefs:

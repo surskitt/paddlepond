@@ -45,6 +45,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             group: media
+            url: https://qbtagarr.${SECRET_DOMAIN}/api/ping
         hostnames:
           - "qbtagarr.${SECRET_DOMAIN}"
         parentRefs:

@@ -67,6 +67,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             group: storage
+            url: https://s3.${SECRET_DOMAIN}/minio/health/live
         hostnames:
           - "s3.${SECRET_DOMAIN}"
         parentRefs:
