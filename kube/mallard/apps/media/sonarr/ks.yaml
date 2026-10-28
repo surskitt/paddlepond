@@ -7,7 +7,7 @@ spec:
   interval: 1h
   path: ./kube/mallard/apps/media/sonarr/app
   components:
-    - ../../../../components/theme-park
+    - ../../../../components/theme-park-body
   postBuild:
     substitute:
       APP: sonarr

@@ -12,7 +12,8 @@ spec:
     substitute:
       APP: qbittorrent
       APP_ROUTE: qbittorrent-app
-      THEME_PARK_APP: vuetorrent
+      # THEME_PARK_APP: vuetorrent
+      THEME_PARK_APP: qbittorrent
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
