@@ -14,3 +14,4 @@ resources:
   - ./healthchecks-ping/ks.yaml
   - ./webhook/ks.yaml
   - ./echo/ks.yaml
+  - ./chaski/ks.yaml
