@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/esphome/esphome
-              tag: 2026.10.0
+              tag: 2026.10.1
     service:
       app:
         ports:
