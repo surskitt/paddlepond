@@ -62,7 +62,7 @@ spec:
           scripts:
             image:
               repository: docker.io/python
-              tag: 3.15.1
+              tag: 3.15.2
             command:
               - /scripts/run_scripts.sh
             env:
