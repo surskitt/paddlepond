@@ -34,26 +34,3 @@ if "${NEMOROSA_ENABLE:-true}"; then
 
     echo "$(date) - nemorosa - ${status_code} - ${TORRENT_NAME}"
 fi
-
-if [[ "${CATEGORY}" == "music/unsorted" ]] && [[ "${TAGS}" == *"auto"* ]]; then
-    if [[ "${CONTENT_PATH}" == "/downloads/music/unsorted" ]]; then
-        continue
-    fi
-
-    old_path="${CONTENT_PATH##*/}"
-    timestamp="$(date "+%y%m%d%H%M%S")"
-
-    status_code="$(
-        curl \
-            --silent \
-            --output /dev/null \
-            --write-out "%{http_code}" \
-            --request POST \
-            --data-urlencode "hash=${INFO_HASH}" \
-            --data-urlencode "oldPath=${old_path}" \
-            --data-urlencode "newPath=${old_path}-${timestamp}" \
-            "http://localhost:8080/api/v2/torrents/renameFolder"
-    )"
-
-    echo "$(date) - auto music rename - ${status_code} - ${TORRENT_NAME}"
-fi
