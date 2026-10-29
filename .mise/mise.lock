@@ -57,29 +57,32 @@ url = "https://github.com/cloudflare/cloudflared/releases/download/2026.10.0/clo
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/613256341"
 
 [[tools.flux2]]
-version = "2.9.6"
+version = "2.10.0"
 backend = "aqua:fluxcd/flux2"
-specifiers = ["2.9.6"]
+specifiers = ["2.10.0"]
 
 [tools.flux2."platforms.linux-arm64"]
-checksum = "sha256:6663c154755b732f43dc993d72321f71c2fc1ff0bcb94b2696e0a8638fa562b4"
-url = "https://github.com/fluxcd/flux2/releases/download/v2.9.6/flux_2.9.6_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/602941235"
+checksum = "sha256:c3c435052e5e18156858bc73f26bcadb62821a6e30951b4b302beb4e65a532c2"
+checksum_source = "mise-versions"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.0/flux_2.10.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/678609576"
 
 [tools.flux2."platforms.linux-x64"]
-checksum = "sha256:b4d22673e9246cbd628881f1a9ef3b090085dced291e42d804555cee8e8d42c5"
-url = "https://github.com/fluxcd/flux2/releases/download/v2.9.6/flux_2.9.6_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/602941244"
+checksum = "sha256:208dd7012c04fedeed5b2d0b6e63df3b15b1c34a381527811685c098bc9f8659"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.0/flux_2.10.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/678609567"
 
 [tools.flux2."platforms.macos-arm64"]
-checksum = "sha256:7008a758da4b8d57c5845aad6552f256d4d23630c2b2de2ca8da362f9a48c126"
-url = "https://github.com/fluxcd/flux2/releases/download/v2.9.6/flux_2.9.6_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/602941251"
+checksum = "sha256:339c5dba218e2b0a04a0841d1dace6c00d65736dc3286038463fa86754ff6c53"
+checksum_source = "mise-versions"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.0/flux_2.10.0_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/678609572"
 
 [tools.flux2."platforms.macos-x64"]
-checksum = "sha256:c3c3532c8c6cf689ef7b93125b33dc170df84a9d5d036f578568bfdf88a2d7e6"
-url = "https://github.com/fluxcd/flux2/releases/download/v2.9.6/flux_2.9.6_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/602941249"
+checksum = "sha256:23fc019f5b682c1ff6841a2ce06798b3c8e17452998cb9c2dd57a6440e6340ff"
+checksum_source = "mise-versions"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.0/flux_2.10.0_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/678609570"
 
 [[tools.gh]]
 version = "2.102.0"
@@ -187,28 +190,32 @@ url = "https://get.helm.sh/helm-v4.3.0-darwin-amd64.tar.gz"
 
 [[tools.helmfile]]
 version = "1.8.1"
-backend = "aqua:helmfile/helmfile"
+backend = "packslip:github.com/helmfile/helmfile"
 specifiers = ["1.8.1"]
 
 [tools.helmfile."platforms.linux-arm64"]
 checksum = "sha256:2217788de9fb42cd0b3d84f1ee99c63617e19dea7af4995a59e45e4952c86ec4"
 url = "https://github.com/helmfile/helmfile/releases/download/v1.8.1/helmfile_1.8.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/599703527"
+signer = "sigstore-oidc:https://github.com/helmfile/helmfile/.github/workflows/releaser.yaml"
+repository_ids = { repository = "474521466" }
 
 [tools.helmfile."platforms.linux-x64"]
 checksum = "sha256:ccabbe75dddbc25008d055fe92a44f95a184342211e7244d32b870409239c7a3"
 url = "https://github.com/helmfile/helmfile/releases/download/v1.8.1/helmfile_1.8.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/599703520"
+signer = "sigstore-oidc:https://github.com/helmfile/helmfile/.github/workflows/releaser.yaml"
+repository_ids = { repository = "474521466" }
 
 [tools.helmfile."platforms.macos-arm64"]
 checksum = "sha256:62a6b086bdd7a934ff4a36d4974446d7271566b88db200b3956053a9b388fed8"
 url = "https://github.com/helmfile/helmfile/releases/download/v1.8.1/helmfile_1.8.1_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/599703536"
+signer = "sigstore-oidc:https://github.com/helmfile/helmfile/.github/workflows/releaser.yaml"
+repository_ids = { repository = "474521466" }
 
 [tools.helmfile."platforms.macos-x64"]
 checksum = "sha256:b7a44505f1cf09e8e42db4e5914d46bd6f3abae95d226d16ea182d56954eb3bd"
 url = "https://github.com/helmfile/helmfile/releases/download/v1.8.1/helmfile_1.8.1_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/599703532"
+signer = "sigstore-oidc:https://github.com/helmfile/helmfile/.github/workflows/releaser.yaml"
+repository_ids = { repository = "474521466" }
 
 [[tools.jq]]
 version = "1.8.2"
@@ -240,29 +247,33 @@ url_api = "https://api.github.com/repos/jqlang/jq/releases/assets/453012782"
 provenance = "github-attestations"
 
 [[tools.just]]
-version = "1.58.0"
+version = "1.59.0"
 backend = "aqua:casey/just"
-specifiers = ["1.58.0"]
+specifiers = ["1.59.0"]
 
 [tools.just."platforms.linux-arm64"]
-checksum = "sha256:748237128c4c40cbdabc65e841d05ceba13cc23a91eaba395495894c1d9764df"
-url = "https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/casey/just/releases/assets/500510099"
+checksum = "sha256:23871b1702bfd550fb5f901778fd4290ecf2ee034a45a889fbe96d89b188086d"
+checksum_source = "mise-versions"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/casey/just/releases/assets/642950086"
 
 [tools.just."platforms.linux-x64"]
-checksum = "sha256:4a5cc2f53e6f0f8c59092a6cc38291eb729d46a7dd95d3ae582008881b84931d"
-url = "https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/casey/just/releases/assets/500509978"
+checksum = "sha256:409044617b6f06517c1035e55ca38c8c856ff8b650e41bc2aa1ef82d5903a23e"
+checksum_source = "mise-versions"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/casey/just/releases/assets/642949555"
 
 [tools.just."platforms.macos-arm64"]
-checksum = "sha256:50ae3e996c974a0bf32ea7d10f495070df33f1b43e0616b2769e3d4821ed8f48"
-url = "https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/casey/just/releases/assets/500509965"
+checksum = "sha256:6574cea774ed4cae12e24b6aa11857de33e80dab4667cf628fd5840df96a2a9d"
+checksum_source = "mise-versions"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/casey/just/releases/assets/643129724"
 
 [tools.just."platforms.macos-x64"]
-checksum = "sha256:9a09cfef66aaa79da58203970103a0684307716caaabd3e9844cacc4dc0f4023"
-url = "https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/casey/just/releases/assets/500510084"
+checksum = "sha256:036ead9df9bc31dbae9934ae3b4236ed124d0bafcffd33439460ae084d5c9cb7"
+checksum_source = "mise-versions"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/casey/just/releases/assets/643131819"
 
 [[tools.kubeconform]]
 version = "0.8.0"
@@ -290,25 +301,25 @@ url = "https://github.com/yannh/kubeconform/releases/download/v0.8.0/kubeconform
 url_api = "https://api.github.com/repos/yannh/kubeconform/releases/assets/438612679"
 
 [[tools.kubectl]]
-version = "1.37.1"
+version = "1.37.2"
 backend = "aqua:kubernetes/kubernetes/kubectl"
-specifiers = ["1.37.1"]
+specifiers = ["1.37.2"]
 
 [tools.kubectl."platforms.linux-arm64"]
-checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
+checksum = "sha256:fcc16f63186659d9722014b7e02d5fdd2d4e669cb8c0ab66365d7d3b8ba03509"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/arm64/kubectl"
 
 [tools.kubectl."platforms.linux-x64"]
-checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
+checksum = "sha256:c04487523e7aa7d1493f7808174c899db93d7a9cf57531420cd76b9bd415f8f4"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.macos-arm64"]
-checksum = "sha256:fd65982c97ddad3106754b69ffa196d0e543aa591930ae52aed1adfb92f8c77f"
-url = "https://dl.k8s.io/v1.37.1/bin/darwin/arm64/kubectl"
+checksum = "sha256:55701af0d51815ee335f240e48acf0959c3c23017ed3fa816e880c4a92bae581"
+url = "https://dl.k8s.io/v1.37.2/bin/darwin/arm64/kubectl"
 
 [tools.kubectl."platforms.macos-x64"]
-checksum = "sha256:6851381c486ff6edd691623e3d65c87cb9a5b02887ff8fbbb38d8a031b748387"
-url = "https://dl.k8s.io/v1.37.1/bin/darwin/amd64/kubectl"
+checksum = "sha256:88379aff5c8111de6be0a394adffba2819e44cde269f3ab23cef76de1a48eaa8"
+url = "https://dl.k8s.io/v1.37.2/bin/darwin/amd64/kubectl"
 
 [[tools.kustomize]]
 version = "5.8.3"
@@ -391,31 +402,6 @@ aube = { path = "locks/oxfmt/0.72.0", digest = "sha256:8cff19be82a82e83efe243f08
 backend = "npm:oxfmt"
 specifiers = ["0.72.0"]
 
-[[tools.sd]]
-version = "1.1.0"
-backend = "aqua:chmln/sd"
-specifiers = ["1.1.0"]
-
-[tools.sd."platforms.linux-arm64"]
-checksum = "sha256:ec8c93c0533ff21f4851d11566808d4082544baf063d9b96ea77c27e98b7cd99"
-url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325535"
-
-[tools.sd."platforms.linux-x64"]
-checksum = "sha256:3613eca74cd686739bb5a6d68319aa56c747e7315274d02323a2ca2b1c5d82d2"
-url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325296"
-
-[tools.sd."platforms.macos-arm64"]
-checksum = "sha256:4bd3c09226376ca0a1d69589c91e86276fae36c5fbaaee669afce583f6682030"
-url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325451"
-
-[tools.sd."platforms.macos-x64"]
-checksum = "sha256:1fca1e9c91813a8aac6821063c923107ba0f66a83309e095edcd3b202f67f97e"
-url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325430"
-
 [[tools.sops]]
 version = "3.13.3"
 backend = "aqua:getsops/sops"
@@ -481,57 +467,6 @@ checksum = "sha256:250525ff19b32ebf25e90d8943d88870f40f39618007fcba70b524efa5549
 url = "https://github.com/siderolabs/talos/releases/download/v1.14.2/talosctl-darwin-amd64"
 url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/599059728"
 provenance = "cosign"
-
-[[tools.taplo]]
-version = "0.10.0"
-backend = "aqua:tamasfe/taplo"
-specifiers = ["0.10.0"]
-
-[tools.taplo."platforms.linux-arm64"]
-url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-aarch64.gz"
-url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257322597"
-
-[tools.taplo."platforms.linux-x64"]
-checksum = "blake3:4871fab0e60275a1eb46e7190726e144f56c9a9527f59b0d1da5a042baead8e2"
-url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz"
-url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257322600"
-
-[tools.taplo."platforms.macos-arm64"]
-url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-darwin-aarch64.gz"
-url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257323110"
-
-[tools.taplo."platforms.macos-x64"]
-url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-darwin-x86_64.gz"
-url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257323116"
-
-[[tools.uv]]
-version = "0.12.24"
-backend = "aqua:astral-sh/uv"
-specifiers = ["0.12.24"]
-
-[tools.uv."platforms.linux-arm64"]
-checksum = "sha256:5231be65f496304623895dacdbf1de8504fec90303684bdf05805aa34414dd21"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.24/uv-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/622872824"
-provenance = "github-attestations"
-
-[tools.uv."platforms.linux-x64"]
-checksum = "sha256:b4dfaef47d491a7296981f8374a4595f55dbf84e8937c8ecd2983574d8bb3da6"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.24/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/622873043"
-provenance = "github-attestations"
-
-[tools.uv."platforms.macos-arm64"]
-checksum = "sha256:0c4346de7abdb49495b393b9ec809fe387aa43e586be20fecb972216c1e71732"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.24/uv-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/622872807"
-provenance = "github-attestations"
-
-[tools.uv."platforms.macos-x64"]
-checksum = "sha256:4fa82e37cb94767661f532b001e470b67a186c7260e305bd84ddb78fd545c0b6"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.24/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/622873012"
-provenance = "github-attestations"
 
 [[tools.yq]]
 version = "4.54.1"
