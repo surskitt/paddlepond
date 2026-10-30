@@ -8,6 +8,7 @@ spec:
     kind: OCIRepository
     name: qbittorrent
   interval: 1h
+  timeout: 15m
   values:
     defaultPodOptions:
       terminationGracePeriodSeconds: 300
