@@ -11,7 +11,7 @@ spec:
   timeout: 15m
   values:
     defaultPodOptions:
-      terminationGracePeriodSeconds: 300
+      terminationGracePeriodSeconds: 120
     controllers:
       qbittorrent:
         initContainers:
