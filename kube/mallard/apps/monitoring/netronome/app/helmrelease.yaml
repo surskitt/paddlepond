@@ -28,6 +28,7 @@ spec:
               repository: ghcr.io/autobrr/netronome
               tag: v0.16.0@sha256:e6e43960e60e5a84e1eff325af179ebe383ea3c63b57a142d696729f825e867b
             env:
+              NETRONOME__AUTH_WHITELIST: "0.0.0.0/0,::/0"
               NETRONOME__HOST: 0.0.0.0
               NETRONOME__PORT: &port 7575
               NETRONOME__IPERF_TEST_DURATION: "10"
