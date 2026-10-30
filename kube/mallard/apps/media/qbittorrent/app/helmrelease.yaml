@@ -17,7 +17,7 @@ spec:
           coredns:
             image:
               repository: mirror.gcr.io/coredns/coredns
-              tag: 1.12.0
+              tag: 1.15.0
             args:
               - -conf
               - /etc/coredns/Corefile
@@ -135,7 +135,7 @@ spec:
           watchdog:
             image:
               repository: ghcr.io/brunoorsolon/gluetun-qbt-watchdog
-              tag: 2.0.1@sha256:b2e62d3beb95fca49aad0d10d8902c6699ad1f1fc67dea700060526c57bf8ccd
+              tag: 2.1.1@sha256:61068f7412b6ab2a8c53148773b465b6c86032460cbf6798b64eb7ca184ad904
             command: ["/scripts/gluetun-qbt-watchdog.sh"]
             envFrom:
               - secretRef:
