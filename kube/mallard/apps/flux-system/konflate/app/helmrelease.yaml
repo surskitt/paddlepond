@@ -20,6 +20,9 @@ spec:
       existingSecret: konflate
     httpRoute:
       enabled: true
+      annotations:
+        gatus.home-operations.com/endpoint: |
+          group: flux-system
       hostnames:
         - "konflate.${SECRET_DOMAIN}"
       parentRefs:
