@@ -36,7 +36,7 @@ spec:
               DOT: "off"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "80,8000,8080,9999,39842"
+              FIREWALL_INPUT_PORTS: "80,8000,8080,8888,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
               VPN_SERVICE_PROVIDER: protonvpn
@@ -46,6 +46,7 @@ spec:
               VPN_PORT_FORWARDING_PROVIDER: protonvpn
               WIREGUARD_PRIVATE_KEY: "${SECRET_WIREGUARD_PROTON_PRIVATE_KEY}"
               VPN_PORT_FORWARDING_UP_COMMAND: "/scripts/gluetun-up.sh {{` {{PORTS}} `}}"
+              HTTPPROXY: "on"
             probes:
               liveness:
                 enabled: true
@@ -101,15 +102,6 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 3Gi
-          mousetrap:
-            image:
-              repository: ghcr.io/sirjmann92/mousetrap
-              tag: 2.6.1@sha256:146eaabcd799052d0832942012c0a537ab34f807d3f0a95b7d51e0ca2083241a
-            env:
-              TZ: "Europe/London"
-              PUID: 1000
-              PGID: 1000
-              CONFIG_DIR: /config/mousetrap
           speedtest:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
@@ -145,12 +137,12 @@ spec:
         ports:
           http:
             port: *port
-          mousetrap:
-            port: &mamport 39842
           speedtest:
             port: &speedtestport 80
           gluetun:
             port: 8000
+          gluetunproxy:
+            port: 8888
     route:
       app:
         annotations:
@@ -167,20 +159,6 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
-      mousetrap:
-        annotations:
-          gatus.home-operations.com/endpoint: |
-            name: mousetrap
-            group: media
-        hostnames:
-          - "mam.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: envoy-internal
-            namespace: networking
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *mamport
       speedtest:
         annotations:
           gatus.home-operations.com/endpoint: |

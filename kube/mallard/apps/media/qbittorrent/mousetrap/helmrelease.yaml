@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mousetrap
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: mousetrap
+  interval: 1h
+  values:
+    controllers:
+      mousetrap:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sirjmann92/mousetrap
+              tag: 2.6.1@sha256:146eaabcd799052d0832942012c0a537ab34f807d3f0a95b7d51e0ca2083241a
+            env:
+              TZ: "Europe/London"
+              PUID: 1000
+              PGID: 1000
+              CONFIG_DIR: /config/mousetrap
+            envFrom:
+              - secretRef:
+                  name: mousetrap
+    service:
+      app:
+        controller: mousetrap
+        ports:
+          http:
+            port: &port 39842
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            name: mousetrap
+            group: media
+        hostnames:
+          - "mam.${SECRET_DOMAIN}"
+          - "mousetrap.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: mousetrap-restore
