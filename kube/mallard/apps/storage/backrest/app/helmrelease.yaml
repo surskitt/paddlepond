@@ -75,6 +75,7 @@ spec:
           backrest:
             app:
               - path: /app
+        retain: true
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube

@@ -68,6 +68,7 @@ spec:
           audiobookshelf:
             app:
               - path: /config
+        retain: true
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube

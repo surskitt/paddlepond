@@ -130,6 +130,7 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 2Gi
+        retain: true
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube

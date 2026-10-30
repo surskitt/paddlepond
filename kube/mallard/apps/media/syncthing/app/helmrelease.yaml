@@ -73,6 +73,7 @@ spec:
           syncthing:
             app:
               - path: /var/syncthing
+        retain: true
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube

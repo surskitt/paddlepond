@@ -76,6 +76,7 @@ spec:
         size: 20Gi
         globalMounts:
           - path: /config
+        retain: true
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube

@@ -63,6 +63,7 @@ spec:
         retain: true
         accessMode: ReadWriteOnce
         size: 1Gi
+        retain: true
         dataSourceRef:
           kind: ReplicationDestination
           apiGroup: volsync.backube
