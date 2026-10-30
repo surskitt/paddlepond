@@ -1,0 +1,100 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: netronome
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: netronome
+  interval: 1h
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    controllers:
+      netronome:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: ghcr.io/autobrr/netronome
+              tag: v0.16.0@sha256:e6e43960e60e5a84e1eff325af179ebe383ea3c63b57a142d696729f825e867b
+            env:
+              NETRONOME__HOST: 0.0.0.0
+              NETRONOME__PORT: &port 7575
+              NETRONOME__IPERF_TEST_DURATION: "10"
+              NETRONOME__IPERF_PARALLEL_CONNS: "4"
+              NETRONOME__PACKETLOSS_ENABLED: "true"
+              NETRONOME__PACKETLOSS_PRIVILEGED_MODE: "false"
+              NETRONOME__PACKETLOSS_DEFAULT_INTERVAL: "3600"
+              NETRONOME__PACKETLOSS_RESTORE_MONITORS_ON_STARTUP: "true"
+              NETRONOME__MONITOR_ENABLED: "true"
+              TZ: Europe/London
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 5m
+                memory: 50Mi
+              limits:
+                memory: 256Mi
+    service:
+      app:
+        primary: true
+        controller: netronome
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            group: monitoring
+        hostnames:
+          - "nn.${SECRET_DOMAIN}"
+          - "netronome.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        # dataSourceRef:
+        #   kind: ReplicationDestination
+        #   apiGroup: volsync.backube
+        #   name: netronome-restore
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          netronome:
+            app:
+              - path: /tmp

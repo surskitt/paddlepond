@@ -15,3 +15,4 @@ resources:
   - ./webhook/ks.yaml
   - ./echo/ks.yaml
   - ./chaski/ks.yaml
+  - ./netronome/ks.yaml

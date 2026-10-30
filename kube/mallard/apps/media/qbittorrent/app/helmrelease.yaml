@@ -36,7 +36,7 @@ spec:
               DOT: "off"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
-              FIREWALL_INPUT_PORTS: "80,8000,8080,8888,9999"
+              FIREWALL_INPUT_PORTS: "7575,8000,8080,8888,9999"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               HEALTH_SERVER_ADDRESS: ":9999"
               VPN_SERVICE_PROVIDER: protonvpn
@@ -102,24 +102,36 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 3Gi
-          speedtest:
-            image:
-              repository: lscr.io/linuxserver/speedtest-tracker
-              tag: 1.15.1
+          netronome:
+            image: 
+              repository: ghcr.io/autobrr/netronome
+              tag: v0.16.0@sha256:e6e43960e60e5a84e1eff325af179ebe383ea3c63b57a142d696729f825e867b
             env:
-              PUID: 1000
-              PGID: 1000
-              APP_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: qbittorrent
-                    key: SPEEDTEST_APP_KEY
-              APP_URL: &speedtesturl "https://qbspeed.${SECRET_DOMAIN}"
-              ASSET_URL: *speedtesturl
-              DISPLAY_TIMEZONE: "Europe/London"
-              DB_CONNECTION: sqlite
-              SPEEDTEST_SCHEDULE: "30 * * * *"
-              SPEEDTEST_INTERFACE: wg0
+              NETRONOME__DB_PATH: /config/netronome/netronome.db
+              NETRONOME__HOST: 0.0.0.0
+              NETRONOME__PORT: &nnport 7575
+              NETRONOME__IPERF_TEST_DURATION: "10"
+              NETRONOME__IPERF_PARALLEL_CONNS: "4"
+              NETRONOME__PACKETLOSS_ENABLED: "true"
+              NETRONOME__PACKETLOSS_PRIVILEGED_MODE: "false"
+              NETRONOME__PACKETLOSS_DEFAULT_INTERVAL: "3600"
+              NETRONOME__PACKETLOSS_RESTORE_MONITORS_ON_STARTUP: "true"
+              NETRONOME__MONITOR_ENABLED: "true"
+              TZ: Europe/London
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 5m
+                memory: 50Mi
+              limits:
+                memory: 256Mi
           watchdog:
             image:
               repository: ghcr.io/brunoorsolon/gluetun-qbt-watchdog
@@ -137,8 +149,8 @@ spec:
         ports:
           http:
             port: *port
-          speedtest:
-            port: &speedtestport 80
+          netronome:
+            port: *nnport
           gluetun:
             port: 8000
           gluetunproxy:
@@ -159,12 +171,13 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
-      speedtest:
+      netronome:
         annotations:
           gatus.home-operations.com/endpoint: |
-            name: qbittorrent speed test
+            name: qbittorrent speedtest
             group: media
         hostnames:
+          - "qbnn.${SECRET_DOMAIN}"
           - "qbspeed.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
@@ -172,7 +185,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: *speedtestport
+                port: *nnport
     persistence:
       config:
         enabled: true
