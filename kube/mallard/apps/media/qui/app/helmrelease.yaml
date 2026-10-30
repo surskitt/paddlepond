@@ -106,6 +106,10 @@ spec:
         storageClass: local-hostpath
         accessMode: ReadWriteOnce
         size: 1Gi
+        dataSourceRef:
+          kind: ReplicationDestination
+          apiGroup: volsync.backube
+          name: qui-restore
       downloads:
         enabled: true
         type: hostPath
