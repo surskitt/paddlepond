@@ -60,7 +60,6 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         storageClass: local-hostpath
-        retain: true
         accessMode: ReadWriteOnce
         size: 1Gi
         retain: true
