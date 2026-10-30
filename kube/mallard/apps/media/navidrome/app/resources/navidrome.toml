@@ -41,3 +41,4 @@ Tags.originaldate.Aliases = [
 
 Tags.Artist.Split = [" / ", " feat. ", " feat ", " ft. ", " ft ", "; ", " & ", "(feat. ", ")"]
 Tags.AlbumArtist.Split = [" / ", " feat. ", " feat ", " ft. ", " ft ", "; ", " & ", ")"]
+Tags.Composer.Split = [" / ", "; ", " & "]
