@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: healthchecks-ping
-          image: alpine/curl:8.22.0
+          image: quay.io/curl/curl:8.17.0
           command:
            - ash
           args:
