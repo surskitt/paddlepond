@@ -22,6 +22,10 @@
         "prIgnoreNotification"
     ],
     "rebaseWhen": "conflicted",
+    "lockFileMaintenance": {
+      "enabled": true,
+      "automerge": true
+    },
     "packageRules": [
         {
             "description": "Loose versioning for non-semver packages",
