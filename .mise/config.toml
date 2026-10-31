@@ -24,7 +24,7 @@ node = "26.13.0"
 oxfmt = "0.72.0"
 sops = "3.13.3"
 talosctl = "1.14.2"
-"github:postfinance/topf" = "v0.6.1"
+"github:postfinance/topf" = "v0.6.2"
 yq = "4.54.1"
 zizmor = "1.30.1"
 
