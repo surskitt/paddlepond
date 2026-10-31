@@ -22,28 +22,44 @@
         "prIgnoreNotification"
     ],
     "rebaseWhen": "conflicted",
+    "lockFileMaintenance": {
+      "enabled": true,
+      "automerge": true
+    },
     "packageRules": [
-        {
-            "description": "Loose versioning for non-semver packages",
-            "matchDatasources": [
-                "docker"
-            ],
-            "versioning": "loose",
-            "matchPackagePatterns": [
-                "changedetection",
-                "plex",
-                "qbittorrent"
-            ]
-        },
-        {
-            "description": "Use custom versioning for Minio",
-            "matchDatasources": [
-                "docker"
-            ],
-            "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
-            "matchPackagePatterns": [
-                "minio"
-            ]
-        }
+      {
+        "description": "Loose versioning for non-semver packages",
+        "matchDatasources": [
+          "docker",
+        ],
+        "versioning": "loose",
+        "matchPackagePatterns": [
+          "changedetection",
+          "plex",
+          "qbittorrent",
+        ],
+      },
+      {
+        "description": "Use custom versioning for Minio",
+        "matchDatasources": [
+          "docker"
+        ],
+        "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
+        "matchPackagePatterns": [
+          "minio",
+        ],
+      }
+    ],
+    "prBodyDefinitions": {
+      "Package name": "{{{packageName}}}",
+    },
+    "prBodyColumns": [
+      "Package",
+      "Package name",
+      "Update",
+      "Type",
+      "New value",
+      "Package file",
+      "References"
     ]
 }
