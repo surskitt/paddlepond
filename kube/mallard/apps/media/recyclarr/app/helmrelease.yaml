@@ -9,15 +9,26 @@ spec:
     name: recyclarr
   interval: 1h
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     controllers:
       recyclarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.8.1
+              tag: 8.8.1@sha256:3e9c41b9ec29bbf65fe846864058730d321a21f7695d8c0d9437b73e34d50ad9
             env:
               TZ: Europe/London
+              RECYCLARR_CONFIG_DIR: /config
+              RECYCLARR_DATA_DIR: /tmp
             envFrom:
               - secretRef:
                   name: radarr
@@ -28,13 +39,18 @@ spec:
                 cpu: 10m
                 memory: 50Mi
               limits:
-                memory: 200Mi
-        annotations:
-          reloader.stakater.com/auto: "true"
-    service:
-      app:
-        enabled: false
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
     persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: local-hostpath
+        accessMode: ReadWriteOnce
+        size: 1Gi
       yaml:
         enabled: true
         type: configMap
@@ -45,9 +61,10 @@ spec:
               - path: /config/recyclarr.yml
                 subPath: recyclarr.yml
                 readOnly: true
-      config:
-        enabled: true
-        type: persistentVolumeClaim
-        storageClass: local-hostpath
-        accessMode: ReadWriteOnce
-        size: 1Gi
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          recyclarr:
+            app:
+              - path: /tmp
+                subPath: tmp
