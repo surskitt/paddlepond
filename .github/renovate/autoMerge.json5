@@ -2,22 +2,86 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge container digests",
-      "matchDatasources": ["docker"],
-      "automerge": true,
-      "ignoreTests": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["digest"],
-      "matchPackagePatterns": ["ghcr.io/bjw-s", "ghcr.io/onedr0p"]
-    },
-    {
       "description": "Auto merge GitHub Actions",
       "matchManagers": ["github-actions"],
-      "matchDatasources": ["github-tags"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": true,
-      "ignoreTests": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch"]
+      "automergeType": "pr",
+      "minimumReleaseAge": "3 days",
+      "ignoreTests": false,
+    },
+    {
+      "description": "Auto merge select minor container updates",
+      "matchDatasources":["docker"],
+      "matchUpdateTypes": ["minor"],
+      "matchPackageNames": [
+        "docker.io/cloudflare/cloudflared",
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false,
+    },
+    {
+      "description": "Auto merge select patch container updates",
+      "matchDatasources":["docker"],
+      "matchUpdateTypes": ["patch"],
+      "matchPackageNames": [
+        "docker.io/cloudflare/cloudflared",
+        "ghcr.io/autobrr/qui"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false,
+    },
+    {
+      "description": "Auto merge select minor helm chart updates",
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["minor"],
+      "matchPackageNames": [],
+      "automerge": true,
+      "ignoreTests": false,
+      "automergeType": "pr",
+    },
+    {
+      "description": "Auto merge select patch helm chart updates",
+      "matchDatasources":["helm"],
+      "matchUpdateTypes": ["patch"],
+      "matchPackageNames": [
+        "ghcr.io/home-operations/charts/chaski",
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false,
+    },
+    {
+      "description": "Auto merge select minor mise updates",
+      "matchManagers":["mise"],
+      "matchUpdateTypes": ["minor"],
+      "matchPackageNames": [
+        "cloudflare/cloudflared",
+        "postfinance/topf",
+        "cli/cli", // gh
+        "zizmorcore/zizmor",
+        "oxfmt",
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false,
+    },
+    {
+      "description": "Auto merge select patch mise updates",
+      "matchManagers":["mise"],
+      "matchUpdateTypes": ["patch"],
+      "matchPackageNames": [
+        "cloudflare/cloudflared",
+        "postfinance/topf",
+        "cli/cli", // gh
+        "zizmorcore/zizmor",
+        "oxfmt",
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false,
     }
   ]
 }

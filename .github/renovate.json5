@@ -21,6 +21,7 @@
     "suppressNotifications": [
         "prIgnoreNotification"
     ],
+    "rebaseWhen": "conflicted",
     "packageRules": [
         {
             "description": "Loose versioning for non-semver packages",
