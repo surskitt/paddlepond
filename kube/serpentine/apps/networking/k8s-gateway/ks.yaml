@@ -1,25 +1,19 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-k8s-gateway
-  namespace: flux-system
+  name: k8s-gateway
 spec:
-  path: ./kube/mallard/apps/networking/k8s-gateway/app
+  interval: 1h
+  path: ./kube/serpentine/apps/networking/k8s-gateway/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: false # no flux ks dependents
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/values/service/annotations/io.cilium~1lb-ipam-ips
-          value: "192.168.51.3"
-      target:
-        kind: HelmRelease
-        name: k8s-gateway
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: networking
+  wait: false

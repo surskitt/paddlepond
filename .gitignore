@@ -26,7 +26,7 @@ wiki
 
 # Secrets
 /age.key
-/cloudflare-tunnel.json
+/cloudflare-tunnel.json*
 /deploy.key
 /deploy.key.pub
 /flux-webhook-token.txt
@@ -39,7 +39,7 @@ __pycache__/
 *.py[cod]
 # Misc.
 .claude/
-/talos/mallard/output/
-/talos/mallard/rendered/
+/talos/*/output/
+/talos/*/rendered/
 
 *.bak
