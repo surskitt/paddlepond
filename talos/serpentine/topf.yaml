@@ -1,5 +1,5 @@
 ---
-clusterName: kubernetes
+clusterName: serpentine
 clusterEndpoint: https://192.168.51.2:6443
 
 # renovate: datasource=github-releases depName=siderolabs/talos

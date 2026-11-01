@@ -7,13 +7,17 @@ set default-script
 
 kubernetes_dir := justfile_dir() + '/kube/serpentine'
 
+kubeconfig := justfile_dir() + '/serpentine-kubeconfig'
+export KUBECONFIG := justfile_dir() + '/serpentine-kubeconfig'
+
 [doc('Bootstrap the Talos cluster')]
 [group('bootstrap')]
 talos: talos-secret talos-apply talos-talosconfig talos-kubeconfig
 
+# apps: apps-ready apps-namespaces apps-secrets apps-vars apps-crds apps-helm
 [doc('Bootstrap apps into the Talos cluster')]
 [group('bootstrap')]
-apps: apps-ready apps-namespaces apps-secrets apps-vars apps-crds apps-helm
+apps: apps-ready apps-namespaces apps-secrets apps-crds apps-helm
     just log info "Cluster is bootstrapped — Flux will start syncing the Git repository"
 
 # No sops call or existence guard is needed: the bundle is stored already
@@ -43,7 +47,7 @@ talos-talosconfig:
 [working-directory('../../talos/serpentine')]
 talos-kubeconfig:
     just log info "Fetching kubeconfig" stage "{{ recipe_name() }}"
-    topf kubeconfig --validity 8760h > "{{ justfile_dir() }}/serpentine-kubeconfig"
+    topf kubeconfig --validity 8760h > "{{ kubeconfig }}"
 
 [private]
 apps-crds:
