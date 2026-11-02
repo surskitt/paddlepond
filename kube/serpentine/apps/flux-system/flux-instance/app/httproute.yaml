@@ -6,7 +6,7 @@ metadata:
   annotations:
     gatus.home-operations.com/enabled: false
 spec:
-  hostnames: ["flux-webhook.${SECRET_DOMAIN}"]
+  hostnames: ["flux-webhook-s.${SECRET_ZONE}"]
   parentRefs:
     - name: envoy-external
       namespace: networking

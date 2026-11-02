@@ -5,8 +5,8 @@ metadata:
   name: "${SECRET_DOMAIN/./-}-production"
 spec:
   dnsNames:
-    - "${SECRET_DOMAIN}"
-    - "*.${SECRET_DOMAIN}"
+    - "${SECRET_ZONE}"
+    - "*.${SECRET_ZONE}"
   duration: 160h
   issuerRef:
     name: letsencrypt-production

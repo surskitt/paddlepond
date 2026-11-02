@@ -69,7 +69,7 @@ spec:
         data:
           config.yaml: |-
             ingress:
-              - hostname: "*.${SECRET_DOMAIN}"
+              - hostname: "*.${SECRET_ZONE}"
                 originRequest:
                   http2Origin: true
                   originServerName: external-s.${SECRET_ZONE}
