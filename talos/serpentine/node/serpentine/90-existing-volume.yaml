@@ -1,0 +1,28 @@
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: 12tb
+discovery:
+    volumeSelector:
+        match: volume.uuid == "82590464-a9a1-48e5-9474-1927c80d6f2d"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: 16tb
+discovery:
+    volumeSelector:
+        match: volume.uuid == "2d08bcc7-fbf3-40aa-9ef1-16d6b739b404"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: 20tb
+discovery:
+    volumeSelector:
+        match: volume.uuid == "0e490983-61b7-4f22-b730-76f70fd45aea"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: 28tb
+discovery:
+    volumeSelector:
+        match: volume.uuid == "29991f11-dcce-4479-b80a-671c41932257"
