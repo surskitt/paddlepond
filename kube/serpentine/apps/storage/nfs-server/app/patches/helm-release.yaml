@@ -1,0 +1,51 @@
+- op: replace
+  path: /spec/values/service/nfs-server/annotations/lbipam.cilium.io~1ips
+  value: 192.168.51.107
+
+- op: replace
+  path: /spec/values/configMaps/nfs-server/data/exports
+  value: |
+    /srv            *(rw,async,fsid=0,crossmnt,no_subtree_check)
+    /srv/12tb       *(rw,async,fsid=82590464-a9a1-48e5-9474-1927c80d6f2d,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+    /srv/16tb       *(rw,async,fsid=2d08bcc7-fbf3-40aa-9ef1-16d6b739b404,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+    /srv/20tb       *(rw,async,fsid=0e490983-61b7-4f22-b730-76f70fd45aea,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+    /srv/28tb       *(rw,async,fsid=29991f11-dcce-4479-b80a-671c41932257,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+
+- op: remove
+  path: /spec/values/persistence/ssd
+
+- op: add
+  path: /spec/values/persistence/12tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/12tb
+    globalMounts:
+      - path: /srv/12tb
+
+- op: add
+  path: /spec/values/persistence/16tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/16tb
+    globalMounts:
+      - path: /srv/16tb
+
+- op: add
+  path: /spec/values/persistence/20tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/20tb
+    globalMounts:
+      - path: /srv/20tb
+
+- op: add
+  path: /spec/values/persistence/28tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/28tb
+    globalMounts:
+      - path: /srv/28tb

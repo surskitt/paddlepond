@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: storage
+resources:
+  - ../../../../../mallard/apps/storage/nfs-server/app
+patches:
+  - target:
+      kind: HelmRelease
+      name: nfs-server
+      namespace: storage
+    path: patches/helm-release.yaml
