@@ -7,8 +7,8 @@
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": true,
       "automergeType": "pr",
-      "minimumReleaseAge": "3 days",
       "ignoreTests": false,
+      "minimumReleaseAge": "3 days",
     },
     {
       "description": "Auto merge select major container updates",
@@ -60,8 +60,8 @@
         "ghcr.io/home-operations/charts/chaski",
       ],
       "automerge": true,
-      "ignoreTests": false,
       "automergeType": "pr",
+      "ignoreTests": false,
     },
     {
       "description": "Auto merge select patch helm chart updates",
