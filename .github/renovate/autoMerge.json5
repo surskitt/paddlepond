@@ -11,11 +11,30 @@
       "ignoreTests": false,
     },
     {
+      "description": "Auto merge select major container updates",
+      "matchDatasources":["docker"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchPackageNames": [
+        "ghcr.io/alexta69/metube",
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": false,
+    },
+    {
       "description": "Auto merge select minor container updates",
       "matchDatasources":["docker"],
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "docker.io/cloudflare/cloudflared",
+        "ghcr.io/autobrr/autobrr",
+        "ghcr.io/esphome/esphome",
+        "ghcr.io/home-operations/gatus-sidecar",
+        "ghcr.io/home-operations/prowlarr",
+        "ghcr.io/home-operations/radarr",
+        "ghcr.io/home-operations/sonarr",
+        "ghcr.io/kiwigrid/k8s-sidecar",
+        "ghcr.io/koenkk/zigbee2mqtt",
       ],
       "automerge": true,
       "automergeType": "pr",
@@ -26,7 +45,6 @@
       "matchDatasources":["docker"],
       "matchUpdateTypes": ["patch"],
       "matchPackageNames": [
-        "docker.io/cloudflare/cloudflared",
         "ghcr.io/autobrr/qui"
       ],
       "automerge": true,
@@ -36,8 +54,11 @@
     {
       "description": "Auto merge select minor helm chart updates",
       "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["minor"],
-      "matchPackageNames": [],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "ghcr.io/emberstack/helm-charts/reflector",
+        "ghcr.io/home-operations/charts/chaski",
+      ],
       "automerge": true,
       "ignoreTests": false,
       "automergeType": "pr",
@@ -46,9 +67,7 @@
       "description": "Auto merge select patch helm chart updates",
       "matchDatasources":["helm"],
       "matchUpdateTypes": ["patch"],
-      "matchPackageNames": [
-        "ghcr.io/home-operations/charts/chaski",
-      ],
+      "matchPackageNames": [],
       "automerge": true,
       "automergeType": "pr",
       "ignoreTests": false,
@@ -56,13 +75,13 @@
     {
       "description": "Auto merge select minor mise updates",
       "matchManagers":["mise"],
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
-        "cloudflare/cloudflared",
-        "postfinance/topf",
         "cli/cli", // gh
-        "zizmorcore/zizmor",
+        "cloudflare/cloudflared",
         "oxfmt",
+        "postfinance/topf",
+        "zizmorcore/zizmor",
       ],
       "automerge": true,
       "automergeType": "pr",
@@ -72,13 +91,7 @@
       "description": "Auto merge select patch mise updates",
       "matchManagers":["mise"],
       "matchUpdateTypes": ["patch"],
-      "matchPackageNames": [
-        "cloudflare/cloudflared",
-        "postfinance/topf",
-        "cli/cli", // gh
-        "zizmorcore/zizmor",
-        "oxfmt",
-      ],
+      "matchPackageNames": [],
       "automerge": true,
       "automergeType": "pr",
       "ignoreTests": false,
