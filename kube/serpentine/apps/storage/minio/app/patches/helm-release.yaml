@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/values/persistence/data/hostPath
+  value: /var/mnt/12tb/data/k3s_storage/minio
