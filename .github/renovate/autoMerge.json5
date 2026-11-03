@@ -28,7 +28,9 @@
       "matchPackageNames": [
         "docker.io/cloudflare/cloudflared",
         "ghcr.io/autobrr/autobrr",
+        "ghcr.io/emberstack/helm-charts/reflector",
         "ghcr.io/esphome/esphome",
+        "ghcr.io/home-operations/charts/chaski",
         "ghcr.io/home-operations/gatus-sidecar",
         "ghcr.io/home-operations/prowlarr",
         "ghcr.io/home-operations/radarr",
@@ -47,27 +49,6 @@
       "matchPackageNames": [
         "ghcr.io/autobrr/qui"
       ],
-      "automerge": true,
-      "automergeType": "pr",
-      "ignoreTests": false,
-    },
-    {
-      "description": "Auto merge select minor helm chart updates",
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
-        "ghcr.io/emberstack/helm-charts/reflector",
-        "ghcr.io/home-operations/charts/chaski",
-      ],
-      "automerge": true,
-      "automergeType": "pr",
-      "ignoreTests": false,
-    },
-    {
-      "description": "Auto merge select patch helm chart updates",
-      "matchDatasources":["helm"],
-      "matchUpdateTypes": ["patch"],
-      "matchPackageNames": [],
       "automerge": true,
       "automergeType": "pr",
       "ignoreTests": false,
