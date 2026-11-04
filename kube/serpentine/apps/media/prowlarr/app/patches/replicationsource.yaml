@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/trigger/schedule
+  value: "0 20 * * *"

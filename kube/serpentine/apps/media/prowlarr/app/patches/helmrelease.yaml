@@ -1,0 +1,6 @@
+- op: replace
+  path: /spec/values/controllers/prowlarr/containers/app/env/PROWLARR__INSTANCE_NAME
+  value: Serpentine Prowlarr
+
+- op: remove
+  path: /spec/values/controllers/prowlarr/containers/app/resources

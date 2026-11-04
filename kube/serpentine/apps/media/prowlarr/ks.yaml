@@ -1,0 +1,25 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: prowlarr
+spec:
+  interval: 1h
+  path: ./kube/serpentine/apps/media/prowlarr/app
+  components:
+    - ../../../../components/theme-park-body
+  postBuild:
+    substitute:
+      APP: prowlarr
+      APP_ROUTE: prowlarr
+      THEME_PARK_APP: prowlarr
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: media
+  wait: false
