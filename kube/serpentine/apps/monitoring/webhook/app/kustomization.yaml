@@ -5,3 +5,9 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ../../../../../mallard/apps/monitoring/webhook/app
+patches:
+  - target:
+      kind: HelmRelease
+      name: webhook
+      namespace: monitoring
+    path: patches/helmrelease.yaml

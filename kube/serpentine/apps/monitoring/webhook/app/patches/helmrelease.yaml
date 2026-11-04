@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/values/controllers/webhook/containers/app/resources/requests/cpu
+  value: 20m
