@@ -1,0 +1,7 @@
+- op: replace
+  path: /spec/values/controllers/radarr/containers/app/env/RADARR__INSTANCE_NAME
+  value: Radarr Serpentine
+
+- op: replace
+  path: /spec/values/persistence/media/hostPath
+  value: /var/mnt/16tb/media
