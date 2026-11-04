@@ -48,7 +48,16 @@
         "matchPackagePatterns": [
           "minio",
         ],
-      }
+      },
+      {
+        "description": "Individual PRs for cluster system component upgrades",
+        "matchPackageNames": [
+          "ghcr.io/coredns/charts/coredns",
+          "ghcr.io/siderolabs/kubelet",
+          "siderolabs/talos",
+        ],
+        "additionalBranchPrefix": "{{packageFileDir}}-",
+      },
     ],
     "prBodyDefinitions": {
       "Package name": "{{{packageName}}}",
