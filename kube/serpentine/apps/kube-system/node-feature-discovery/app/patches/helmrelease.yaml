@@ -1,0 +1,8 @@
+- op: add
+  path: /spec/values/master/resources
+  value:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 50m
+      memory: 128Mi

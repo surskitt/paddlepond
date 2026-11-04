@@ -5,3 +5,9 @@ kind: Kustomization
 namespace: storage
 resources:
   - ../../../../../mallard/apps/storage/volsync/app
+patches:
+  - target:
+      kind: HelmRelease
+      name: volsync
+      namespace: storage
+    path: patches/helmrelease.yaml

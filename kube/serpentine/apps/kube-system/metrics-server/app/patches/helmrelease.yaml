@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/values/resources
+  value:
+    requests:
+      cpu: 50m
+      memory: 200Mi

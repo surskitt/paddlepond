@@ -53,10 +53,14 @@ spec:
                       - name: manager
                         resources:
                           limits:
-                            memory: 1Gi
+                            memory: 500Mi
+                            cpu: 500m
+                          requests:
+                            memory: 64Mi
+                            cpu: 50m
             target:
               kind: Deployment
-              name: (kustomize-controller|helm-controller|source-controller)
+              name: (kustomize-controller|helm-controller|source-controller|notification-controller)
           - # Enable in-memory kustomize builds
             patch: |
               - op: add
