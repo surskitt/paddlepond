@@ -1,0 +1,2 @@
+- op: remove
+  path: /spec/values/controllers/qbtagarr/containers/app/resources

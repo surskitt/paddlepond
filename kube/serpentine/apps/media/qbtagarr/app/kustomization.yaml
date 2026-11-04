@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: media
+resources:
+  - ../../../../../mallard/apps/media/qbtagarr/app
+patches:
+  - target:
+      kind: HelmRelease
+      name: qbtagarr
+      namespace: media
+    path: patches/helmrelease.yaml
