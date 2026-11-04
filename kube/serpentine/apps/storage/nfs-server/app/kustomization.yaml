@@ -10,4 +10,4 @@ patches:
       kind: HelmRelease
       name: nfs-server
       namespace: storage
-    path: patches/helm-release.yaml
+    path: patches/helmrelease.yaml
