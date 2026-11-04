@@ -50,13 +50,24 @@
         ],
       },
       {
-        "description": "Individual PRs for cluster system component upgrades",
+        "description": "Separate mallard system updates",
         "matchPackageNames": [
           "ghcr.io/coredns/charts/coredns",
           "ghcr.io/siderolabs/kubelet",
-          // "siderolabs/talos",
         ],
-        "additionalBranchPrefix": "{{packageFileDir}}-",
+        "matchFileNames": ["*mallard*"]
+        "additionalBranchPrefix": "mallard-",
+        "commitMessageSuffix": "(mallard)",
+      },
+      {
+        "description": "Separate serpentine system updates",
+        "matchPackageNames": [
+          "ghcr.io/coredns/charts/coredns",
+          "ghcr.io/siderolabs/kubelet",
+        ],
+        "matchFileNames": ["*serpentine*"]
+        "additionalBranchPrefix": "serpentine-",
+        "commitMessageSuffix": "(serpentine)",
       },
     ],
     "prBodyDefinitions": {
