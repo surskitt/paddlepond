@@ -8,5 +8,6 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./sources
   - ./flux-instance/ks.yaml
   - ./flux-operator/ks.yaml
