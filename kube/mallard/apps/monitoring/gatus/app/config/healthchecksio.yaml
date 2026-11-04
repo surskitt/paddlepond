@@ -1,0 +1,10 @@
+---
+endpoints:
+  - name: healthchecks.io
+    group: external
+    url: "${HEALTHCHECKS_IO_URL}"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: ntfy

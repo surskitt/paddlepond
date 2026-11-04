@@ -111,6 +111,16 @@ spec:
               - path: /config/config.yaml
                 subPath: config.yaml
                 readOnly: true
+      healthchecksio-config-file:
+        enabled: true
+        type: configMap
+        name: gatus-healthchecksio-configmap
+        advancedMounts:
+          gatus:
+            app:
+              - path: /config/healthchecksio.yaml
+                subPath: healthchecksio.yaml
+                readOnly: true
       data:
         enabled: true
         type: persistentVolumeClaim

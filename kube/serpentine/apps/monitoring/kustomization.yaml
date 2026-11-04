@@ -8,4 +8,5 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./gatus/ks.yaml
   - ./webhook/ks.yaml

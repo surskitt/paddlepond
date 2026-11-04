@@ -11,6 +11,9 @@ configMapGenerator:
   - name: gatus-configmap
     files:
       - ./config/config.yaml
+  - name: gatus-healthchecksio-configmap
+    files:
+      - ./config/healthchecksio.yaml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
