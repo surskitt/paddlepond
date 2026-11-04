@@ -13,7 +13,7 @@
     {
       "description": "Auto merge select major container updates",
       "matchDatasources":["docker"],
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest"],
       "matchPackageNames": [
         "ghcr.io/alexta69/metube",
       ],
@@ -24,7 +24,7 @@
     {
       "description": "Auto merge select minor container updates",
       "matchDatasources":["docker"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackageNames": [
         "docker.io/cloudflare/cloudflared",
         "ghcr.io/autobrr/autobrr",
@@ -45,7 +45,7 @@
     {
       "description": "Auto merge select patch container updates",
       "matchDatasources":["docker"],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["patch", "digest"],
       "matchPackageNames": [
         "ghcr.io/autobrr/qui"
       ],
@@ -56,7 +56,7 @@
     {
       "description": "Auto merge select minor mise updates",
       "matchManagers":["mise"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackageNames": [
         "cli/cli", // gh
         "cloudflare/cloudflared",
@@ -71,7 +71,7 @@
     {
       "description": "Auto merge select patch mise updates",
       "matchManagers":["mise"],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["patch", "digest"],
       "matchPackageNames": [],
       "automerge": true,
       "automergeType": "pr",
