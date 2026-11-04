@@ -1,0 +1,7 @@
+- op: replace
+  path: /spec/values/controllers/sonarr/containers/app/env/SONARR__INSTANCE_NAME
+  value: Sonarr Serpentine
+
+- op: replace
+  path: /spec/values/persistence/media/hostPath
+  value: /var/mnt/16tb/media

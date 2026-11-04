@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: media
+resources:
+  - ../../../../../mallard/apps/media/sonarr/app
+patches:
+  - target:
+      kind: HelmRelease
+      name: sonarr
+      namespace: media
+    path: patches/helmrelease.yaml
+  - target:
+      kind: ReplicationSource
+      name: sonarr
+      namespace: media
+    path: patches/replicationsource.yaml
+  - target:
+      kind: ReplicationSource
+      name: sonarr-r2
+      namespace: media
+    path: patches/replicationsource-r2.yaml
