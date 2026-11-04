@@ -23,14 +23,13 @@
       "separateMinorPatch": true
     },
     {
-      "description": ["System Upgrade Controller Group"],
-      "groupName": "System Upgrade Controller",
-      "matchPackagePatterns": ["system-upgrade-controller"],
-      "matchDatasources": ["docker", "github-releases"],
+      "description": "Talos Group",
+      "groupName": "talos",
+      "matchPackageNames": ["siderolabs/talos"],
       "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+        "commitMessageTopic": "{{{groupName}}} group",
       },
-      "separateMinorPatch": true
+      "minimumGroupSize": 2,
     },
   ]
 }
