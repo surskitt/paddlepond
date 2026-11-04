@@ -1,0 +1,49 @@
+- op: remove
+  path: /spec/values/controllers/qui/containers/app/resources
+
+- op: remove
+  path: /spec/values/persistence/downloads
+
+- op: add
+  path: /spec/values/persistence/12tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/12tb/media/downloads/torrents
+    advancedMounts:
+      qui:
+        app:
+          - path: /downloads/12tb
+
+- op: add
+  path: /spec/values/persistence/16tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/16tb/media/downloads/torrents
+    advancedMounts:
+      qui:
+        app:
+          - path: /downloads/16tb
+
+- op: add
+  path: /spec/values/persistence/20tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/20tb/media/downloads/torrents
+    advancedMounts:
+      qui:
+        app:
+          - path: /downloads/20tb
+
+- op: add
+  path: /spec/values/persistence/28tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/28tb/media/downloads/torrents
+    advancedMounts:
+      qui:
+        app:
+          - path: /downloads/28tb
