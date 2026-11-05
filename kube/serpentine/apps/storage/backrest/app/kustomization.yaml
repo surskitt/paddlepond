@@ -5,3 +5,19 @@ kind: Kustomization
 namespace: storage
 resources:
   - ../../../../../mallard/apps/storage/backrest/app
+patches:
+  - target:
+      kind: HelmRelease
+      name: backrest
+      namespace: storage
+    path: patches/helmrelease.yaml
+  - target:
+      kind: ReplicationSource
+      name: backrest
+      namespace: storage
+    path: patches/replicationsource.yaml
+  - target:
+      kind: ReplicationSource
+      name: backrest-r2
+      namespace: storage
+    path: patches/replicationsource-r2.yaml

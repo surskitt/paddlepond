@@ -9,7 +9,7 @@ spec:
   trigger:
     manual: backrest-restore
   restic:
-    repository: backrest-restic-r2
+    repository: backrest-restic
     copyMethod: Snapshot
     storageClassName: local-hostpath
     volumeSnapshotClassName: local-hostpath
