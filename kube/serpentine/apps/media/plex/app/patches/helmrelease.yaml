@@ -1,0 +1,23 @@
+- op: replace
+  path: /spec/values/controllers/plex/containers/app/env/PLEX_ADVERTISE_URL
+  value: "https://192.168.51.106:32400,https://plex.${SECRET_DOMAIN}:443"
+
+- op: replace
+  path: /spec/values/controllers/plex/containers/app/resources
+  value:
+    limits:
+      gpu.intel.com/i915: 1
+      cpu: 500m
+      memory: 2Gi
+    requests:
+      gpu.intel.com/i915: 1
+      cpu: 100m
+      memory: 1Gi
+
+- op: replace
+  path: /spec/values/service/app/loadBalancerIP
+  value: 192.168.51.106
+
+- op: replace
+  path: /spec/values/persistence/media/hostPath
+  value: /var/mnt/16tb/media
