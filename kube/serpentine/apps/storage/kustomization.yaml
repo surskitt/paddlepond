@@ -11,4 +11,5 @@ resources:
   - ./democratic-csi/ks.yaml
   - ./minio/ks.yaml
   - ./volsync/ks.yaml
+  - ./backrest/ks.yaml
   - ./nfs-server/ks.yaml

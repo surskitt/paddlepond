@@ -1,0 +1,58 @@
+- op: remove
+  path: /spec/values/persistence/ssd
+
+- op: add
+  path: /spec/values/persistence/12tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/12tb
+    advancedMounts:
+      backrest:
+        app:
+          - path: /mnt/12tb
+
+- op: add
+  path: /spec/values/persistence/16tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/16tb
+    advancedMounts:
+      backrest:
+        app:
+          - path: /mnt/16tb
+
+- op: add
+  path: /spec/values/persistence/20tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/20tb
+    advancedMounts:
+      backrest:
+        app:
+          - path: /mnt/20tb
+
+- op: add
+  path: /spec/values/persistence/28tb
+  value:
+    enabled: true
+    type: hostPath
+    hostPath: /var/mnt/28tb
+    advancedMounts:
+      backrest:
+        app:
+          - path: /mnt/28tb
+
+- op: add
+  path: /spec/values/persistence/mallard
+  value:
+    enabled: true
+    type: nfs
+    server: 192.168.50.107
+    path: /ssd
+    advancedMounts:
+      backrest:
+        app:
+          - path: /mnt/nfs/mallard
