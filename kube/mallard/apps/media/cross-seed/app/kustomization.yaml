@@ -6,5 +6,12 @@ namespace: media
 resources:
   - ./ocirepository.yaml
   - ./secret.sops.yaml
-  - ./configmap.yaml
   - ./helmrelease.yaml
+configMapGenerator:
+  - name: cross-seed
+    files:
+      - config.js=./resources/config.js
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled

@@ -32,6 +32,8 @@ spec:
               TZ: "Europe/London"
               CROSS_SEED_PORT: &port 80
               CROSS_SEED_LINK_DIRS: "/downloads/cross-seed"
+              CROSS_SEED_SEARCH_CADENCE: "1d"
+              CROSS_SEED_RSS_CADENCE: "15 minutes"
             envFrom:
               - secretRef:
                   name: cross-seed

@@ -1,0 +1,76 @@
+linkDirs = process.env.CROSS_SEED_LINK_DIRS.split(",");
+prowlarr_api_key = process.env.PROWLARR_API_KEY;
+radarr_api_key = process.env.RADARR_API_KEY;
+sonarr_api_key = process.env.SONARR_API_KEY;
+qbittorrent_username = process.env.QBITTORRENT_USERNAME;
+qbittorrent_password = process.env.QBITTORRENT_PASSWORD;
+
+module.exports = {
+  action: "inject",
+  apiKey: process.env.CROSS_SEED_API_KEY,
+  blockList: ["tag:nocross", "tag: nocross"],
+  delay: 30,
+  duplicateCategories: true,
+  excludeOlder: "6d",
+  excludeRecentSearch: "3d",
+  flatLinking: false,
+  includeEpisodes: true,
+  includeNonVideos: true,
+  includeSingleEpisodes: true,
+  linkCategory: "cross-seed",
+  linkDirs: linkDirs,
+  linkType: "hardlink",
+  matchMode: "partial",
+  outputDir: "/config",
+  port: Number(process.env.CROSS_SEED_PORT),
+  qbittorrentUrl: `http://${qbittorrent_username}:${qbittorrent_password}@qbittorrent.media.svc.cluster.local:8080`,
+  radarr: [
+    `http://radarr.media.svc.cluster.local:7878/?apikey=${radarr_api_key}`
+  ],
+  rssCadence: process.env.CROSS_SEED_RSS_CADENCE || null,
+  seasonFromEpisodes: 0.8,
+  searchCadence: process.env.CROSS_SEED_SEARCH_CADENCE || null,
+  skipRecheck: true,
+  sonarr: [
+    `http://sonarr.media.svc.cluster.local:8989/?apikey=${sonarr_api_key}`
+  ],
+  torznab: [
+    2,
+    3,
+    4,
+    5,
+    24,
+    37,
+    39,
+    40,
+    43,
+    44,
+    49,
+    50,
+    51,
+    52,
+    53,
+    58,
+    62,
+    66,
+    69,
+    71,
+    72,
+    74,
+    75,
+    76,
+    77,
+    79,
+    80,
+    85,
+    86,
+    88,
+    89,
+    90,
+    93,
+    94,
+    95,
+    96,
+  ].map(i => `http://prowlarr.media.svc.cluster.local:9696/${i}/api?apikey=${prowlarr_api_key}`),
+  useClientTorrents: true
+};
