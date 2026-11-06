@@ -15,7 +15,7 @@ spec:
           app:
             image:
               repository: ghcr.io/mega-yfue/ha-eufy-sdk-bridge
-              tag: 0.6.0@sha256:7053521bbd1e6abc1634d710ff09b2dbfdb03dfabda53a28e10f109339de2c86
+              tag: 0.7.2@sha256:b9bb59b2040960998873926a90763921167b13538eaa015b8ce2fb4fc226f29c
             env:
               EUFY_COUNTRY: GB
             envFrom:
