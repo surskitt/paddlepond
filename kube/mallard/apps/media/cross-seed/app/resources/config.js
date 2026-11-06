@@ -8,7 +8,7 @@ qbittorrent_password = process.env.QBITTORRENT_PASSWORD;
 module.exports = {
   action: "inject",
   apiKey: process.env.CROSS_SEED_API_KEY,
-  blockList: ["tag:nocross", "tag: nocross"],
+  blockList: ["tag:nocross", "tag:cross-seed", "tag:added:old"],
   delay: 30,
   duplicateCategories: true,
   excludeOlder: "6d",
