@@ -24,7 +24,7 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           app:
-            image: 
+            image: &image
               repository: ghcr.io/autobrr/netronome
               tag: v0.16.0@sha256:e6e43960e60e5a84e1eff325af179ebe383ea3c63b57a142d696729f825e867b
             env:
@@ -39,7 +39,7 @@ spec:
               NETRONOME__PACKETLOSS_RESTORE_MONITORS_ON_STARTUP: "true"
               NETRONOME__MONITOR_ENABLED: "true"
               TZ: Europe/London
-            probes:
+            probes: &probes
               liveness:
                 enabled: true
               readiness:
@@ -49,11 +49,22 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-            securityContext:
+            securityContext: &securitycontext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
                 drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 5m
+                memory: 50Mi
+              limits:
+                memory: 256Mi
+          agent:
+            image: *image
+            args: ["agent"]
+            probes: *probes
+            securityContext: *securitycontext
             resources:
               requests:
                 cpu: 5m
