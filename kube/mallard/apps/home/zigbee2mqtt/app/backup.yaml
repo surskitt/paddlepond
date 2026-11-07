@@ -6,7 +6,7 @@ metadata:
   name: zigbee2mqtt
   namespace: home
 spec:
-  sourcePVC: zigbee2mqtt-data
+  sourcePVC: zigbee2mqtt
   trigger:
     schedule: "0 5 * * *"
   restic:
@@ -24,7 +24,7 @@ metadata:
   name: zigbee2mqtt-r2
   namespace: home
 spec:
-  sourcePVC: zigbee2mqtt-data
+  sourcePVC: zigbee2mqtt
   trigger:
     schedule: "30 5 * * *"
   restic:

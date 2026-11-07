@@ -6,7 +6,7 @@ metadata:
   name: soju
   namespace: gowon
 spec:
-  sourcePVC: soju-data
+  sourcePVC: soju
   trigger:
     schedule: "0 5 * * *"
   restic:
@@ -24,7 +24,7 @@ metadata:
   name: soju-r2
   namespace: gowon
 spec:
-  sourcePVC: soju-data
+  sourcePVC: soju
   trigger:
     schedule: "30 5 * * *"
   restic:
