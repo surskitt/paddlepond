@@ -71,6 +71,13 @@
         "additionalBranchPrefix": "serpentine-",
         "commitMessageSuffix": "(serpentine)",
       },
+      {
+        "description": "Separate all minor and patch talos updates",
+        "matchPackageNames": [
+          "siderolabs/talos"
+        ],
+        "separateMinorPatch": true
+      }
     ],
     "prBodyDefinitions": {
       "Package name": "{{{packageName}}}",
