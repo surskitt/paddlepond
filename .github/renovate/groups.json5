@@ -26,6 +26,7 @@
       "description": "Talos Group",
       "groupName": "talos (mallard)",
       "matchPackageNames": ["siderolabs/talos"],
+      "matchDatasources": ["github-releases", "github-tags", "custom.talos-factory"],
       "matchFileNames": ["**/mallard/**"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group",
@@ -36,6 +37,7 @@
       "description": "Talos Group",
       "groupName": "talos (serpentine)",
       "matchPackageNames": ["siderolabs/talos"],
+      "matchDatasources": ["github-releases", "github-tags", "custom.talos-factory"],
       "matchFileNames": ["**/serpentine/**"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group",
