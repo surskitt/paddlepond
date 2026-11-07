@@ -104,22 +104,42 @@ spec:
       config-file:
         enabled: true
         type: configMap
-        name: gatus-configmap
+        name: gatus-config
         advancedMounts:
           gatus:
             app:
               - path: /config/config.yaml
                 subPath: config.yaml
                 readOnly: true
-      healthchecksio-config-file:
+      qbittorrent-port-endpoint:
         enabled: true
         type: configMap
-        name: gatus-healthchecksio-configmap
+        name: gatus-qbittorrent-port-endpoint
         advancedMounts:
           gatus:
             app:
-              - path: /config/healthchecksio.yaml
-                subPath: healthchecksio.yaml
+              - path: /config/qbittorrent-port-endpoint.yaml
+                subPath: qbittorrent-port-endpoint.yaml
+                readOnly: true
+      slskd-port-endpoint:
+        enabled: true
+        type: configMap
+        name: gatus-slskd-port-endpoint
+        advancedMounts:
+          gatus:
+            app:
+              - path: /config/slskd-port-endpoint.yaml
+                subPath: slskd-port-endpoint.yaml
+                readOnly: true
+      healthchecksio-endpoint:
+        enabled: true
+        type: configMap
+        name: gatus-healthchecksio-endpoint
+        advancedMounts:
+          gatus:
+            app:
+              - path: /config/healthchecksio-endpoint.yaml
+                subPath: healthchecksio-endpoint.yaml
                 readOnly: true
       data:
         enabled: true

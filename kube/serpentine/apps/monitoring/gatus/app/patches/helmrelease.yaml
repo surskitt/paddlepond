@@ -1,3 +1,6 @@
 ---
 - op: remove
-  path: /spec/values/persistence/healthchecksio-config-file
+  path: /spec/values/persistence/slskd-port-endpoint
+
+- op: remove
+  path: /spec/values/persistence/healthchecksio-endpoint

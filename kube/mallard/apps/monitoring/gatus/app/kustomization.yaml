@@ -8,12 +8,18 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: gatus-configmap
+  - name: gatus-config
     files:
       - ./config/config.yaml
-  - name: gatus-healthchecksio-configmap
+  - name: gatus-qbittorrent-port-endpoint
     files:
-      - ./config/healthchecksio.yaml
+      - ./config/qbittorrent-port-endpoint.yaml
+  - name: gatus-slskd-port-endpoint
+    files:
+      - ./config/slskd-port-endpoint.yaml
+  - name: gatus-healthchecksio-endpoint
+    files:
+      - ./config/healthchecksio-endpoint.yaml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
