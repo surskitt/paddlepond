@@ -22,26 +22,5 @@
       },
       "separateMinorPatch": true
     },
-    {
-      "description": "Talos Group",
-      // "groupName": "talos (mallard)",
-      "groupName": "talos",
-      "matchPackageNames": ["siderolabs/talos"],
-      // "matchFileNames": ["**/mallard/**"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group",
-      },
-      "minimumGroupSize": 2,
-    },
-    // {
-    //   "description": "Talos Group",
-    //   "groupName": "talos (serpentine)",
-    //   "matchPackageNames": ["siderolabs/talos"],
-    //   "matchFileNames": ["**/serpentine/**"],
-    //   "group": {
-    //     "commitMessageTopic": "{{{groupName}}} group",
-    //   },
-    //   "minimumGroupSize": 2,
-    // },
   ]
 }

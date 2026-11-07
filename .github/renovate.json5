@@ -53,6 +53,7 @@
           "ghcr.io/coredns/charts/coredns",
           "ghcr.io/siderolabs/kubelet",
           "docker.io/envoyproxy/gateway-helm",
+          "siderolabs/talos"
         ],
         "matchFileNames": ["**/mallard/**"],
         "additionalBranchPrefix": "mallard-",
@@ -64,6 +65,7 @@
           "ghcr.io/coredns/charts/coredns",
           "ghcr.io/siderolabs/kubelet",
           "docker.io/envoyproxy/gateway-helm",
+          "siderolabs/talos"
         ],
         "matchFileNames": ["**/serpentine/**"],
         "additionalBranchPrefix": "serpentine-",
