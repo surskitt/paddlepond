@@ -19,17 +19,33 @@ spec:
           name: chaski-env
     config:
       targets:
-        ntfy:
+        mousetrap-ntfy:
           http:
             url: https://ntfy.sh/mallard-mousetrap-{{ env "NTFY_TOKEN" }}
             method: POST
+        slskd-ntfy:
+          http:
+            url: https://ntfy.sh/mallard-slskd-{{ env "NTFY_TOKEN" }}
+            method: POST
       routes:
         mousetrap:
-          target: ntfy
+          target: mousetrap-ntfy
           message: "{{ .payload.message }}"
           headers:
             Title: Mousetrap
             Tags: duck,mouse
+        slskd_pm:
+          target: slskd-ntfy
+          message: "Private message from {{ .payload.message.username }}: {{ .payload.message.message }}"
+          headers:
+            Title: slskd
+            Tags: duck,herb
+        slskd_connection:
+          target: slskd-ntfy
+          message: "{{ .payload.type }}"
+          headers:
+            Title: slskd
+            Tags: duck,herb
     resources:
       requests:
         cpu: 10m
