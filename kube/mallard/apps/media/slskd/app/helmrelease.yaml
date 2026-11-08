@@ -92,8 +92,8 @@ spec:
               SLSKD_NO_AUTH: true
               SLSKD_DOWNLOADS_DIR: /media/downloads/soulseek/complete
               SLSKD_INCOMPLETE_DIR: /media/downloads/soulseek/incomplete
-              SLSKD_SHARED_DIR: /media/downloads/soulseek/shared
-              SLSKD_SHARE_FILTER: '\.ini$;Thumbs.db$;\.DS_Store$'
+              SLSKD_SHARED_DIR: /media/music
+              SLSKD_SHARE_FILTER: '\.ini$;Thumbs.db$;\.DS_Store$;\.txt$'
               SLSKD_REMOTE_CONFIGURATION: false
               SLSKD_FILE_PERMISSION_MODE: 750
               SLSKD_NO_VERSION_CHECK: true
