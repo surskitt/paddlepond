@@ -46,9 +46,10 @@
     },
     {
       "description": "Auto merge select patch container updates",
-      "matchDatasources":["helm"],
+      "matchDatasources":["docker"],
       "matchUpdateTypes": ["patch", "digest"],
       "matchPackageNames": [
+        "ghcr.io/autobrr/qui",
         "ghcr.io/home-operations/home-assistant",
         "ghcr.io/mega-yfue/ha-eufy-sdk-bridge",
       ],
@@ -57,23 +58,12 @@
       "ignoreTests": false,
     },
     {
-      "description": "Auto merge select minor container updates",
+      "description": "Auto merge select minor helm updates",
       "matchDatasources":["helm"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackageNames": [
         "goldilocks",
         "vpa",
-      ],
-      "automerge": true,
-      "automergeType": "pr",
-      "ignoreTests": false,
-    },
-    {
-      "description": "Auto merge select patch container updates",
-      "matchDatasources":["docker"],
-      "matchUpdateTypes": ["patch", "digest"],
-      "matchPackageNames": [
-        "ghcr.io/autobrr/qui"
       ],
       "automerge": true,
       "automergeType": "pr",
