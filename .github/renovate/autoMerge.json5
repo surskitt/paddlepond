@@ -27,8 +27,11 @@
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackageNames": [
         "docker.io/cloudflare/cloudflared",
+        "eclipse-mosquitto",
+        "ghcr.io/advplyr/audiobookshelf",
         "ghcr.io/autobrr/autobrr",
         "ghcr.io/crocodilestick/calibre-web-automated",
+        "ghcr.io/cross-seed/cross-seed",
         "ghcr.io/emberstack/helm-charts/reflector",
         "ghcr.io/esphome/esphome",
         "ghcr.io/home-operations/charts/chaski",
@@ -39,6 +42,8 @@
         "ghcr.io/home-operations/sonarr",
         "ghcr.io/kiwigrid/k8s-sidecar",
         "ghcr.io/koenkk/zigbee2mqtt",
+        "ghcr.io/sirjmann92/mousetrap",
+        "ghcr.io/stakater/charts/reloader",
       ],
       "automerge": true,
       "automergeType": "pr",
@@ -50,6 +55,7 @@
       "matchUpdateTypes": ["patch", "digest"],
       "matchPackageNames": [
         "ghcr.io/autobrr/qui",
+        "ghcr.io/home-operations/charts/tuppr",
         "ghcr.io/home-operations/home-assistant",
         "ghcr.io/mega-yfue/ha-eufy-sdk-bridge",
       ],
@@ -76,8 +82,10 @@
       "matchPackageNames": [
         "cli/cli", // gh
         "cloudflare/cloudflared",
+        "helm/helm",
         "helmfile/helmfile",
         "mikefarah/yq",
+        "node",
         "oxfmt",
         "postfinance/topf",
         "zizmorcore/zizmor",
