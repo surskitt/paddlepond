@@ -53,6 +53,7 @@
           "ghcr.io/coredns/charts/coredns",
           "ghcr.io/siderolabs/kubelet",
           "docker.io/envoyproxy/gateway-helm",
+          "quay.io/cilium/charts/cilium",
           "siderolabs/talos"
         ],
         "matchFileNames": ["**/mallard/**"],
@@ -62,10 +63,11 @@
       {
         "description": "Separate serpentine system updates",
         "matchPackageNames": [
+          "docker.io/envoyproxy/gateway-helm",
           "ghcr.io/coredns/charts/coredns",
           "ghcr.io/siderolabs/kubelet",
-          "docker.io/envoyproxy/gateway-helm",
-          "siderolabs/talos"
+          "quay.io/cilium/charts/cilium",
+          "siderolabs/talos",
         ],
         "matchFileNames": ["**/serpentine/**"],
         "additionalBranchPrefix": "serpentine-",
