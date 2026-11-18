@@ -215,7 +215,7 @@ spec:
       add-ons:
         enabled: true
         type: image
-        image: ghcr.io/vuetorrent/vuetorrent-lsio-mod:2.36.1
+        image: ghcr.io/vuetorrent/vuetorrent-lsio-mod:2.37.0
       coredns:
         type: configMap
         name: qbittorrent-coredns
