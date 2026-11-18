@@ -13,3 +13,4 @@ resources:
   - ./volsync/ks.yaml
   - ./backrest/ks.yaml
   - ./nfs-server/ks.yaml
+  - ./kopiur/ks.yaml

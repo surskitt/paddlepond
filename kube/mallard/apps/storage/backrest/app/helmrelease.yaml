@@ -77,9 +77,9 @@ spec:
               - path: /app
         retain: true
         dataSourceRef:
-          kind: ReplicationDestination
-          apiGroup: volsync.backube
-          name: backrest-restore
+          apiGroup: kopiur.home-operations.com
+          kind: Restore
+          name: backrest
       cache:
         enabled: true
         type: emptyDir
