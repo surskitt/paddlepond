@@ -1,21 +1,19 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationdestination_v1alpha1.json
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Restore
 metadata:
-  name: backrest-restore
-  namespace: storage
+  name: backrest
 spec:
-  trigger:
-    manual: backrest-restore
-  restic:
-    repository: backrest-restic
-    copyMethod: Snapshot
-    storageClassName: local-hostpath
-    volumeSnapshotClassName: local-hostpath
-    cacheStorageClassName: local-hostpath
-    accessModes:
-      - ReadWriteOnce
-    capacity: 1Gi
-    cleanupCachePVC: true
-    cleanupTempPVC: true
+  policy:
+    onMissingSnapshot: Continue
+  source:
+    fromPolicy:
+      name: backrest
+  target:
+    populator: {}
+  mover:
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false
+    privilegedMode: true

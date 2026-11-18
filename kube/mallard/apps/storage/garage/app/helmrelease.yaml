@@ -1,0 +1,118 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: garage
+  interval: 1h
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [10000]
+        seccompProfile: { type: RuntimeDefault }
+    controllers:
+      garage:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: 
+              repository: dxflrs/garage
+              tag: v2.6.0@sha256:4b5a318fc9fe2fbec5d3af590eeafe05d83492e6411266fa0b9e215c20264013
+            env:
+              TZ: Europe/London
+            envFrom:
+              - secretRef:
+                  name: garage
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: [ALL] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        controller: garage
+        ports:
+          s3:
+            port: &port 3900
+          api:
+            port: &uiport 3903
+    route:
+      app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            group: storage
+        hostnames:
+          - "s3.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+      ui:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            group: storage
+        hostnames:
+          - "garage.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *uiport
+    configMaps:
+      config:
+        data:
+          configuration.toml: |
+            metadata_dir = "/meta"
+            data_dir = "/data"
+            db_engine = "lmdb"
+            metadata_auto_snapshot_interval = "6h"
+
+            replication_factor = 1
+            compression_level = 2
+
+            rpc_bind_addr = "[::]:3901"
+            rpc_public_addr = "127.0.0.1:3901"
+
+            [s3_api]
+            s3_region = "us-east-1"
+            api_bind_addr = "[::]:3900"
+            root_domain = ".s3.${SECRET_DOMAIN}"
+
+            [admin]
+            api_bind_addr = "[::]:3903"
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: garage
+        globalMounts:
+          - path: /etc/garage.toml
+            subPath: configuration.toml
+      data:
+        type: hostPath
+        hostPath: /var/mnt/ssd/k3s_storage/garage/data
+        globalMounts:
+          - path: /data
+      meta:
+        type: hostPath
+        hostPath: /var/mnt/ssd/k3s_storage/garage/data
+        globalMounts:
+          - path: /meta

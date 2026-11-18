@@ -9,5 +9,7 @@ resources:
   - deploy.yaml
   - service.yaml
   - restore.yaml
+  - restore-kopiur.yaml
   - backup.yaml
+  - backup-kopiur.yaml
   - configmap.yaml

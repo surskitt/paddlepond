@@ -13,6 +13,6 @@ spec:
       storage: 20Mi
   storageClassName: local-hostpath
   dataSourceRef:
-    kind: ReplicationDestination
-    apiGroup: volsync.backube
-    name: lastfm-restore
+    apiGroup: kopiur.home-operations.com
+    kind: Restore
+    name: gowon-lastfm

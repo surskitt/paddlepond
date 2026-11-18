@@ -1,0 +1,13 @@
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Restore
+metadata:
+  name: gowon-lastfm
+spec:
+  policy:
+    onMissingSnapshot: Continue
+  source:
+    fromPolicy:
+      name: gowon-lastfm
+  target:
+    populator: {}

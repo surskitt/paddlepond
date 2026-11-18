@@ -1,64 +1,80 @@
+# ---
+# apiVersion: kopiur.home-operations.com/v1alpha1
+# kind: SnapshotPolicy
+# metadata:
+#   name: backrest
+# spec:
+#   compression:
+#     compressor: zstd
+#   mover:
+#     cache:
+#       capacity: 5Gi
+#       mode: Persistent
+#       storageClassName: local-hostpath
+#     securityContext:
+#       runAsUser: 0
+#       runAsGroup: 0
+#       runAsNonRoot: false
+#     privilegedMode: true
+#   repository:
+#     kind: ClusterRepository
+#     name: kopiur-local
+#   retention:
+#     keepLatest: 3
+#     keepHourly: 24
+#     keepDaily: 7
+#     keepWeekly: 2
+#   sources:
+#     - pvc:
+#         name: backrest
+#   volumeSnapshotClassName: local-hostpath
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-    name: backrest-restic
-    namespace: storage
-labels:
-    app.kubernetes.io/part-of: restic
-type: Opaque
-stringData:
-    RESTIC_REPOSITORY: ${SECRET_VOLSYNC_INT_REPO}/backrest
-    RESTIC_PASSWORD: ${SECRET_VOLSYNC_INT_RESTIC_PASSWORD}
-    AWS_ACCESS_KEY_ID: ${SECRET_VOLSYNC_INT_AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${SECRET_VOLSYNC_INT_AWS_SECRET_ACCESS_KEY}
----
-apiVersion: v1
-kind: Secret
-metadata:
-    name: backrest-restic-r2
-    namespace: storage
-labels:
-    app.kubernetes.io/part-of: restic
-type: Opaque
-stringData:
-    RESTIC_REPOSITORY: ${SECRET_VOLSYNC_EXT_RESTIC_REPOSITORY}/backrest
-    RESTIC_PASSWORD: ${SECRET_VOLSYNC_EXT_RESTIC_PASSWORD}
-    AWS_ACCESS_KEY_ID: ${SECRET_VOLSYNC_EXT_AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${SECRET_VOLSYNC_EXT_AWS_SECRET_ACCESS_KEY}
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationSource
-metadata:
-  name: backrest
-  namespace: storage
-spec:
-  sourcePVC: backrest
-  trigger:
-    schedule: "0 5 * * *"
-  restic:
-    pruneIntervalDays: 14
-    repository: backrest-restic
-    retain:
-      daily: 7
-    copyMethod: Clone
-    storageClassName: local-hostpath
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationSource
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
 metadata:
   name: backrest-r2
-  namespace: storage
 spec:
-  sourcePVC: backrest
-  trigger:
-    schedule: "30 5 * * *"
-  restic:
-    pruneIntervalDays: 14
-    repository: backrest-restic-r2
-    retain:
-      daily: 7
-    copyMethod: Clone
-    storageClassName: local-hostpath
+  compression:
+    compressor: zstd
+  mover:
+    cache:
+      capacity: 5Gi
+      mode: Persistent
+      storageClassName: local-hostpath
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false
+    privilegedMode: true
+  repository:
+    kind: ClusterRepository
+    name: kopiur-r2
+  retention:
+    keepLatest: 3
+    keepHourly: 24
+    keepDaily: 7
+    keepWeekly: 2
+  sources:
+    - pvc:
+        name: backrest
+  volumeSnapshotClassName: local-hostpath
+# ---
+# apiVersion: kopiur.home-operations.com/v1alpha1
+# kind: SnapshotSchedule
+# metadata:
+#   name: backrest
+# spec:
+#   policyRef:
+#     name: backrest
+#   schedule:
+#     cron: 0 5 * * *
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: backrest-r2
+spec:
+  policyRef:
+    name: backrest-r2
+  schedule:
+    cron: 30 5 * * *

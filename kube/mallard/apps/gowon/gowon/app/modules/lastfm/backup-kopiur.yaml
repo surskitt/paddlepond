@@ -1,0 +1,70 @@
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: gowon-lastfm
+spec:
+  compression:
+    compressor: zstd
+  mover:
+    cache:
+      capacity: 5Gi
+      mode: Persistent
+      storageClassName: local-hostpath
+  repository:
+    kind: ClusterRepository
+    name: kopiur-local
+  retention:
+    keepLatest: 3
+    keepHourly: 24
+    keepDaily: 7
+    keepWeekly: 2
+  sources:
+    - pvc:
+        name: lastfm-data
+  volumeSnapshotClassName: local-hostpath
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: gowon-lastfm-r2
+spec:
+  compression:
+    compressor: zstd
+  mover:
+    cache:
+      capacity: 5Gi
+      mode: Persistent
+      storageClassName: local-hostpath
+  repository:
+    kind: ClusterRepository
+    name: kopiur-r2
+  retention:
+    keepLatest: 3
+    keepHourly: 24
+    keepDaily: 7
+    keepWeekly: 2
+  sources:
+    - pvc:
+        name: lastfm-data
+  volumeSnapshotClassName: local-hostpath
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: gowon-lastfm
+spec:
+  policyRef:
+    name: gowon-lastfm
+  schedule:
+    cron: 0 5 * * *
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: gowon-lastfm-r2
+spec:
+  policyRef:
+    name: gowon-lastfm-r2
+  schedule:
+    cron: 30 5 * * *
